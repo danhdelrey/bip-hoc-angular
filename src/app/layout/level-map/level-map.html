@@ -4,41 +4,47 @@
     <div class="pct-bar" [style.width.%]="progress.percent()"></div>
     <span class="pct-text">{{ progress.completedCount() }}/{{ lessons.length }} bài · {{ progress.percent() }}%</span>
   </div>
+  <p class="hint"><span class="sw main"></span> đường chính <span class="sw adv"></span> rẽ phải: nâng cao</p>
 </div>
 
-@for (sec of sections; track sec.id) {
-  <p class="sec-title" [class.adv]="sec.id === 'advanced'">
-    <app-icon [name]="sec.id === 'advanced' ? 'bridge' : 'map'" [size]="15" /> {{ sec.title }}
-  </p>
-  <nav class="map" [class.adv]="sec.id === 'advanced'" [attr.aria-label]="sec.title">
-    <svg class="road" [attr.viewBox]="'0 0 244 ' + sec.height" [attr.height]="sec.height" aria-hidden="true">
-      <path class="road-edge" [attr.d]="sec.road" />
-      <path class="road-fill" [attr.d]="sec.road" />
-      <path class="road-dash" [attr.d]="sec.road" />
-    </svg>
-    <ol class="stations" [style.height.px]="sec.height">
-      @for (p of sec.points; track p.lesson.slug) {
-        @let done = progress.isDone(p.lesson.slug);
-        @let here = p.lesson.slug === currentSlug();
-        <li [style.top.px]="p.y" [style.left.px]="p.x">
-          <a class="station" [class.done]="done" [class.here]="here" [class.adv]="sec.id === 'advanced'"
-             [routerLink]="['/bai', p.lesson.slug]" (click)="navigate.emit()"
-             [attr.aria-current]="here ? 'page' : null"
-             [attr.aria-label]="'Bài ' + p.lesson.number + ': ' + p.lesson.title + (done ? ' (đã xong)' : '')">
-            <span class="dot">
-              @if (done) { <app-icon name="check" [size]="18" /> } @else { {{ p.lesson.number }} }
-            </span>
-            <span class="label">{{ p.lesson.title }}</span>
-          </a>
-        </li>
-      }
-      @if (current(); as c) {
-        @if (c.section === sec.id) {
-          <li class="me" [style.top.px]="c.y - 52" [style.left.px]="c.x + 6" aria-hidden="true">
-            <app-mascot mood="happy" [size]="38" />
-          </li>
-        }
-      }
-    </ol>
-  </nav>
-}
+<nav class="map" aria-label="Lộ trình bài học">
+  <svg class="road" [attr.viewBox]="'0 0 ' + W + ' ' + map.height" [attr.height]="map.height" aria-hidden="true">
+    @for (b of branchState(); track b.island) {
+      <g class="branch" [class.open]="b.open">
+        <path class="road-edge" [attr.d]="b.road" />
+        <path class="road-fill" [attr.d]="b.road" />
+        <path class="road-dash" [attr.d]="b.road" />
+      </g>
+    }
+    <path class="road-edge" [attr.d]="map.main" />
+    <path class="road-fill" [attr.d]="map.main" />
+    <path class="road-dash" [attr.d]="map.main" />
+  </svg>
+  <ol class="stations" [style.height.px]="map.height">
+    @for (b of branchState(); track b.island) {
+      <li class="sign" [class.open]="b.open" [style.top.px]="b.sign.y" [style.left.px]="b.sign.x" aria-hidden="true">
+        <app-icon [name]="b.open ? 'bridge' : 'lock'" [size]="12" /> {{ b.island }}
+      </li>
+    }
+    @for (p of map.points; track p.lesson.slug) {
+      @let done = progress.isDone(p.lesson.slug);
+      @let here = p.lesson.slug === currentSlug();
+      <li [style.top.px]="p.y" [style.left.px]="p.x">
+        <a class="station" [class.done]="done" [class.here]="here" [class.adv]="p.branch"
+           [routerLink]="['/bai', p.lesson.slug]" (click)="navigate.emit()"
+           [attr.aria-current]="here ? 'page' : null"
+           [attr.aria-label]="'Bài ' + p.lesson.number + ': ' + p.lesson.title + (p.branch ? ' (nâng cao, ' + p.branch + ')' : '') + (done ? ' (đã xong)' : '')">
+          <span class="dot">
+            @if (done) { <app-icon name="check" [size]="16" /> } @else { {{ p.lesson.number }} }
+          </span>
+          <span class="label" [class.left]="p.branch">{{ p.lesson.title }}</span>
+        </a>
+      </li>
+    }
+    @if (current(); as c) {
+      <li class="me" [style.top.px]="c.y - 52" [style.left.px]="c.branch ? c.x - 44 : c.x + 6" aria-hidden="true">
+        <app-mascot mood="happy" [size]="38" />
+      </li>
+    }
+  </ol>
+</nav>

@@ -56,7 +56,7 @@
   padding: 2px 8px;
   font-size: 12.5px; font-weight: 800; line-height: 1.25;
   background: var(--surface);
-  border: 2px solid var(--line);
+  border: var(--border-w-thin) solid var(--line);
   border-radius: 10px;
   box-shadow: var(--shadow-sm);
 }
@@ -77,8 +77,31 @@
   }
 }
 
-.sec-title { display: flex; align-items: center; gap: 6px; margin: 14px 0 4px; font-family: var(--font-display); font-weight: 800; font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
-.sec-title.adv { margin-top: 26px; color: var(--c-di-strong); }
-.map.adv .road-fill { stroke: color-mix(in srgb, var(--c-di) 30%, var(--surface)); }
-.station.adv .dot { border-style: dashed; }
+.hint { display: flex; align-items: center; gap: 5px; margin: 0; font-size: 11.5px; font-weight: 700; color: var(--text-muted); }
+.sw { display: inline-block; width: 16px; height: 8px; border: var(--border-w-thin) solid var(--line); border-radius: 4px; background: var(--surface-2); }
+.sw.adv { margin-left: 6px; background: color-mix(in srgb, var(--c-di) 45%, var(--surface)); }
+
+/* Nhánh nâng cao: màu tím nhạt, mờ khi chưa mở */
+.branch .road-fill { stroke: color-mix(in srgb, var(--c-di) 22%, var(--surface)); }
+.branch .road-edge { opacity: 0.55; }
+.branch .road-dash { stroke-dasharray: 2 8; }
+.branch.open .road-fill { stroke: color-mix(in srgb, var(--c-di) 45%, var(--surface)); }
+.branch.open .road-edge { opacity: 1; }
+
+.sign {
+  width: max-content;
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 1px 8px;
+  font-family: var(--font-display); font-size: 11.5px; font-weight: 800; white-space: nowrap;
+  color: var(--text-muted);
+  background: var(--surface);
+  border: var(--border-w-thin) dashed var(--line);
+  border-radius: var(--radius-pill);
+  z-index: 1;
+}
+.sign.open { color: var(--on-accent); background: var(--c-di); border-style: solid; box-shadow: var(--shadow-sm); }
+
+.station.adv .dot { width: 34px; height: 34px; font-size: var(--fs-sm); border-style: dashed; }
 .station.adv:not(.done):not(.here) .dot { background: color-mix(in srgb, var(--c-di) 25%, var(--surface)); }
+.station.adv .label { max-width: 104px; }
+.station.adv .label.left { right: 44px; }

@@ -18,7 +18,7 @@ Website học Angular **trực quan, tương tác, phong cách hoạt hình**. N
 | Dịch Vụ+ | 20 DI nâng cao · 21 SSR & Hydration |
 | Phản Ứng+ | 22 RxJS flattening & race condition · 23 State lớn với SignalStore |
 
-Bài nâng cao có chip "Nâng cao" ở đầu trang và một khu riêng trên bản đồ sidebar. Màn ăn mừng lớn vẫn chỉ tính 15 bài chính; đảo phụ có huy hiệu riêng ("Người qua cầu", "Huyền thoại đảo phụ").
+Bài nâng cao có chip "Nâng cao" ở đầu trang . Trên bản đồ sidebar, đường chính đi qua 15 bài; sau bài cuối của mỗi đảo có nhánh rẽ phải sang 2 bài nâng cao (cấu hình ở `ISLAND_BRANCHES` trong `lessons.registry.ts`). Màn ăn mừng lớn vẫn chỉ tính 15 bài chính; đảo phụ có huy hiệu riêng ("Người qua cầu", "Huyền thoại đảo phụ").
 >
 > Bản chạy thật: https://danhdelrey.github.io/bip-hoc-angular/
 

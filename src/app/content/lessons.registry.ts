@@ -32,6 +32,23 @@ export const LESSONS: readonly LessonMeta[] = [
   { slug: 'signal-store', number: 23, title: 'State lớn với SignalStore', tagline: 'Kho tổng', icon: 'building', available: true, tier: 'advanced', island: 'Phản Ứng+' },
 ];
 
+/**
+ * Đường rẽ nhánh sang đảo phụ: rẽ ra sau bài cuối cùng của đảo chính (`after`),
+ * và "mở" khi đã học xong mọi bài của đảo chính (`requires`).
+ */
+export interface IslandBranch {
+  island: string;
+  after: string;
+  requires: string[];
+  lessons: string[];
+}
+export const ISLAND_BRANCHES: IslandBranch[] = [
+  { island: 'Nền Móng+', after: 'lifecycle', requires: ['component', 'data-binding', 'input-output', 'lifecycle'], lessons: ['content-projection', 'dynamic-components'] },
+  { island: 'Phản Ứng+', after: 'forms', requires: ['signals', 'rxjs', 'change-detection', 'forms'], lessons: ['rxjs-flattening', 'signal-store'] },
+  { island: 'Dịch Vụ+', after: 'http', requires: ['dependency-injection', 'routing', 'http'], lessons: ['di-advanced', 'ssr-hydration'] },
+  { island: 'Template+', after: 'tailwind', requires: ['control-flow', 'pipes', 'defer', 'tailwind'], lessons: ['performance', 'accessibility'] },
+];
+
 export const CORE_LESSONS = LESSONS.filter((l) => (l.tier ?? 'core') === 'core');
 export const ADVANCED_LESSONS = LESSONS.filter((l) => l.tier === 'advanced');
 
