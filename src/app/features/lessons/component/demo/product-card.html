@@ -1,0 +1,7 @@
+<article class="card">
+  <h3>{{ name() }}</h3>
+  <p class="price">{{ price() }}k</p>
+  <button (click)="toggleCart()">
+    {{ inCart() ? '✓ Đã thêm' : 'Thêm vào giỏ' }}
+  </button>
+</article>

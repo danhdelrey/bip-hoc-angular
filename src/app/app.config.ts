@@ -16,7 +16,8 @@ export const appConfig: ApplicationConfig = {
       routes,
       withComponentInputBinding(),
       withViewTransitions(),
-      withInMemoryScrolling({ scrollPositionRestoration: 'top', anchorScrolling: 'enabled' }),
+      // Cuộn lên đầu do Shell tự lo (chỉ khi đổi BÀI), để route con của bài Routing không làm trang nhảy
+      withInMemoryScrolling({ scrollPositionRestoration: 'disabled', anchorScrolling: 'enabled' }),
       // Hash routing để chạy được trên mọi host tĩnh (GitHub Pages, preview...). Xem README để đổi.
       withHashLocation(),
     ),

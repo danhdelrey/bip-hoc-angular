@@ -7,9 +7,10 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "check:samples": "node scripts/check-samples.mjs",
+    "check:samples": "node scripts/check-samples.mjs && node scripts/gen-samples.mjs --check",
     "check:contrast": "node scripts/check-contrast.mjs",
-    "check": "npm run check:samples && npm run check:contrast && ng build"
+    "check": "npm run check:samples && npm run check:contrast && ng build",
+    "gen:samples": "node scripts/gen-samples.mjs"
   },
   "private": true,
   "packageManager": "npm@10.9.9",

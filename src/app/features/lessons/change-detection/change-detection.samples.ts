@@ -1,0 +1,4 @@
+// FILE SINH TỰ ĐỘNG bởi scripts/gen-samples.mjs — đừng sửa tay. Sửa file trong demo/ rồi chạy npm run gen:samples.
+export const SAMPLES: Record<string, string> = {
+  "zoneless-demo.ts": "import { Component, signal } from '@angular/core';\n\n@Component({\n  selector: 'app-zoneless-demo',\n  template: `\n    <p>Biến thường: <b>{{ plainCount }}</b> · Signal: <b>{{ signalCount() }}</b></p>\n    <button (click)=\"plainLater()\">Biến thường +1 sau 1 giây</button>\n    <button (click)=\"signalLater()\">Signal +1 sau 1 giây</button>\n  `,\n})\nexport class ZonelessDemo {\n  plainCount = 0;\n  signalCount = signal(0);\n\n  plainLater() {\n    // Zoneless: Angular KHÔNG biết setTimeout vừa đổi biến → màn hình chưa cập nhật\n    setTimeout(() => this.plainCount++, 1000);\n  }\n\n  signalLater() {\n    // Signal tự báo cho Angular → lên lịch kiểm tra đúng component này\n    setTimeout(() => this.signalCount.update((n) => n + 1), 1000);\n  }\n}",
+};

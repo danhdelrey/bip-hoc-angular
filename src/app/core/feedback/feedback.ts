@@ -22,6 +22,8 @@ export class Feedback {
 
   readonly toasts = signal<Toast[]>([]);
   readonly confetti = signal<{ id: number; size: ConfettiSize } | null>(null);
+  /** Màn ăn mừng lớn khi xong cả lộ trình */
+  readonly finale = signal(false);
 
   toast(text: string, mood: MascotMood = 'happy', badge?: BadgeId, ms = 4200): void {
     const id = ++this.seq;
@@ -45,6 +47,7 @@ export class Feedback {
         const b = badgeById(id);
         this.toast(`Mở khoá huy hiệu "${b.title}"!`, 'celebrate', id, 5200);
         this.celebrate(id === 'all-done' ? 'big' : 'small');
+        if (id === 'all-done') setTimeout(() => this.finale.set(true), 900);
       }, 600 + i * 900),
     );
   }

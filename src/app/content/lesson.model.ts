@@ -1,6 +1,6 @@
 import type { MascotMood } from '../shared/ui/mascot/mascot';
 
-export type CodeLang = 'angular-ts' | 'angular-html' | 'typescript' | 'css';
+export type CodeLang = 'angular-ts' | 'angular-html' | 'typescript' | 'css' | 'tsx';
 
 /** Một file code mẫu hiển thị cho người học. */
 export interface CodeFile {

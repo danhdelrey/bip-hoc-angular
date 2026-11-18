@@ -7,7 +7,9 @@ Website học Angular **trực quan, tương tác, phong cách hoạt hình**. N
 - Animation: CSS + SVG, nét vẽ tay bằng **rough.js**; highlight code bằng **Shiki** (lazy-load)
 - Tiến độ + huy hiệu lưu `localStorage` (bọc try/catch); sáng/tối; tôn trọng `prefers-reduced-motion`
 
-> **Trạng thái: Giai đoạn 1 xong** — design tokens, linh vật Bíp, style guide, khung app, và 3 bài mẫu hoàn chỉnh: **Data binding**, **Dependency Injection**, **Signals**.
+> **Trạng thái: hoàn thành cả 14 bài** (mỗi bài đủ 7 phần), trang chủ bản đồ khái niệm hình đảo, trang Angular vs React, style guide, huy hiệu và màn ăn mừng khi xong lộ trình.
+>
+> Bản chạy thật: https://danhdelrey.github.io/bip-hoc-angular/
 
 ---
 
@@ -25,6 +27,7 @@ npm run check        # so khớp code mẫu + kiểm tra tương phản + build
 
 | Script | Việc làm |
 |---|---|
+| `npm run gen:samples` | Sinh lại `<bài>.samples.ts` từ các file trong `demo/` (liệt kê trong `demo/.samples`) |
 | `npm run check:samples` | Đảm bảo code **hiển thị** cho người học trùng với component **thật** đang chạy trong khung "Kết quả live" |
 | `npm run check:contrast` | Kiểm tra các cặp màu chữ/nền đạt WCAG AA ở cả 2 theme |
 
@@ -52,12 +55,13 @@ src/
 │  ├─ shared/ui/       ← component dùng chung (xem bên dưới)
 │  ├─ content/         ← lesson.model.ts, lessons.registry.ts (lộ trình 14 bài), badges.ts
 │  └─ features/
-│     ├─ home/ style-guide/ coming-soon/ not-found/
+│     ├─ home/ (concept-map.ts) angular-vs-react/ style-guide/ coming-soon/ not-found/
 │     └─ lessons/<tên-bài>/
 │        ├─ <bài>.page.ts         ← lắp 7 phần bằng <app-lesson-layout>
 │        ├─ <bài>.visualizer.*    ← visualizer + logic sinh các bước
 │        ├─ <bài>.content.ts      ← TOÀN BỘ chữ: ẩn dụ, code mẫu, thử thách, lỗi thường gặp, quiz
-│        └─ demo/                 ← component thật chạy trong khung "Kết quả live"
+│        ├─ <bài>.samples.ts      ← SINH TỰ ĐỘNG từ demo/ (đừng sửa tay)
+│        └─ demo/                 ← component thật chạy trong khung "Kết quả live" + file .samples
 ```
 
 ### Component dùng chung (`shared/ui`)
@@ -71,17 +75,19 @@ src/
 | `code-panel` | Tab nhiều file, Shiki, copy, **Mở trên StackBlitz**, highlight dòng theo anchor |
 | `anchor` (`LessonContext` + `appAnchor`) | Hover code ↔ visualizer hai chiều; báo hoàn thành thử thách |
 | `lesson-layout` | Khung 7 phần thống nhất cho mọi bài |
+| `tree-diagram` | Cây tổng quát (bố cục tự động, dây nối vẽ tay, node là template tuỳ ý) — khu phố component, cây FormGroup, thanh tra change detection |
+| `marble-diagram` | Băng chuyền marble cho RxJS, có đầu đọc thời gian |
 | `quiz`, `badge`, `confetti`, `browser-frame`, `icon` | Như tên gọi |
 
 ---
 
 ## Thêm một bài học mới
 
-1. Trong `content/lessons.registry.ts`, đặt `available: true` cho bài đó.
+1. Thêm một dòng vào `content/lessons.registry.ts` (và toạ độ ghim trong `features/home/concept-map.ts`).
 2. Tạo `features/lessons/<slug>/`:
    - `<slug>.content.ts`: một object `LessonContent` (ẩn dụ, intro, code + `anchors`, 1–3 `challenges`, 2–4 `pitfalls`, 3 câu `quiz`).
    - `<slug>.visualizer.ts`: dùng `createTimeline(initialFrame, { onEnter })`. Mỗi thao tác của người học sinh ra mảng `Step<Frame>` rồi gọi `tl.load(steps)`. Gắn `appAnchor="id"` lên phần tử cần đồng bộ với code. Khi người học làm xong thử thách thì gọi `ctx.completeChallenge(id)`.
-   - `demo/`: component thật đúng như code mẫu, rồi thêm cặp vào `scripts/check-samples.mjs`.
+   - `demo/`: component thật đúng như code mẫu, liệt kê tên file trong `demo/.samples`, chạy `npm run gen:samples` rồi dùng `SAMPLES['ten-file.ts']` trong content.
    - `<slug>.page.ts`: `providers: [LessonContext]` và
      ```html
      <app-lesson-layout [meta]="meta" [content]="content">
@@ -90,7 +96,7 @@ src/
        <!-- tuỳ chọn: <app-x-advanced slot="advanced" /> -->
      </app-lesson-layout>
      ```
-3. Thêm route lazy trong `app.routes.ts` (đặt **trước** route `bai/:slug`).
+3. Thêm route lazy trong `app.routes.ts`. Bài cần provider riêng (như HTTP) hay route con (như Routing) thì dùng `loadChildren` với file `<bài>.routes.ts`.
 
 ## Đổi theme
 
@@ -108,11 +114,15 @@ Bíp nằm trong `shared/ui/mascot/mascot.ts` (SVG) và `mascot.css` (màu + chu
 
 ---
 
-## Chưa làm (Giai đoạn 2)
+## Ghi chú kỹ thuật
 
-- 11 bài còn lại: Component, Input/Output/model(), Lifecycle, Control flow & Directive, Pipe, RxJS, Change detection, Routing, Forms (dự kiến so sánh template-driven / reactive / **signal forms**), HTTP & Interceptors, @defer.
-- Component dùng chung `tree-diagram` (cho Component, Control flow, Forms) và `marble-diagram` (cho RxJS).
-- Trang chủ dạng **bản đồ khái niệm hình đảo** (hiện là lưới lộ trình tạm).
-- Trang **Angular vs React**.
-- Màn ăn mừng lớn khi xong cả lộ trình (huy hiệu + confetti lớn đã có sẵn, còn thiếu màn hình riêng).
-- Nút StackBlitz cần mạng và chưa được thử trên StackBlitz thật trong môi trường build này.
+- **Bài Routing** dùng route con thật (`bai/routing/...`): khung "Kết quả live" là `<router-outlet>` của chính app.
+- **Bài HTTP** provide `HttpClient` + interceptor ở cấp route; server là interceptor giả lập nên không có request mạng nào.
+- **Bài Change detection**: app chạy zoneless thật; chế độ Eager/OnPush + zone.js trong visualizer là mô phỏng theo quy tắc của Angular 22.
+- **Bài Forms**: visualizer dùng Reactive forms thật, kết quả live dùng Signal forms (stable từ Angular 22).
+
+## Chưa làm / có thể làm tiếp
+
+- Nút "Mở trên StackBlitz" chưa được thử trên StackBlitz thật (cần mạng; trong khung preview của claude.ai thì bị chặn mở cửa sổ mới).
+- Chưa có kiểm thử end-to-end tự động trong repo (đã kiểm tra bằng Playwright khi phát triển).
+- Nội dung chỉ có tiếng Việt; chưa có i18n.

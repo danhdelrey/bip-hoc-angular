@@ -1,32 +1,39 @@
-<section class="hero toon toon-lg">
+<section class="hero">
   <div class="hero-text">
     <p class="eyebrow">Học Angular bằng mắt</p>
     <h1>Đừng chỉ đọc Angular.<br /><span class="hl">Hãy nhìn nó chạy!</span></h1>
-    <p class="lead">14 trạm dừng, mỗi trạm là một visualizer bạn bấm, kéo, tua chậm được. Code mẫu là Angular 22 hiện đại: standalone, signals, zoneless.</p>
+    <p class="lead">14 địa điểm trên bản đồ, mỗi nơi là một visualizer bạn bấm, kéo, tua chậm được. Code mẫu là Angular 22 hiện đại: standalone, signals, zoneless.</p>
     <div class="cta">
-      <a class="btn btn-primary big" routerLink="/bai/data-binding">Bắt đầu từ Data binding <app-icon name="arrowRight" /></a>
-      <a class="btn" routerLink="/style-guide"><app-icon name="palette" /> Xem style guide</a>
+      @if (next(); as n) {
+        <a class="btn btn-primary big" [routerLink]="['/bai', n.slug]">{{ progress.completedCount() ? 'Học tiếp' : 'Bắt đầu' }}: {{ n.title }} <app-icon name="arrowRight" /></a>
+      } @else {
+        <span class="chip chip-data big-chip"><app-icon name="trophy" /> Bạn đã hoàn thành cả lộ trình!</span>
+      }
+      <a class="btn" routerLink="/angular-vs-react"><app-icon name="code" /> Đã biết React?</a>
     </div>
   </div>
-  <app-mascot-says [mood]="firstVisit ? 'wave' : 'happy'" [size]="130" class="greet">{{ greeting() }}</app-mascot-says>
+  <app-mascot-says [mood]="firstVisit ? 'wave' : 'happy'" [size]="120" class="greet">{{ greeting() }}</app-mascot-says>
 </section>
 
 <section class="path">
-  <h2><app-icon name="map" [size]="26" /> Lộ trình 14 trạm</h2>
-  <p class="muted">Bản đồ khái niệm dạng đảo sẽ có ở Giai đoạn 2. Hiện đã mở 3 bài mẫu.</p>
+  <h2><app-icon name="map" [size]="26" /> Bản đồ khái niệm</h2>
+  <p class="muted">Mỗi hòn đảo là một nhóm khái niệm, đường biển nối những bài liên quan. Ghim vàng nhún nhảy là trạm nên học tiếp theo.</p>
+  <app-concept-map />
+</section>
+
+<section class="path">
+  <h2><app-icon name="star" [size]="26" /> Danh sách 14 bài</h2>
   <ol class="grid">
     @for (l of lessons; track l.slug) {
       @let done = progress.isDone(l.slug);
       <li>
-        <a class="card toon deco-tilt" [class.soon]="!l.available" [class.done]="done" [routerLink]="['/bai', l.slug]">
+        <a class="card toon deco-tilt" [class.done]="done" [routerLink]="['/bai', l.slug]">
           <span class="ic"><app-icon [name]="l.icon" [size]="28" /></span>
           <span class="no">Bài {{ l.number }}</span>
           <strong>{{ l.title }}</strong>
           <span class="tag">{{ l.tagline }}</span>
           @if (done) {
             <span class="chip chip-data state"><app-icon name="check" [size]="14" /> Đã hiểu</span>
-          } @else if (!l.available) {
-            <span class="chip chip-plain state"><app-icon name="lock" [size]="14" /> Sắp có</span>
           } @else {
             <span class="chip chip-signal state"><app-icon name="play" [size]="14" /> Học ngay</span>
           }

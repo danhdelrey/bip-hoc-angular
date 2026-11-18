@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, signal, untracked } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { filter, map } from 'rxjs';
@@ -13,11 +13,12 @@ import { Mascot } from '../../shared/ui/mascot/mascot';
 import { ColorLegend } from '../color-legend/color-legend';
 import { LevelMap } from '../level-map/level-map';
 import { Toasts } from '../toasts/toasts';
+import { GrandFinale } from '../grand-finale/grand-finale';
 
 @Component({
   selector: 'app-shell',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, Icon, Mascot, Badge, LevelMap, ColorLegend, Toasts, Confetti],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, Icon, Mascot, Badge, LevelMap, ColorLegend, Toasts, Confetti, GrandFinale],
   templateUrl: './shell.html',
   styleUrl: './shell.css',
 })
@@ -39,4 +40,16 @@ export class Shell {
     { initialValue: this.router.url },
   );
   protected readonly currentSlug = computed(() => /\/bai\/([\w-]+)/.exec(this.url())?.[1] ?? null);
+
+  constructor() {
+    // Chỉ cuộn lên đầu khi đổi trang/bài, không phải khi đổi route con bên trong một bài
+    let lastKey = '';
+    effect(() => {
+      const key = this.url().split(/[?#]/)[0].split('/').slice(0, 3).join('/');
+      untracked(() => {
+        if (key !== lastKey && lastKey) globalThis.scrollTo?.({ top: 0 });
+        lastKey = key;
+      });
+    });
+  }
 }

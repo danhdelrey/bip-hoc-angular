@@ -91,6 +91,7 @@ function fakeFetch(id: number, abortSignal: AbortSignal, fail: boolean) {
     h2 { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: var(--fs-lg); }
     h3 { font-size: var(--fs-md); margin-bottom: 4px; }
     .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .col { min-width: 0; }
     .col p { font-size: var(--fs-sm); }
     .demo { display: grid; gap: 8px; margin-top: 12px; padding: 12px; border: var(--border-thin); border-radius: var(--radius-sm); background: var(--surface-2); }
     .row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }

@@ -4,25 +4,24 @@ import { ProgressStore } from '../../core/progress/progress-store';
 import { LESSONS } from '../../content/lessons.registry';
 import { Icon } from '../../shared/ui/icon/icon';
 import { MascotSays } from '../../shared/ui/speech-bubble/speech-bubble';
+import { ConceptMap } from './concept-map';
 
-/**
- * Trang chủ (bản Giai đoạn 1): lời chào của Bíp + lưới lộ trình.
- * Giai đoạn 2 sẽ thay bằng bản đồ khái niệm dạng đảo.
- */
+/** Trang chủ: lời chào của Bíp, bản đồ khái niệm dạng đảo và danh sách bài. */
 @Component({
   selector: 'app-home',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon, MascotSays],
+  imports: [RouterLink, Icon, MascotSays, ConceptMap],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
 export class Home {
   protected readonly progress = inject(ProgressStore);
   protected readonly lessons = LESSONS;
+  protected readonly next = computed(() => LESSONS.find((l) => !this.progress.completed().has(l.slug)));
   protected readonly firstVisit = !this.progress.greeted();
   protected readonly greeting = computed(() =>
     this.firstVisit
-      ? 'Xin chào! Mình là Bíp, robot hướng dẫn của bạn. Mình sẽ mở nắp Angular ra cho bạn xem từng bánh răng bên trong!'
+      ? 'Xin chào! Mình là Bíp, robot hướng dẫn của bạn. Cùng mình đi khắp bản đồ Angular, mở nắp từng khái niệm ra xem bánh răng bên trong nhé!'
       : this.progress.completedCount()
         ? `Chào mừng trở lại! Bạn đã xong ${this.progress.completedCount()} bài rồi đó. Đi tiếp nào!`
         : 'Chào mừng trở lại! Chọn một trạm trên bản đồ để bắt đầu nhé.',
