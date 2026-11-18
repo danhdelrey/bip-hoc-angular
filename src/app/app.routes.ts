@@ -37,6 +37,7 @@ export const routes: Routes = [
   { path: 'bai/accessibility', title: t('Accessibility & Angular Aria'), loadComponent: () => import('./features/lessons/accessibility/accessibility.page').then((m) => m.AccessibilityPage) },
   { path: 'bai/di-advanced', title: t('DI nâng cao'), loadComponent: () => import('./features/lessons/di-advanced/di-advanced.page').then((m) => m.DiAdvancedPage) },
   { path: 'bai/ssr-hydration', title: t('SSR & Hydration'), loadComponent: () => import('./features/lessons/ssr-hydration/ssr-hydration.page').then((m) => m.SsrHydrationPage) },
+  { path: 'bai/rxjs-subjects', title: t('Subject & multicast'), loadComponent: () => import('./features/lessons/rxjs-subjects/rxjs-subjects.page').then((m) => m.RxjsSubjectsPage) },
   { path: 'bai/rxjs-flattening', title: t('RxJS flattening'), loadComponent: () => import('./features/lessons/rxjs-flattening/rxjs-flattening.page').then((m) => m.RxjsFlatteningPage) },
   { path: 'bai/signal-store', title: t('SignalStore'), loadComponent: () => import('./features/lessons/signal-store/signal-store.page').then((m) => m.SignalStorePage) },
 

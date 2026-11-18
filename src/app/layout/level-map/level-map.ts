@@ -60,7 +60,7 @@ function layout() {
         island: br.island,
         requires: br.requires,
         road: `M${x} ${y} C${x} ${y + 46}, ${BRANCH_X} ${y1 - 52}, ${BRANCH_X} ${y1} L${BRANCH_X} ${last + 22}`,
-        sign: { x: (x + BRANCH_X) / 2 + 22, y: y + 40 },
+        sign: { x: x + 78, y: y + 30 },
       });
       y = last + AFTER_BRANCH;
       afterBranch = true;

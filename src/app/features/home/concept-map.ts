@@ -29,7 +29,7 @@ const SUB_ISLANDS: Island[] = [
   { name: 'Nền Móng+', cx: 125, cy: 190, w: 230, h: 200, color: 'color-mix(in srgb, var(--pal-mint) 55%, var(--pal-coral))', seed: 31, sub: true },
   { name: 'Template+', cx: 125, cy: 625, w: 230, h: 200, color: 'color-mix(in srgb, var(--pal-lemon) 55%, var(--pal-coral))', seed: 37, sub: true },
   { name: 'Dịch Vụ+', cx: 1275, cy: 150, w: 230, h: 200, color: 'color-mix(in srgb, var(--pal-lavender) 55%, var(--pal-coral))', seed: 41, sub: true },
-  { name: 'Phản Ứng+', cx: 1275, cy: 620, w: 230, h: 200, color: 'color-mix(in srgb, var(--pal-sky) 55%, var(--pal-coral))', seed: 43, sub: true },
+  { name: 'Phản Ứng+', cx: 1270, cy: 625, w: 250, h: 250, color: 'color-mix(in srgb, var(--pal-sky) 55%, var(--pal-coral))', seed: 43, sub: true },
 ];
 
 /** Đường mòn trên mỗi đảo chính: đi qua các bài theo thứ tự học */
@@ -50,14 +50,14 @@ interface Branch {
   trail: number; // chỉ số trong TRAILS
   fork: [number, number]; // chỗ đặt biển chỉ đường
   bridge: [number, number, number, number];
-  to: [string, string];
-  bend: [number, number][]; // điểm điều khiển: bài cuối→ngã rẽ, đầu cầu→bài 1, bài 1→bài 2
+  to: string[];
+  bend: [number, number][]; // điểm điều khiển: bài cuối→ngã rẽ, đầu cầu→bài 1, rồi giữa từng cặp bài
 }
 const BRANCHES: Branch[] = [
   { island: 'Nền Móng+', trail: 0, fork: [342, 280], bridge: [314, 276, 198, 268], to: ['content-projection', 'dynamic-components'], bend: [[392, 300], [172, 262], [100, 215]] },
   { island: 'Template+', trail: 1, fork: [352, 640], bridge: [318, 640, 238, 636], to: ['performance', 'accessibility'], bend: [[410, 650], [190, 640], [175, 660]] },
   { island: 'Dịch Vụ+', trail: 2, fork: [1062, 192], bridge: [1092, 186, 1166, 174], to: ['di-advanced', 'ssr-hydration'], bend: [[1030, 185], [1205, 175], [1290, 175]] },
-  { island: 'Phản Ứng+', trail: 3, fork: [1086, 576], bridge: [1106, 584, 1164, 602], to: ['rxjs-flattening', 'signal-store'], bend: [[1070, 595], [1200, 610], [1300, 640]] },
+  { island: 'Phản Ứng+', trail: 3, fork: [1086, 576], bridge: [1106, 584, 1150, 598], to: ['rxjs-subjects', 'rxjs-flattening', 'signal-store'], bend: [[1070, 595], [1190, 600], [1300, 580], [1300, 700]] },
 ];
 
 const PINS: Record<string, [number, number]> = {
@@ -82,8 +82,9 @@ const PINS: Record<string, [number, number]> = {
   accessibility: [125, 696],
   'di-advanced': [1240, 205],
   'ssr-hydration': [1300, 112],
-  'rxjs-flattening': [1240, 605],
-  'signal-store': [1285, 694],
+  'rxjs-subjects': [1245, 562],
+  'rxjs-flattening': [1330, 648],
+  'signal-store': [1236, 705],
 };
 
 /** Đường biển nối các đảo chính (khái niệm liên quan giữa hai đảo) */
@@ -253,7 +254,7 @@ export class ConceptMap {
         left: sub.cx < b.fork[0],
         open: trail.every((s) => done.has(s)),
         road1: `M${pt(PINS[last])} Q${pt(b.bend[0])} ${pt(b.fork)} L${bx1} ${by1}`,
-        road2: `M${bx2} ${by2} Q${pt(b.bend[1])} ${pt(PINS[b.to[0]])} Q${pt(b.bend[2])} ${pt(PINS[b.to[1]])}`,
+        road2: b.to.reduce((d, slug, k) => `${d} Q${pt(b.bend[k + 1])} ${pt(PINS[slug])}`, `M${bx2} ${by2}`),
       };
     });
   });

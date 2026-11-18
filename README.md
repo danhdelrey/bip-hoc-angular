@@ -10,16 +10,16 @@ Website học Angular **trực quan, tương tác, phong cách hoạt hình**. N
 - Mỗi bài mở đầu bằng **định nghĩa chuyên ngành**; ẩn dụ chỉ xuất hiện ở khung "Hình dung" ngay trên visualizer, kèm bảng ánh xạ hình ảnh → thuật ngữ
 - Tiến độ + huy hiệu lưu `localStorage` (bọc try/catch); sáng/tối; tôn trọng `prefers-reduced-motion`
 
-> **Trạng thái: 23 bài** — 15 bài lộ trình chính + 8 bài trên 4 **đảo phụ nâng cao** (mỗi bài đủ 7 phần), trang chủ bản đồ khái niệm hình đảo có đường rẽ nhánh sang đảo phụ, style guide, huy hiệu và màn ăn mừng khi xong lộ trình.
+> **Trạng thái: 24 bài** — 15 bài lộ trình chính + 9 bài trên 4 **đảo phụ nâng cao** (mỗi bài đủ 7 phần), trang chủ bản đồ khái niệm hình đảo có đường rẽ nhánh sang đảo phụ, style guide, huy hiệu và màn ăn mừng khi xong lộ trình.
 
 | Đảo phụ | Bài |
 | --- | --- |
 | Nền Móng+ | 16 Content projection · 17 Component động |
 | Template+ | 18 Hiệu năng render · 19 Accessibility & Angular Aria |
 | Dịch Vụ+ | 20 DI nâng cao · 21 SSR & Hydration |
-| Phản Ứng+ | 22 RxJS flattening & race condition · 23 State lớn với SignalStore |
+| Phản Ứng+ | 22 Subject & multicast · 23 RxJS flattening & race condition · 24 State lớn với SignalStore |
 
-Bài nâng cao có chip "Nâng cao" ở đầu trang. Trên bản đồ sidebar, đường chính đi qua 15 bài; sau bài cuối của mỗi đảo có nhánh rẽ phải sang 2 bài nâng cao (cấu hình ở `ISLAND_BRANCHES` trong `lessons.registry.ts`). Màn ăn mừng lớn vẫn chỉ tính 15 bài chính; đảo phụ có huy hiệu riêng ("Người qua cầu", "Huyền thoại đảo phụ").
+Bài nâng cao có chip "Nâng cao" ở đầu trang. Trên bản đồ sidebar, đường chính đi qua 15 bài; sau bài cuối của mỗi đảo có nhánh rẽ phải sang các bài nâng cao của đảo phụ (cấu hình ở `ISLAND_BRANCHES` trong `lessons.registry.ts`). Màn ăn mừng lớn vẫn chỉ tính 15 bài chính; đảo phụ có huy hiệu riêng ("Người qua cầu", "Huyền thoại đảo phụ").
 >
 > Bản chạy thật: https://danhdelrey.github.io/bip-hoc-angular/
 

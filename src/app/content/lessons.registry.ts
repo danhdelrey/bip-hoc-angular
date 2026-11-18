@@ -28,8 +28,9 @@ export const LESSONS: readonly LessonMeta[] = [
   { slug: 'accessibility', number: 19, title: 'Accessibility & Angular Aria', tagline: 'Dùng được với mọi người', icon: 'star', available: true, tier: 'advanced', island: 'Template+' },
   { slug: 'di-advanced', number: 20, title: 'DI nâng cao', tagline: 'Token, multi provider, tuỳ chọn tìm kiếm', icon: 'di', available: true, tier: 'advanced', island: 'Dịch Vụ+' },
   { slug: 'ssr-hydration', number: 21, title: 'SSR & Hydration', tagline: 'Render ở server, kích hoạt ở trình duyệt', icon: 'bolt', available: true, tier: 'advanced', island: 'Dịch Vụ+' },
-  { slug: 'rxjs-flattening', number: 22, title: 'RxJS flattening', tagline: 'mergeMap, concatMap, switchMap, exhaustMap', icon: 'marble', available: true, tier: 'advanced', island: 'Phản Ứng+' },
-  { slug: 'signal-store', number: 23, title: 'State lớn với SignalStore', tagline: 'Quản lý state theo tính năng', icon: 'building', available: true, tier: 'advanced', island: 'Phản Ứng+' },
+  { slug: 'rxjs-subjects', number: 22, title: 'Subject & multicast', tagline: 'Subject, BehaviorSubject, ReplaySubject, share', icon: 'bell', available: true, tier: 'advanced', island: 'Phản Ứng+' },
+  { slug: 'rxjs-flattening', number: 23, title: 'RxJS flattening', tagline: 'mergeMap, concatMap, switchMap, exhaustMap', icon: 'marble', available: true, tier: 'advanced', island: 'Phản Ứng+' },
+  { slug: 'signal-store', number: 24, title: 'State lớn với SignalStore', tagline: 'Quản lý state theo tính năng', icon: 'building', available: true, tier: 'advanced', island: 'Phản Ứng+' },
 ];
 
 /**
@@ -44,7 +45,7 @@ export interface IslandBranch {
 }
 export const ISLAND_BRANCHES: IslandBranch[] = [
   { island: 'Nền Móng+', after: 'lifecycle', requires: ['component', 'data-binding', 'input-output', 'lifecycle'], lessons: ['content-projection', 'dynamic-components'] },
-  { island: 'Phản Ứng+', after: 'forms', requires: ['signals', 'rxjs', 'change-detection', 'forms'], lessons: ['rxjs-flattening', 'signal-store'] },
+  { island: 'Phản Ứng+', after: 'forms', requires: ['signals', 'rxjs', 'change-detection', 'forms'], lessons: ['rxjs-subjects', 'rxjs-flattening', 'signal-store'] },
   { island: 'Dịch Vụ+', after: 'http', requires: ['dependency-injection', 'routing', 'http'], lessons: ['di-advanced', 'ssr-hydration'] },
   { island: 'Template+', after: 'tailwind', requires: ['control-flow', 'pipes', 'defer', 'tailwind'], lessons: ['performance', 'accessibility'] },
 ];
