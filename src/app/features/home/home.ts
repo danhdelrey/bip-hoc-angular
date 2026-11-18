@@ -19,7 +19,7 @@ export class Home {
   protected readonly lessons = LESSONS;
   protected readonly sections = [
     { title: 'Lộ trình chính', icon: 'star', list: CORE_LESSONS, note: '' },
-    { title: 'Đảo phụ nâng cao', icon: 'bridge', list: ADVANCED_LESSONS, note: 'Mỗi đảo chính có một đảo phụ nằm sát bên với 2 bài đào sâu hơn — nên học sau khi xong đảo chính tương ứng.' },
+    { title: 'Đảo phụ nâng cao', icon: 'bridge', list: ADVANCED_LESSONS, note: 'Từ bài cuối của mỗi đảo chính có một đường rẽ nhánh (biển "Nâng cao") qua cầu sang đảo phụ với 2 bài đào sâu hơn. Đường sáng lên khi bạn học xong đảo chính, nhưng muốn ghé trước cũng được.' },
   ];
   protected readonly next = computed(() => LESSONS.find((l) => !this.progress.completed().has(l.slug)));
   protected readonly firstVisit = !this.progress.greeted();
