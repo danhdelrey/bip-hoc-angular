@@ -1,0 +1,155 @@
+:host { display: block; }
+
+.building {
+  position: relative;
+  height: 502px;
+  margin: 24px 22px 0;
+  min-width: 600px;
+}
+.roof {
+  position: absolute; left: -10px; right: -10px; top: 0;
+  height: 64px;
+  display: grid; place-items: center;
+  background: var(--c-di);
+  border: var(--border);
+  border-radius: 28px 28px 6px 6px;
+  box-shadow: var(--shadow);
+  clip-path: none;
+}
+.roof span { font-family: var(--font-display); font-weight: 800; font-size: var(--fs-lg); color: var(--on-accent); }
+.roof::before {
+  content: ''; position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+  width: 70px; height: 18px; background: var(--c-di); border: var(--border); border-bottom: none; border-radius: 16px 16px 0 0;
+}
+
+.stairs { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+.stair { --r-stroke: var(--line); --r-sw: 3; --r-ve: non-scaling-stroke; }
+.stair ::ng-deep .r-stroke { stroke-dasharray: 2 9; opacity: 0.55; }
+
+.floor {
+  position: absolute; left: 0; right: 0;
+  height: 96px;
+  display: flex; align-items: center;
+  padding: 0 14px 0 18px;
+  background: var(--surface);
+  border: var(--border);
+  border-top: none;
+  transition: background-color var(--dur-fast) ease;
+}
+.floor-root { top: 64px; background: color-mix(in srgb, var(--c-di) 14%, var(--surface)); }
+.floor-route { top: 160px; }
+.floor-shop { top: 256px; background: color-mix(in srgb, var(--surface-2) 60%, var(--surface)); }
+.floor.checking { background: color-mix(in srgb, var(--c-signal) 30%, var(--surface)); }
+.floor-label { display: grid; width: 40%; }
+.floor-label strong { font-family: var(--font-display); font-size: var(--fs-md); }
+.floor-label code { background: none; border: none; padding: 0; font-size: 12px; color: var(--text-muted); }
+.floor .spot { position: absolute; left: 60%; top: 50%; transform: translate(-50%, -50%); z-index: 2; }
+.toggle { margin-left: auto; z-index: 2; }
+
+.ground {
+  position: absolute; left: 0; right: 0; top: 352px;
+  height: 150px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  background: var(--surface-sunken);
+  border: var(--border);
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+.room { position: relative; }
+.room-badge { border-right: var(--border); }
+.consumer {
+  --ic: var(--surface);
+  position: absolute; left: 12px; top: 12px;
+  width: calc(56% - 12px);
+  display: grid; gap: 3px;
+  padding: 8px 10px;
+  background: color-mix(in srgb, var(--ic) 45%, var(--surface));
+  border: var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  z-index: 2;
+  transition: background-color var(--dur) ease;
+}
+.consumer strong { font-family: var(--font-display); font-size: var(--fs-sm); line-height: 1.1; }
+.consumer code { background: none; border: none; padding: 0; font-size: 11.5px; }
+.consumer.pending { background: var(--surface); }
+.consumer.err { background: color-mix(in srgb, var(--c-error) 30%, var(--surface)); }
+.consumer.err .got { animation: blink-err 900ms ease-in-out infinite; }
+.got { justify-self: start; font-size: 11.5px; }
+.got.inst { background: var(--ic); }
+.c-actions { display: flex; gap: 6px; margin-top: 2px; }
+.c-actions .btn { min-height: 30px; font-size: 12px; padding: 2px 10px; }
+.c-actions .btn-icon { width: 30px; padding: 0; }
+.ground-spot { position: absolute; left: 76%; top: 68px; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 6px; z-index: 2; }
+.ground-spot.checking .booth { box-shadow: 0 0 0 4px var(--c-signal); }
+.toggle-room { min-height: 30px; font-size: 12px; padding: 2px 10px; }
+
+/* Quầy phát đồ */
+.booth {
+  --ic: var(--c-di);
+  width: 104px;
+  border: var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+.awning {
+  display: block; height: 14px;
+  background: repeating-linear-gradient(90deg, var(--ic) 0 13px, #fff 13px 26px);
+  border-bottom: var(--border-thin);
+}
+.booth-body { display: flex; align-items: center; justify-content: center; gap: 4px; padding: 6px 4px; font-size: 13px; background: color-mix(in srgb, var(--ic) 40%, var(--surface)); }
+.booth.empty {
+  display: grid; place-items: center;
+  height: 52px;
+  font-size: 12px; font-weight: 700; color: var(--text-muted);
+  border-style: dashed; box-shadow: none; background: transparent;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .booth:not(.empty) { animation: deco-pop-in 420ms var(--ease-bounce); }
+}
+.spot.is-hl .booth { box-shadow: 0 0 0 4px var(--c-signal); }
+.consumer.is-hl { box-shadow: 0 0 0 4px var(--c-signal); }
+
+/* Nhân vật đi tìm quầy (chuyển động giải thích) */
+.walker {
+  position: absolute;
+  z-index: 5;
+  transform: translate(calc(-50% - 72px), -50%);
+  transition: left var(--dur) var(--ease-in-out), top var(--dur) var(--ease-in-out);
+}
+.walker.at-start { transform: translate(-50%, -150%); }
+.w-body {
+  display: grid; place-items: center;
+  width: 38px; height: 38px;
+  font-family: var(--font-display); font-weight: 800; font-size: 18px;
+  color: var(--pal-ink);
+  background: var(--pal-cream);
+  border: 3px solid var(--pal-ink);
+  border-radius: 50% 50% 46% 46%;
+  box-shadow: 2px 3px 0 var(--pal-ink);
+}
+.who-badge .w-body { background: #ffe9a8; }
+.who-panel .w-body { background: #c6f6df; }
+@media (prefers-reduced-motion: no-preference) {
+  .w-body { animation: walk 360ms ease-in-out infinite alternate; }
+}
+@keyframes walk { from { transform: translateY(0) rotate(-5deg); } to { transform: translateY(-4px) rotate(5deg); } }
+.w-think {
+  position: absolute; left: 50%; bottom: calc(100% + 6px);
+  transform: translateX(-50%);
+  padding: 1px 8px;
+  font-size: 12px; font-weight: 800; white-space: nowrap;
+  color: var(--pal-ink);
+  background: var(--c-error);
+  border: 2.5px solid var(--pal-ink);
+  border-radius: 10px;
+}
+.w-think.yes { background: var(--c-data); }
+
+.controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; padding: 16px 22px 18px; }
+.note { font-size: var(--fs-sm); font-weight: 600; }
+.reset { margin-left: auto; }
+
+.scroll { overflow-x: auto; padding: 0 0 8px; }

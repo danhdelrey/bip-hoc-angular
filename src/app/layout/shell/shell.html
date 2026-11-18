@@ -1,0 +1,64 @@
+<a class="skip" href="#main">Bỏ qua, tới nội dung chính</a>
+
+<header class="top">
+  <button type="button" class="btn btn-icon menu" (click)="drawerOpen.set(!drawerOpen())"
+          [attr.aria-expanded]="drawerOpen()" aria-controls="sidebar" aria-label="Mở bản đồ bài học">
+    <app-icon [name]="drawerOpen() ? 'close' : 'menu'" />
+  </button>
+  <a routerLink="/" class="brand deco-wiggle" aria-label="Bíp Học Angular — trang chủ">
+    <app-mascot mood="happy" [size]="40" />
+    <span class="brand-text">Bíp <b>Học Angular</b></span>
+  </a>
+  <nav class="nav" aria-label="Điều hướng chính">
+    <a routerLink="/" routerLinkActive="on" [routerLinkActiveOptions]="{ exact: true }">Trang chủ</a>
+    <a routerLink="/style-guide" routerLinkActive="on">Style guide</a>
+  </nav>
+  <div class="actions">
+    <button type="button" class="btn btn-icon" (click)="sound.toggle()"
+            [attr.aria-pressed]="sound.enabled()" [attr.aria-label]="sound.enabled() ? 'Tắt âm thanh' : 'Bật âm thanh'"
+            [title]="sound.enabled() ? 'Âm thanh: bật' : 'Âm thanh: tắt'">
+      <app-icon [name]="sound.enabled() ? 'sound-on' : 'sound-off'" />
+    </button>
+    <button type="button" class="btn btn-icon" (click)="theme.toggle()"
+            [attr.aria-label]="theme.isDark() ? 'Chuyển sang chế độ sáng' : 'Chuyển sang chế độ tối'">
+      <app-icon [name]="theme.isDark() ? 'sun' : 'moon'" />
+    </button>
+    <button type="button" class="btn btn-signal badge-btn" (click)="badgesOpen.set(true)" aria-haspopup="dialog">
+      <app-icon name="trophy" /> <span>{{ progress.badges().size }}/{{ badges.length }}</span>
+    </button>
+  </div>
+</header>
+
+<div class="frame">
+  <aside id="sidebar" class="sidebar" [class.open]="drawerOpen()" aria-label="Bản đồ bài học">
+    <app-level-map [currentSlug]="currentSlug()" (navigate)="drawerOpen.set(false)" />
+  </aside>
+  @if (drawerOpen()) {
+    <div class="scrim" (click)="drawerOpen.set(false)" aria-hidden="true"></div>
+  }
+  <main id="main" class="main" tabindex="-1">
+    <router-outlet />
+  </main>
+</div>
+
+@if (badgesOpen()) {
+  <div class="modal-scrim" (click)="badgesOpen.set(false)" aria-hidden="true"></div>
+  <div class="modal toon toon-lg" role="dialog" aria-modal="true" aria-labelledby="badge-title">
+    <div class="modal-head">
+      <h2 id="badge-title"><app-icon name="trophy" [size]="26" /> Bộ sưu tập huy hiệu</h2>
+      <button type="button" class="btn btn-icon btn-sm" (click)="badgesOpen.set(false)" aria-label="Đóng"><app-icon name="close" /></button>
+    </div>
+    <div class="badge-grid">
+      @for (b of badges; track b.id) {
+        <div class="badge-cell">
+          <app-badge [id]="b.id" [unlocked]="progress.badges().has(b.id)" [size]="92" />
+          <p class="muted">{{ b.description }}</p>
+        </div>
+      }
+    </div>
+  </div>
+}
+
+<app-color-legend />
+<app-toasts />
+<app-confetti />

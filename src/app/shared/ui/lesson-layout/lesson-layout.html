@@ -1,0 +1,138 @@
+@let c = content();
+@let m = meta();
+
+<header class="lesson-head">
+  <div class="title-row">
+    <span class="lesson-no">{{ m.number }}</span>
+    <div>
+      <p class="eyebrow">Bài {{ m.number }} · {{ m.tagline }}</p>
+      <h1>{{ m.title }}</h1>
+    </div>
+    @if (done()) {
+      <span class="chip chip-data done-chip"><app-icon name="check" [size]="16" /> Đã hiểu</span>
+    }
+  </div>
+</header>
+
+<!-- ① Ẩn dụ -->
+<section class="part" aria-labelledby="p1">
+  <h2 id="p1" class="sr-only">Ẩn dụ</h2>
+  <app-mascot-says [mood]="c.metaphorMood ?? 'wave'" [size]="110" class="metaphor">
+    <p class="metaphor-text">{{ c.metaphor }}</p>
+  </app-mascot-says>
+  <p class="intro">{{ c.intro }}</p>
+</section>
+
+<!-- ② Visualizer -->
+<section class="part" aria-labelledby="p2">
+  <h2 id="p2" class="part-title"><span class="num">2</span> {{ c.visualizer.title }}</h2>
+  <p class="part-hint"><app-icon name="hint" [size]="18" /> {{ c.visualizer.hint }}</p>
+  <div class="visualizer toon toon-lg">
+    <ng-content select="[slot=visualizer]" />
+  </div>
+</section>
+
+<!-- ③ Code ↔ Kết quả -->
+<section class="part" aria-labelledby="p3">
+  <h2 id="p3" class="part-title"><span class="num">3</span> Code ↔ Kết quả</h2>
+  <p class="part-hint"><app-icon name="code" [size]="18" /> Rê chuột lên dòng code được gạch chân mờ: phần tương ứng trong visualizer sẽ sáng lên (và ngược lại).</p>
+  <div class="code-live">
+    <app-code-panel [files]="c.code" [title]="m.title" [stackblitz]="true" [stackblitzExtra]="c.stackblitzExtra ?? {}" />
+    <div class="live">
+      <app-browser-frame [url]="liveUrl()">
+        <ng-content select="[slot=live]" />
+      </app-browser-frame>
+      @if (c.liveNote) {
+        <p class="live-note"><span class="chip chip-plain">Kết quả live</span> {{ c.liveNote }}</p>
+      }
+    </div>
+  </div>
+</section>
+
+<ng-content select="[slot=advanced]" />
+
+<!-- ④ Tự thử -->
+<section class="part" aria-labelledby="p4">
+  <h2 id="p4" class="part-title"><span class="num">4</span> Tự thử <span class="counter">{{ challengeCount() }}/{{ c.challenges.length }}</span></h2>
+  <p class="part-hint"><app-icon name="trophy" [size]="18" /> Thao tác trên visualizer ở phần 2. Làm đúng là ô tự được tick.</p>
+  <div class="challenges">
+    @for (ch of c.challenges; track ch.id; let i = $index) {
+      @let isDone = ctx.doneChallenges().has(ch.id);
+      <article class="challenge toon deco-tilt" [class.is-done]="isDone">
+        <div class="ch-check" [attr.aria-label]="isDone ? 'Đã hoàn thành' : 'Chưa hoàn thành'" role="img">
+          @if (isDone) { <app-icon name="check" [size]="22" /> } @else { {{ i + 1 }} }
+        </div>
+        <div class="ch-body">
+          <h3>{{ ch.title }}</h3>
+          @if (isDone) {
+            <p class="ch-praise"><app-icon name="star" [size]="16" /> {{ ch.praise }}</p>
+          } @else {
+            <button type="button" class="btn btn-sm" (click)="toggleHint(ch.id)" [attr.aria-expanded]="openHint() === ch.id">
+              <app-icon name="hint" [size]="16" /> {{ openHint() === ch.id ? 'Ẩn gợi ý' : 'Bí quá? Xin gợi ý' }}
+            </button>
+            @if (openHint() === ch.id) {
+              <div class="hint">
+                <app-mascot mood="thinking" [size]="54" />
+                <app-speech-bubble tail="left">{{ ch.hint }}</app-speech-bubble>
+              </div>
+            }
+          }
+        </div>
+      </article>
+    }
+  </div>
+</section>
+
+<!-- ⑤ Lỗi thường gặp -->
+<section class="part" aria-labelledby="p5">
+  <h2 id="p5" class="part-title"><span class="num">5</span> Lỗi thường gặp</h2>
+  <div class="pitfalls">
+    @for (p of c.pitfalls; track $index) {
+      <details class="pitfall toon">
+        <summary>
+          <span class="chip chip-error"><app-icon name="error" [size]="16" /> Lỗi</span>
+          <span class="pf-title">{{ p.title }}</span>
+          <span class="pf-toggle" aria-hidden="true">+</span>
+        </summary>
+        <div class="pf-body">
+          <p>{{ p.explain }}</p>
+          <div class="pf-codes">
+            <div>
+              <p class="pf-label wrong"><app-icon name="close" [size]="16" /> Sai</p>
+              <app-code-panel [files]="[{ name: 'sai', lang: p.wrong.lang, code: p.wrong.code }]" [compact]="true" />
+            </div>
+            <div>
+              <p class="pf-label right"><app-icon name="check" [size]="16" /> Sửa thành</p>
+              <app-code-panel [files]="[{ name: 'dung', lang: p.right.lang, code: p.right.code }]" [compact]="true" />
+            </div>
+          </div>
+        </div>
+      </details>
+    }
+  </div>
+</section>
+
+<!-- ⑥ Quiz -->
+<section class="part" aria-labelledby="p6">
+  <h2 id="p6" class="part-title"><span class="num">6</span> Quiz nhanh</h2>
+  <app-quiz [items]="c.quiz" (finished)="onQuiz($event)" />
+</section>
+
+<!-- ⑦ Đánh dấu đã hiểu -->
+<section class="part finish toon toon-lg" aria-labelledby="p7">
+  <app-mascot [mood]="done() ? 'celebrate' : 'happy'" [size]="96" />
+  <div class="finish-body">
+    <h2 id="p7">{{ done() ? 'Bạn đã chinh phục bài này!' : 'Hiểu bài rồi chứ?' }}</h2>
+    <p>{{ done() ? 'Tiến độ đã được lưu. Đi tiếp trạm sau nào!' : 'Đánh dấu để cập nhật tiến độ trên bản đồ và mở khoá huy hiệu.' }}</p>
+    <div class="finish-actions">
+      @if (!done()) {
+        <button type="button" class="btn btn-data big" (click)="markDone()">
+          <app-icon name="check" [size]="22" /> Đánh dấu đã hiểu
+        </button>
+      }
+      @if (next(); as n) {
+        <a class="btn btn-primary" [routerLink]="['/bai', n.slug]">Bài tiếp: {{ n.title }} <app-icon name="arrowRight" [size]="18" /></a>
+      }
+    </div>
+  </div>
+</section>

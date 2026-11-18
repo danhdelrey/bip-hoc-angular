@@ -1,0 +1,14 @@
+/* Khung code: KHÔNG hoạt hình hoá. Nền sạch, font mono, highlight rõ.
+   Chỉ có viền + bóng cartoon ở BÊN NGOÀI khung (do code-panel lo). */
+
+.code-surface {
+  background: var(--code-bg);
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  line-height: 1.7;
+  tab-size: 2;
+}
+
+.code-surface .tok { color: var(--tok-light, inherit); }
+:root[data-theme='dark'] .code-surface .tok { color: var(--shiki-dark, var(--tok-light, inherit)); }
+:root:not([data-theme='dark']) .code-surface .tok { color: var(--shiki-light, inherit); }

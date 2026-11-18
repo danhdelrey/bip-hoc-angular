@@ -1,0 +1,96 @@
+@let f = tl.frame();
+
+<ng-template #booth let-loc="loc">
+  @let id = f.counters[asLoc(loc)];
+  @if (id) {
+    <div class="booth" [style.--ic]="color[asLoc(loc)]">
+      <span class="awning" aria-hidden="true"></span>
+      <span class="booth-body">
+        <app-icon name="di" [size]="14" />
+        <b>Giỏ #{{ id }}</b>
+      </span>
+    </div>
+  } @else {
+    <div class="booth empty">chưa có quầy</div>
+  }
+</ng-template>
+
+<div class="scroll">
+<div class="building" [style.--dur.ms]="tl.durationMs()">
+  <div class="roof" aria-hidden="true"><span>Toà nhà Injector</span></div>
+
+  <svg class="stairs" viewBox="0 0 1000 502" preserveAspectRatio="none" aria-hidden="true">
+    @for (p of paths; track $index) {
+      <g appRough [spec]="p" [seed]="$index + 3" class="stair" />
+    }
+  </svg>
+
+  @for (fl of floors; track fl.loc) {
+    <div class="floor" [class]="'floor floor-' + fl.loc" [class.checking]="f.walker?.at === fl.loc">
+      <div class="floor-label">
+        <strong>{{ fl.title }}</strong>
+        <code>{{ fl.sub }}</code>
+      </div>
+      <div class="spot" [appAnchor]="fl.anchor">
+        <ng-container [ngTemplateOutlet]="booth" [ngTemplateOutletContext]="{ loc: fl.loc }" />
+      </div>
+      <button type="button" class="btn btn-sm btn-di toggle" (click)="toggle(fl.loc)" [attr.aria-pressed]="!!f.counters[fl.loc]">
+        <app-icon [name]="f.counters[fl.loc] ? 'minus' : 'plus'" [size]="16" />
+        {{ f.counters[fl.loc] ? (fl.loc === 'root' ? 'autoProvided: false' : 'Dỡ quầy') : 'Đặt quầy' }}
+      </button>
+    </div>
+  }
+
+  <div class="ground">
+    @for (w of whos; track w) {
+      @let who = w;
+      @let g = f.got[w];
+      <div class="room" [class]="'room room-' + who">
+        <div class="consumer" [appAnchor]="'inject-' + who"
+             [class.err]="g === 'error'" [class.pending]="g === null"
+             [style.--ic]="g && g !== 'error' ? color[g] : null">
+          <strong>{{ whoName[w] }}</strong>
+          <code>inject(CartService)</code>
+          @if (g === 'error') {
+            <span class="chip chip-error got"><app-icon name="error" [size]="14" /> NullInjectorError</span>
+          } @else if (g) {
+            <span class="chip got inst"><app-icon name="di" [size]="14" /> Giỏ #{{ f.counters[g] }} · {{ countOf(g) }} món</span>
+          } @else {
+            <span class="chip chip-plain got">đang tìm…</span>
+          }
+          <span class="c-actions">
+            <button type="button" class="btn btn-sm" (click)="add(w)" [disabled]="!g || g === 'error'">+1 món</button>
+            <button type="button" class="btn btn-sm btn-icon" (click)="injectOne(w)" [attr.aria-label]="'Cho ' + whoName[w] + ' gọi inject() lại'" title="Gọi inject() lại">
+              <app-icon name="magnifier" [size]="16" />
+            </button>
+          </span>
+        </div>
+        <div class="spot ground-spot" [appAnchor]="'provider-' + who" [class.checking]="f.walker?.at === who">
+          <ng-container [ngTemplateOutlet]="booth" [ngTemplateOutletContext]="{ loc: who }" />
+          <button type="button" class="btn btn-sm btn-di toggle-room" (click)="toggle(w)" [attr.aria-pressed]="!!f.counters[w]">
+            <app-icon [name]="f.counters[w] ? 'minus' : 'plus'" [size]="14" /> {{ f.counters[w] ? 'Dỡ quầy' : 'Đặt quầy' }}
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (walkerPos(); as p) {
+    <div class="walker" [class]="'walker who-' + f.walker!.who" [class.at-start]="f.walker!.at === 'start'"
+         [style.left.%]="p.x" [style.top.px]="p.y" aria-hidden="true">
+      <span class="w-body">{{ f.walker!.who === 'badge' ? 'B' : 'C' }}</span>
+      @if (f.check) {
+        <span class="w-think" [class.yes]="f.check === 'yes'">{{ f.check === 'yes' ? '✓ có quầy' : '✕ không có' }}</span>
+      }
+    </div>
+  }
+</div>
+</div>
+
+<div class="controls">
+  <button type="button" class="btn btn-sm btn-di" (click)="injectAll()"><app-icon name="magnifier" [size]="16" /> B và C cùng gọi inject()</button>
+  <span class="muted note">Mẹo: quầy ở Root có sẵn nhờ <code>&#64;Service()</code>. "autoProvided: false" = dỡ quầy đó.</span>
+  <button type="button" class="btn btn-sm reset" (click)="reset()"><app-icon name="replay" [size]="16" /> Làm lại</button>
+</div>
+
+<app-step-player [timeline]="tl" />

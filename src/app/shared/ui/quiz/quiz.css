@@ -1,0 +1,75 @@
+:host { display: block; }
+.quiz-wrap { display: grid; grid-template-columns: 260px 1fr; gap: 24px; align-items: start; }
+.host { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; position: sticky; top: calc(var(--header-h) + 16px); }
+.react { width: 100%; }
+.react ::ng-deep .bubble { font-size: var(--fs-sm); }
+.card { padding: 20px 22px; }
+.head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.score { display: inline-flex; gap: 4px; align-items: center; font-family: var(--font-display); font-weight: 800; }
+.q { font-size: var(--fs-lg); margin-bottom: 14px; }
+.opts { display: grid; gap: 10px; }
+.opt {
+  display: flex; align-items: center; gap: 12px;
+  width: 100%;
+  min-height: 52px;
+  padding: 8px 14px 8px 8px;
+  text-align: left;
+  font-weight: 700;
+  background: var(--surface);
+  border: var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-bounce), box-shadow var(--dur-fast) ease, background-color var(--dur) ease;
+}
+.opt:not(:disabled):hover { transform: translate(-1px, -2px); box-shadow: var(--shadow); }
+.opt:not(:disabled):active { transform: translate(2px, 2px); box-shadow: none; }
+.opt:disabled { cursor: default; }
+.letter {
+  flex: none;
+  display: grid; place-items: center;
+  width: 34px; height: 34px;
+  font-family: var(--font-display);
+  border: var(--border-thin);
+  border-radius: 10px;
+  background: var(--surface-2);
+}
+.text { flex: 1; }
+.mark { display: inline-flex; align-items: center; gap: 4px; font-family: var(--font-display); font-weight: 800; }
+.opt.right { background: var(--c-data); color: var(--on-accent); }
+.opt.right .letter, .opt.wrong .letter { background: var(--surface); color: var(--text); }
+.opt.wrong { background: var(--c-error); color: var(--on-accent); }
+.opt.dim { opacity: 0.6; }
+@media (prefers-reduced-motion: no-preference) {
+  .opt.wrong { animation: shake 380ms var(--ease-out); }
+  .opt.right { animation: boing 480ms var(--ease-bounce); }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+@keyframes boing {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.04, 0.94); }
+  100% { transform: scale(1); }
+}
+.explain {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border: var(--border-thin);
+  border-left-width: 8px;
+  border-left-color: var(--c-error);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+.explain.ok { border-left-color: var(--c-data); }
+.next { margin-top: 14px; }
+.result { text-align: center; padding: 10px; }
+.big { font-family: var(--font-display); font-size: var(--fs-3xl); font-weight: 800; line-height: 1; }
+.big small { font-size: var(--fs-xl); color: var(--text-muted); }
+@media (max-width: 760px) {
+  .quiz-wrap { grid-template-columns: 1fr; }
+  .host { position: static; flex-direction: row-reverse; align-items: center; }
+  .react ::ng-deep .bubble::before, .react ::ng-deep .bubble::after { display: none; }
+}

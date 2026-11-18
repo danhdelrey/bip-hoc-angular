@@ -1,0 +1,152 @@
+<header class="head">
+  <p class="eyebrow">Giai đoạn 1a · Duyệt phong cách</p>
+  <h1>Style guide</h1>
+  <app-mascot-says mood="wave" [size]="100">
+    Đây là "tủ quần áo" của site: màu, nút, card, bong bóng thoại, nét vẽ tay… và mình! Bấm nút đổi theme để xem bản tối.
+  </app-mascot-says>
+  <div class="row">
+    <button type="button" class="btn btn-primary" (click)="theme.toggle()">
+      <app-icon [name]="theme.isDark() ? 'sun' : 'moon'" /> Đổi sang chế độ {{ theme.isDark() ? 'sáng' : 'tối' }}
+    </button>
+    <button type="button" class="btn btn-signal" (click)="party()"><app-icon name="star" /> Thử toast + confetti</button>
+  </div>
+</header>
+
+<!-- Linh vật -->
+<section class="block toon toon-lg">
+  <h2>1. Linh vật Bíp — 6 biểu cảm</h2>
+  <p class="muted">Robot viên nang, mặt là màn hình. Màu xanh trời nằm ngoài 5 màu ngữ nghĩa nên không gây nhầm lẫn.</p>
+  <div class="moods">
+    @for (m of moods; track m.mood) {
+      <figure class="mood-card">
+        <app-mascot [mood]="m.mood" [size]="110" />
+        <figcaption>{{ m.label }}</figcaption>
+      </figure>
+    }
+  </div>
+</section>
+
+<!-- Màu -->
+<section class="block toon toon-lg">
+  <h2>2. Màu sắc</h2>
+  <h3>Màu ngữ nghĩa (cố định toàn site)</h3>
+  <div class="semantics">
+    @for (s of semantics; track s.key) {
+      <div class="sem" [class]="'sem sem-' + s.key">
+        <app-icon [name]="s.icon" [size]="32" />
+        <strong>{{ s.label }}</strong>
+        <code>--c-{{ s.key }}</code>
+      </div>
+    }
+  </div>
+  <h3>Bảng màu gốc</h3>
+  <div class="swatches">
+    @for (p of palette; track p[0]) {
+      <div class="swatch"><span class="sw" [style.background]="'var(' + p[0] + ')'"></span><small>{{ p[1] }}<br /><code>{{ p[0] }}</code></small></div>
+    }
+  </div>
+</section>
+
+<!-- Typography -->
+<section class="block toon toon-lg">
+  <h2>3. Chữ</h2>
+  <p class="type-display">Baloo 2 — Tiêu đề tròn mập: "Ánh đèn Signal sáng rực!"</p>
+  <p class="type-body">Nunito — Nội dung dễ đọc, đủ dấu tiếng Việt: ắ ằ ẳ ẵ ặ ấ ầ ẩ ẫ ậ ế ề ể ễ ệ ố ồ ổ ỗ ộ ớ ờ ở ỡ ợ ứ ừ ử ữ ự.</p>
+  <p class="type-mono">JetBrains Mono — const đènBàn = signal(true); // chú thích tiếng Việt</p>
+</section>
+
+<!-- Nút & card -->
+<section class="block toon toon-lg">
+  <h2>4. Nút "nhấn lún" & card</h2>
+  <p class="muted">Bấm giữ một nút: nút dịch xuống đúng bằng độ lệch bóng đổ. Rê chuột lên card: card nghiêng nhẹ.</p>
+  <div class="row">
+    <button type="button" class="btn">Mặc định</button>
+    <button type="button" class="btn btn-primary">Chính</button>
+    <button type="button" class="btn btn-data"><app-icon name="data" /> Dữ liệu</button>
+    <button type="button" class="btn btn-event"><app-icon name="event" /> Sự kiện</button>
+    <button type="button" class="btn btn-di"><app-icon name="di" /> Service</button>
+    <button type="button" class="btn btn-signal"><app-icon name="signal" /> Signal</button>
+    <button type="button" class="btn btn-danger"><app-icon name="error" /> Lỗi</button>
+    <button type="button" class="btn" disabled>Tắt</button>
+  </div>
+  <div class="row">
+    <input class="field" placeholder="Ô nhập cartoon…" aria-label="Ô nhập mẫu" />
+    <span class="chip chip-data"><app-icon name="data" [size]="16" /> chip dữ liệu</span>
+    <span class="chip chip-event"><app-icon name="event" [size]="16" /> chip sự kiện</span>
+  </div>
+  <div class="cards">
+    @for (i of [1, 2, 3]; track i) {
+      <article class="toon deco-tilt mini-card">
+        <app-icon [name]="['house', 'bulb', 'gift'][i - 1]" [size]="34" />
+        <h3>Card số {{ i }}</h3>
+        <p class="muted">Viền 3px, bo góc 18px, bóng cứng 4px không blur.</p>
+      </article>
+    }
+  </div>
+</section>
+
+<!-- Bong bóng -->
+<section class="block toon toon-lg">
+  <h2>5. Bong bóng thoại</h2>
+  <div class="bubbles">
+    <app-mascot-says mood="happy">Ẩn dụ đầu bài: "Component giống một ngôi nhà nhỏ 3 tầng!"</app-mascot-says>
+    <app-mascot-says mood="thinking">Gợi ý khi bạn bí: thử đặt quầy ở tầng thấp hơn xem sao…</app-mascot-says>
+    <div><app-speech-bubble tail="bottom">Bong bóng đuôi dưới.</app-speech-bubble></div>
+  </div>
+</section>
+
+<!-- Nét vẽ tay -->
+<section class="block toon toon-lg">
+  <h2>6. Nét vẽ tay (rough.js)</h2>
+  <button type="button" class="btn btn-sm" (click)="redraw()"><app-icon name="replay" [size]="16" /> Vẽ lại</button>
+  @for (k of [drawKey()]; track k) {
+    <svg class="sketch" viewBox="0 0 640 200" role="img" aria-label="Ví dụ khung và mũi tên vẽ tay">
+      <g appRough [spec]="{ kind: 'rect', x: 20, y: 50, w: 150, h: 90 }" [draw]="true" class="r-ink" />
+      <text x="95" y="102" text-anchor="middle" class="sk-text">Class</text>
+      <g appRough [spec]="{ kind: 'rect', x: 460, y: 50, w: 150, h: 90 }" [draw]="true" [seed]="3" class="r-ink" />
+      <text x="535" y="102" text-anchor="middle" class="sk-text">DOM</text>
+      <g appArrow [from]="[180, 80]" [to]="[450, 80]" [bend]="-30" [draw]="true" [flow]="true" class="r-data" />
+      <g appArrow [from]="[450, 120]" [to]="[180, 120]" [bend]="-30" [draw]="true" [seed]="21" class="r-event" />
+      <text x="315" y="38" text-anchor="middle" class="sk-label">dữ liệu →</text>
+      <text x="315" y="178" text-anchor="middle" class="sk-label">← sự kiện</text>
+      <g appRough [spec]="{ kind: 'ellipse', cx: 315, cy: 100, w: 70, h: 40 }" [fill]="true" fillStyle="hachure" [seed]="5" class="r-signal" />
+    </svg>
+  }
+</section>
+
+<!-- Step player + squash & stretch -->
+<section class="block toon toon-lg">
+  <h2>7. Step-player & squash/stretch</h2>
+  <p class="muted">Mọi animation giải thích đều có step-player để xem chậm từng bước.</p>
+  <div class="ball-stage">
+    <svg viewBox="0 0 540 200" aria-hidden="true">
+      <line x1="0" y1="172" x2="540" y2="172" class="floor" />
+      <rect x="0" y="52" width="80" height="12" rx="4" class="table" />
+    </svg>
+    @let f = ball.frame();
+    <div class="ball" [style.transform]="'translate(' + f.x + 'px,' + f.y + 'px)'"
+         [style.transition-duration.ms]="ball.durationMs()">
+      <div class="ball-inner" [class.land]="f.land">
+        <app-icon name="data" [size]="40" />
+      </div>
+    </div>
+  </div>
+  <app-step-player [timeline]="ball" />
+</section>
+
+<!-- Huy hiệu -->
+<section class="block toon toon-lg">
+  <h2>8. Huy hiệu</h2>
+  <div class="badges">
+    @for (b of badges; track b.id; let i = $index) {
+      <app-badge [id]="b.id" [unlocked]="i < 3" />
+    }
+  </div>
+</section>
+
+<!-- Code -->
+<section class="block toon toon-lg">
+  <h2>9. Khung code (không hoạt hình hoá)</h2>
+  <p class="muted">Nền sạch, mono, highlight rõ. Viền & bóng cartoon chỉ ở bên ngoài.</p>
+  <app-code-panel [files]="sample" title="Style guide" />
+</section>

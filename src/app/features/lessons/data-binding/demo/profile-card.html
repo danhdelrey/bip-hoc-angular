@@ -1,0 +1,5 @@
+<h2>{{ name() }} · ❤ {{ likes() }}</h2>
+<img [src]="avatarUrl()" alt="Ảnh đại diện" width="64" />
+<button (click)="like()">❤ Thích</button>
+<input [(ngModel)]="nickname" aria-label="Biệt danh" />
+<p>Biệt danh: {{ nickname() }}</p>

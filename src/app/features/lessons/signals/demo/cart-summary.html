@@ -1,0 +1,11 @@
+<p>{{ price() }}k × {{ qty() }} = {{ subtotal() }}k</p>
+<button (click)="qty.update((q) => q + 1)">Thêm 1 món</button>
+<label>
+  <input type="checkbox" [checked]="vip()" (change)="vip.set(!vip())" /> VIP -10%
+</label>
+<p>{{ shipLabel() }} · Tổng: <b>{{ total() }}k</b></p>
+<ul>
+  @for (line of log(); track $index) {
+    <li>{{ line }}</li>
+  }
+</ul>

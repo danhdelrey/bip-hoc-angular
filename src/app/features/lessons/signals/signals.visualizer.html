@@ -1,0 +1,130 @@
+@let f = tl.frame();
+<div class="board">
+  <svg viewBox="0 0 940 440" class="graph" role="img" aria-label="Đồ thị phụ thuộc giữa các signal, computed, effect và template">
+    <!-- Dây điện -->
+    @for (e of edges; track e.id) {
+      <g appArrow [from]="e.from" [to]="e.to" [bend]="e.bend" [seed]="$index + 30"
+         [flow]="f.hot.includes(e.id)" class="wire"
+         [class.hot]="f.hot.includes(e.id)"
+         [class.off]="(e.consumer === 'screen' && !f.screenOn) || (e.consumer === 'bell' && !f.bellOn)" />
+    }
+
+    <!-- Bóng đèn -->
+    @for (n of nodes; track n.id) {
+      @let st = f.state[n.id];
+      <g class="node" [class]="'node kind-' + n.kind + ' st-' + st" [class.lit]="isLit(f, n.id)"
+         [attr.transform]="'translate(' + n.x + ',' + n.y + ')'" [appAnchor]="n.id" tabindex="0"
+         [attr.aria-label]="n.kind + ' ' + n.id + ' = ' + val(f, n.id)">
+        @if (f.focus === n.id && (st === 'changed' || st === 'set' || st === 'same')) {
+          @for (k of [f.tick]; track k) {
+            <circle class="ring" r="40" cy="-6" />
+          }
+        }
+        @if (st === 'changed' || st === 'set') {
+          <g class="rays">
+            <path d="M0 -58 v-10 M36 -42 l8 -8 M-36 -42 l-8 -8 M48 -8 h10 M-48 -8 h-10" />
+          </g>
+        }
+        <circle class="glass" r="34" cy="-6" />
+        <path class="filament" d="M-9 4 q4.5 -12 9 0 q4.5 -12 9 0" />
+        <rect class="base" x="-17" y="26" width="34" height="18" rx="5" />
+        <path class="screw" d="M-17 32 h34 M-17 38 h34" />
+        <text class="value" y="-6" text-anchor="middle" dominant-baseline="middle">{{ val(f, n.id) }}</text>
+        <text class="name" y="62" text-anchor="middle">{{ n.id }}</text>
+        <text class="kind" y="-48" text-anchor="middle">{{ n.kind }}</text>
+        @if (n.kind === 'computed') {
+          <g class="counter" transform="translate(34,-40)">
+            <rect x="-4" y="-12" width="44" height="22" rx="11" />
+            <text x="18" y="0" text-anchor="middle" dominant-baseline="middle">×{{ count(f, n.id) }}</text>
+          </g>
+        }
+        @switch (st) {
+          @case ('stale') { <g class="badge b-stale" transform="translate(-36,-38)"><circle r="12" /><text text-anchor="middle" dominant-baseline="central">?</text></g> }
+          @case ('same') { <g class="badge b-same" transform="translate(-36,-38)"><circle r="12" /><text text-anchor="middle" dominant-baseline="central">=</text></g> }
+          @case ('skipped') { <g class="badge b-skip" transform="translate(-40,-38)"><rect x="-26" y="-11" width="52" height="22" rx="11" /><text text-anchor="middle" dominant-baseline="central">memo</text></g> }
+          @case ('sleep') { <text class="zzz" x="-44" y="-36">z<tspan dy="-6">z</tspan><tspan dy="-6">z</tspan></text> }
+        }
+      </g>
+    }
+
+    <!-- Màn hình (template) -->
+    <g class="screen" [class]="'screen st-' + f.state.screen" [attr.transform]="'translate(' + screenPos.x + ',' + screenPos.y + ')'" appAnchor="screen" tabindex="0"
+       aria-label="Màn hình template">
+      <rect class="monitor" x="-70" y="-46" width="140" height="92" rx="12" />
+      <rect class="display" x="-60" y="-36" width="120" height="66" rx="6" />
+      <path class="stand" d="M-14 46 l-6 16 h40 l-6 -16" />
+      @if (f.screenOn) {
+        <text class="scr-line" x="0" y="-12" text-anchor="middle">{{ f.screen.ship }}</text>
+        <text class="scr-total" x="0" y="14" text-anchor="middle">Tổng: {{ f.screen.total }}k</text>
+      } @else {
+        <text class="scr-off" x="0" y="0" text-anchor="middle" dominant-baseline="middle">(đã tắt)</text>
+      }
+      <text class="name" y="86" text-anchor="middle">template</text>
+    </g>
+
+    <!-- Chuông (effect) -->
+    <g class="bell" [class]="'bell st-' + f.state.bell" [attr.transform]="'translate(' + bellPos.x + ',' + bellPos.y + ')'" appAnchor="bell" tabindex="0"
+       aria-label="Chuông effect">
+      @for (k of [f.state.bell === 'changed' ? f.tick : 0]; track k) {
+        <g class="bell-body">
+          <path class="bell-shape" d="M-24 14 v-16 a24 24 0 0 1 48 0 v16 l8 10 h-64 z" />
+          <circle class="clapper" cx="0" cy="30" r="6" />
+          <path class="bell-top" d="M-5 -26 a5 5 0 0 1 10 0" />
+        </g>
+      }
+      @if (f.state.bell === 'changed') {
+        <path class="waves" d="M34 -14 q8 10 0 20 M44 -22 q14 18 0 36 M-34 -14 q-8 10 0 20 M-44 -22 q-14 18 0 36" />
+      }
+      @if (!f.bellOn) { <path class="slash" d="M-34 -30 L34 36" /> }
+      <text class="name" y="62" text-anchor="middle">effect</text>
+    </g>
+  </svg>
+
+</div>
+
+<div class="controls">
+  <!-- console giả lập của effect -->
+  <div class="console" appAnchor="bell" aria-live="polite">
+    <span class="console-title"><app-icon name="bell" [size]="14" /> console (effect)</span>
+    @for (l of f.log; track $index) {
+      <code [class.new]="$index === 0 && f.state.bell === 'changed'">{{ l }}</code>
+    }
+  </div>
+  <div class="group">
+    <span class="eyebrow"><app-icon name="signal" [size]="14" /> Công tắc signal</span>
+    <label class="price">
+      <span>price = <b>{{ priceDraft() }}</b></span>
+      <input type="range" min="50" max="150" step="10" [value]="priceDraft()"
+             (input)="priceDraft.set(+$any($event.target).value)" (change)="setPrice(+$any($event.target).value)"
+             aria-label="Giá (price)" />
+    </label>
+    <span class="qty">
+      qty
+      <button type="button" class="btn btn-sm btn-icon btn-signal" (click)="changeQty(-1)" aria-label="Giảm số lượng"><app-icon name="minus" [size]="16" /></button>
+      <b>{{ model.values.qty }}</b>
+      <button type="button" class="btn btn-sm btn-icon btn-signal" (click)="changeQty(1)" aria-label="Tăng số lượng"><app-icon name="plus" [size]="16" /></button>
+    </span>
+    <button type="button" class="switch" role="switch" [attr.aria-checked]="model.values.vip" (click)="toggleVip()">
+      <span class="knob"></span> VIP
+    </button>
+  </div>
+  <div class="group">
+    <span class="eyebrow">Ai đang đọc?</span>
+    <button type="button" class="switch" role="switch" [attr.aria-checked]="model.screenOn" (click)="toggleConsumer('screen')">
+      <span class="knob"></span> Màn hình đang đọc
+    </button>
+    <button type="button" class="switch" role="switch" [attr.aria-checked]="model.bellOn" (click)="toggleConsumer('bell')">
+      <span class="knob"></span> Chuông effect
+    </button>
+    <button type="button" class="btn btn-sm reset" (click)="reset()"><app-icon name="replay" [size]="16" /> Làm lại</button>
+  </div>
+  <p class="legend-line muted">
+    <span class="lg"><i class="lg-stale">?</i> có thể đã cũ</span>
+    <span class="lg"><i class="lg-same">=</i> tính lại nhưng giống cũ</span>
+    <span class="lg"><i class="lg-skip">memo</i> khỏi tính lại</span>
+    <span class="lg"><i class="lg-zzz">zzz</i> ngủ (lazy)</span>
+    <span class="lg"><i class="lg-count">×3</i> số lần đã tính</span>
+  </p>
+</div>
+
+<app-step-player [timeline]="tl" />

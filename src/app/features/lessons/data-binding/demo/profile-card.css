@@ -1,0 +1,6 @@
+/* Style "trình duyệt thường" cho kết quả live — cố ý đơn giản, không cartoon */
+:host { display: grid; gap: 10px; justify-items: start; font-family: system-ui, sans-serif; }
+h2 { margin: 0; font-family: system-ui, sans-serif; font-size: 1.4rem; }
+button { padding: 6px 14px; font: inherit; cursor: pointer; border: 1px solid #888; border-radius: 6px; background: #f3f3f3; color: #111; }
+input { padding: 6px 10px; font: inherit; border: 1px solid #888; border-radius: 6px; background: #fff; color: #111; }
+p { margin: 0; }

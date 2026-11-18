@@ -1,0 +1,46 @@
+<div class="map-head">
+  <span class="eyebrow"><app-icon name="map" [size]="16" /> Lộ trình</span>
+  <div class="pct" role="progressbar" [attr.aria-valuenow]="progress.percent()" aria-valuemin="0" aria-valuemax="100" aria-label="Tiến độ lộ trình">
+    <div class="pct-bar" [style.width.%]="progress.percent()"></div>
+    <span class="pct-text">{{ progress.completedCount() }}/{{ lessons.length }} bài · {{ progress.percent() }}%</span>
+  </div>
+</div>
+
+<nav class="map" aria-label="Danh sách bài học">
+  <svg class="road" [attr.viewBox]="'0 0 244 ' + height" [attr.height]="height" aria-hidden="true">
+    <path class="road-edge" [attr.d]="road" />
+    <path class="road-fill" [attr.d]="road" />
+    <path class="road-dash" [attr.d]="road" />
+  </svg>
+
+  <ol class="stations" [style.height.px]="height">
+    @for (p of points; track p.lesson.slug) {
+      @let done = progress.isDone(p.lesson.slug);
+      @let here = p.lesson.slug === currentSlug();
+      <li [style.top.px]="p.y" [style.left.px]="p.x">
+        @if (p.lesson.available) {
+          <a class="station" [class.done]="done" [class.here]="here"
+             [routerLink]="['/bai', p.lesson.slug]" (click)="navigate.emit()"
+             [attr.aria-current]="here ? 'page' : null"
+             [attr.aria-label]="'Bài ' + p.lesson.number + ': ' + p.lesson.title + (done ? ' (đã xong)' : '')">
+            <span class="dot">
+              @if (done) { <app-icon name="check" [size]="18" /> } @else { {{ p.lesson.number }} }
+            </span>
+            <span class="label" [class.left]="p.labelLeft">{{ p.lesson.title }}</span>
+          </a>
+        } @else {
+          <a class="station soon" [class.here]="here" [routerLink]="['/bai', p.lesson.slug]" (click)="navigate.emit()"
+             [attr.aria-label]="'Bài ' + p.lesson.number + ': ' + p.lesson.title + ' (sắp có)'">
+            <span class="dot"><app-icon name="lock" [size]="15" /></span>
+            <span class="label" [class.left]="p.labelLeft">{{ p.lesson.title }} <em>sắp có</em></span>
+          </a>
+        }
+      </li>
+    }
+    @if (current(); as c) {
+      <li class="me" [style.top.px]="c.y - 52" [style.left.px]="c.x + 6" aria-hidden="true">
+        <app-mascot mood="happy" [size]="38" />
+      </li>
+    }
+  </ol>
+</nav>

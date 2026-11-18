@@ -1,0 +1,90 @@
+@let f = tl.frame();
+<div class="stage-scroll">
+<div class="stage" [style.--dur.ms]="tl.durationMs()">
+  <!-- Khối CLASS -->
+  <div class="block cls">
+    <div class="head"><span class="roof" aria-hidden="true"></span><app-icon name="code" [size]="18" /> class ProfileCard</div>
+    <div class="cell" appAnchor="interp" [class.flash]="f.flashCls === 0">
+      <code>name</code><span class="eq">=</span><span class="val chip chip-data"><app-icon name="data" [size]="14" />'{{ f.m.name }}'</span>
+    </div>
+    <div class="cell" appAnchor="prop" [class.flash]="f.flashCls === 1">
+      <code>avatarUrl</code><span class="eq">=</span><span class="val chip chip-data"><app-icon name="data" [size]="14" />'{{ avatars[f.m.avatar] }}.svg'</span>
+    </div>
+    <div class="cell" appAnchor="event" [class.flash]="f.flashCls === 2">
+      <code>likes</code><span class="eq">=</span><span class="val chip chip-data"><app-icon name="data" [size]="14" />{{ f.m.likes }}</span>
+      <code class="method">like()</code>
+    </div>
+    <div class="cell" appAnchor="twoway" [class.flash]="f.flashCls === 3">
+      <code>nickname</code><span class="eq">=</span><span class="val chip chip-data"><app-icon name="data" [size]="14" />'{{ f.m.nickname }}'</span>
+    </div>
+  </div>
+
+  <!-- ỐNG BINDING -->
+  <div class="pipes">
+    <div class="head small">Ống binding <span class="muted">(bấm để xem)</span></div>
+    @for (p of pipes; track p.kind; let i = $index) {
+      <div class="pipe-row">
+        <button type="button" class="pipe" [class]="'pipe pipe-' + p.kind + ' dir-' + p.dir"
+                [class.active]="f.marble?.row === i" [class.selected]="selected() === p.kind"
+                [appAnchor]="p.kind" (click)="select(p.kind)"
+                [attr.aria-label]="p.title + ': ' + p.info" [attr.aria-pressed]="selected() === p.kind">
+          <span class="flow" aria-hidden="true"></span>
+          <span class="tag">{{ p.label }}</span>
+          <span class="dir-ic" aria-hidden="true">{{ p.dir === 'right' ? '→' : p.dir === 'left' ? '←' : '⇄' }}</span>
+          @if (f.marble; as mb) {
+            @if (mb.row === i) {
+              <span class="marble" [class]="'marble marble-' + mb.kind" [class.land]="mb.land" [style.--p]="mb.pos" aria-hidden="true">
+                <span class="ball"><span class="face"></span></span>
+                <span class="mlabel">{{ mb.label }}</span>
+              </span>
+            }
+          }
+        </button>
+      </div>
+    }
+  </div>
+
+  <!-- Khối DOM -->
+  <div class="block dom">
+    <div class="head"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span> DOM (trình duyệt)</div>
+    <div class="cell" appAnchor="interp" [class.flash]="f.flashDom === 0">
+      <span class="tagname">&lt;h2&gt;</span><strong class="h2">{{ f.m.h2 }}</strong>
+    </div>
+    <div class="cell" appAnchor="prop" [class.flash]="f.flashDom === 1">
+      <span class="tagname">&lt;img&gt;</span><img class="avatar" [src]="'avatars/' + avatars[f.m.img] + '.svg'" alt="Ảnh đại diện" width="44" height="44" />
+    </div>
+    <div class="cell" appAnchor="event" [class.flash]="f.flashDom === 2">
+      <span class="tagname">&lt;button&gt;</span>
+      <button type="button" class="btn btn-sm btn-event" (click)="clickLike()">❤ Thích</button>
+    </div>
+    <div class="cell stack" appAnchor="twoway" [class.flash]="f.flashDom === 3">
+      <div class="inline">
+        <span class="tagname">&lt;input&gt;</span>
+        <input class="field mini" [value]="f.m.input" (input)="onType($any($event.target).value)" aria-label="Biệt danh (input trong DOM)" maxlength="18" />
+      </div>
+      <small>Biệt danh: <b>{{ f.m.nickText }}</b></small>
+    </div>
+  </div>
+</div>
+</div>
+
+@if (selected(); as s) {
+  @let info = pipeInfo(s);
+  <div class="info" [class]="'info info-' + s" role="status">
+    <strong>{{ info.label }} — {{ info.title }}</strong>
+    <span>{{ info.info }}</span>
+    <button type="button" class="btn btn-sm btn-icon" (click)="selected.set(null)" aria-label="Đóng giải thích"><app-icon name="close" [size]="16" /></button>
+  </div>
+}
+
+<div class="controls">
+  <span class="eyebrow">Phía Class:</span>
+  <button type="button" class="btn btn-sm btn-data" (click)="renameInClass()"><app-icon name="data" [size]="16" /> Đổi tên (name)</button>
+  <button type="button" class="btn btn-sm btn-data" (click)="changeAvatar()"><app-icon name="data" [size]="16" /> Đổi ảnh (avatarUrl)</button>
+  <button type="button" class="btn btn-sm btn-data" (click)="setNickFromClass()"><app-icon name="data" [size]="16" /> Gán nickname</button>
+  <span class="sep"></span>
+  <span class="eyebrow">Phía DOM:</span><span class="muted small-note">bấm ❤ hoặc gõ vào ô input</span>
+  <button type="button" class="btn btn-sm reset" (click)="reset()"><app-icon name="replay" [size]="16" /> Làm lại</button>
+</div>
+
+<app-step-player [timeline]="tl" />

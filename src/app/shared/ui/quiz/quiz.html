@@ -1,0 +1,49 @@
+<div class="quiz-wrap">
+  <div class="host">
+    <app-speech-bubble tail="bottom" class="react">{{ bubble() }}</app-speech-bubble>
+    <app-mascot [mood]="mood()" [size]="92" />
+  </div>
+
+  <div class="card toon">
+    @if (!done()) {
+      <div class="head">
+        <span class="eyebrow">Câu {{ index() + 1 }} / {{ items().length }}</span>
+        <span class="score"><app-icon name="star" [size]="16" /> {{ score() }}</span>
+      </div>
+      <h3 class="q">{{ item().question }}</h3>
+      <div class="opts" role="radiogroup" [attr.aria-label]="item().question">
+        @for (o of item().options; track $index; let i = $index) {
+          <button type="button" class="opt" role="radio"
+                  [attr.aria-checked]="picked() === i"
+                  [class.right]="picked() !== null && i === item().correct"
+                  [class.wrong]="picked() === i && i !== item().correct"
+                  [class.dim]="picked() !== null && picked() !== i && i !== item().correct"
+                  [disabled]="picked() !== null"
+                  (click)="pick(i)">
+            <span class="letter">{{ letter(i) }}</span>
+            <span class="text">{{ o }}</span>
+            @if (picked() !== null && i === item().correct) {
+              <span class="mark"><app-icon name="check" [size]="18" /> Đúng</span>
+            } @else if (picked() === i) {
+              <span class="mark"><app-icon name="close" [size]="18" /> Sai</span>
+            }
+          </button>
+        }
+      </div>
+      @if (picked() !== null) {
+        <div class="explain" [class.ok]="isCorrect()" aria-live="polite">
+          <strong>{{ isCorrect() ? 'Đúng rồi!' : 'Giải thích:' }}</strong> {{ item().explain }}
+        </div>
+        <button type="button" class="btn btn-primary next" (click)="next()">
+          {{ index() < items().length - 1 ? 'Câu tiếp theo' : 'Xem kết quả' }} <app-icon name="arrowRight" [size]="18" />
+        </button>
+      }
+    } @else {
+      <div class="result">
+        <div class="big">{{ score() }}<small>/{{ items().length }}</small></div>
+        <p>{{ score() === items().length ? 'Hoàn hảo! Huy hiệu "Thần đồng quiz" đang chờ bạn.' : 'Ôn lại visualizer phía trên rồi thử lại nhé.' }}</p>
+        <button type="button" class="btn" (click)="retry()"><app-icon name="replay" [size]="18" /> Làm lại quiz</button>
+      </div>
+    }
+  </div>
+</div>

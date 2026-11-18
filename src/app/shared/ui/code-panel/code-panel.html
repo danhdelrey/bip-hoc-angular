@@ -1,0 +1,26 @@
+<div class="frame" [class.compact]="compact()">
+  @if (!compact()) {
+    <div class="bar">
+      <div class="tabs" role="tablist" aria-label="File code">
+        @for (f of files(); track f.name) {
+          <button type="button" role="tab" class="tab" [class.on]="$index === active()"
+                  [attr.aria-selected]="$index === active()" (click)="active.set($index)">
+            <app-icon name="code" [size]="14" /> {{ f.name }}
+          </button>
+        }
+      </div>
+      <div class="tools">
+        <button type="button" class="tool" (click)="copy()" [attr.aria-label]="'Copy ' + file().name">
+          <app-icon [name]="copied() ? 'check' : 'copy'" [size]="16" />
+          <span>{{ copied() ? 'Đã copy!' : 'Copy' }}</span>
+        </button>
+        @if (stackblitz()) {
+          <button type="button" class="tool blitz" (click)="openBlitz()">
+            <app-icon name="event" [size]="16" /> <span>Mở trên StackBlitz</span>
+          </button>
+        }
+      </div>
+    </div>
+  }
+  <pre class="code-surface" [attr.aria-label]="'Code ' + file().name"><code>@for (line of lines(); track $index; let i = $index) {<span class="line" [class.has-anchor]="anchorOf(i)" [class.hl]="isHl(i)" (mouseenter)="enter(i)" (mouseleave)="leave()"><span class="ln" aria-hidden="true">{{ i + 1 }}</span><span class="lc">@for (t of line; track $index) {<span class="tok" [style]="t.style">{{ t.content }}</span>}</span></span>}</code></pre>
+</div>

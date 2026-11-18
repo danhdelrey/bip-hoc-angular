@@ -1,0 +1,37 @@
+<section class="hero toon toon-lg">
+  <div class="hero-text">
+    <p class="eyebrow">Học Angular bằng mắt</p>
+    <h1>Đừng chỉ đọc Angular.<br /><span class="hl">Hãy nhìn nó chạy!</span></h1>
+    <p class="lead">14 trạm dừng, mỗi trạm là một visualizer bạn bấm, kéo, tua chậm được. Code mẫu là Angular 22 hiện đại: standalone, signals, zoneless.</p>
+    <div class="cta">
+      <a class="btn btn-primary big" routerLink="/bai/data-binding">Bắt đầu từ Data binding <app-icon name="arrowRight" /></a>
+      <a class="btn" routerLink="/style-guide"><app-icon name="palette" /> Xem style guide</a>
+    </div>
+  </div>
+  <app-mascot-says [mood]="firstVisit ? 'wave' : 'happy'" [size]="130" class="greet">{{ greeting() }}</app-mascot-says>
+</section>
+
+<section class="path">
+  <h2><app-icon name="map" [size]="26" /> Lộ trình 14 trạm</h2>
+  <p class="muted">Bản đồ khái niệm dạng đảo sẽ có ở Giai đoạn 2. Hiện đã mở 3 bài mẫu.</p>
+  <ol class="grid">
+    @for (l of lessons; track l.slug) {
+      @let done = progress.isDone(l.slug);
+      <li>
+        <a class="card toon deco-tilt" [class.soon]="!l.available" [class.done]="done" [routerLink]="['/bai', l.slug]">
+          <span class="ic"><app-icon [name]="l.icon" [size]="28" /></span>
+          <span class="no">Bài {{ l.number }}</span>
+          <strong>{{ l.title }}</strong>
+          <span class="tag">{{ l.tagline }}</span>
+          @if (done) {
+            <span class="chip chip-data state"><app-icon name="check" [size]="14" /> Đã hiểu</span>
+          } @else if (!l.available) {
+            <span class="chip chip-plain state"><app-icon name="lock" [size]="14" /> Sắp có</span>
+          } @else {
+            <span class="chip chip-signal state"><app-icon name="play" [size]="14" /> Học ngay</span>
+          }
+        </a>
+      </li>
+    }
+  </ol>
+</section>
