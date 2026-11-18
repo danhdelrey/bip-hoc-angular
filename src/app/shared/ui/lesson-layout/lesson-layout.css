@@ -30,8 +30,18 @@
 .counter { font-size: var(--fs-md); padding: 0 10px; border: var(--border-thin); border-radius: var(--radius-pill); background: var(--surface); }
 .part-hint { display: flex; align-items: center; gap: 8px; color: var(--text-muted); font-weight: 600; margin-bottom: 14px; }
 
-.metaphor { margin-bottom: 18px; }
-.metaphor-text { margin: 0; font-size: var(--fs-lg); line-height: 1.5; }
+.definition { margin-bottom: 18px; }
+.def-label { margin: 0 0 2px; font-family: var(--font-display); font-weight: 800; font-size: var(--fs-xs); letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); }
+.def-text { margin: 0; font-size: var(--fs-lg); line-height: 1.5; }
+
+.analogy { margin: 0 0 12px; padding: 12px 16px; background: var(--surface-2); border: var(--border-thin); border-left-width: 5px; border-left-color: var(--c-accent); border-radius: var(--radius); }
+.an-text { display: flex; gap: 6px; align-items: baseline; margin: 0 0 8px; }
+.an-text app-icon { align-self: center; flex: none; }
+.an-map { display: flex; flex-wrap: wrap; gap: 6px 8px; margin: 0; padding: 0; list-style: none; }
+.an-map li { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; background: var(--surface); border: var(--border-thin); border-radius: var(--radius-pill); font-size: var(--fs-sm); }
+.an-img { font-weight: 700; }
+.an-arrow { color: var(--text-muted); }
+.an-term { font-weight: 800; color: var(--c-di-strong); }
 .intro { max-width: 70ch; font-size: var(--fs-md); }
 
 .visualizer { overflow: hidden; }

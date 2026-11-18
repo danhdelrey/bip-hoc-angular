@@ -3,8 +3,17 @@ import { SAMPLES } from './defer.samples';
 
 export const DEFER: LessonContent = {
   slug: 'defer',
-  metaphor:
-    '@defer là một hộp quà: lúc đầu bạn chỉ thấy cái hộp đóng (placeholder). Khi điều kiện xảy ra — bạn chạm vào, cuộn tới, hay trình duyệt rảnh tay — hộp rung lắc (loading) rồi bung ra món quà thật!',
+  definition:
+    '@defer là khối template tải trễ: code của nội dung bên trong được tách thành chunk riêng và chỉ tải khi một trigger xảy ra.',
+  analogy: {
+    text: 'Ví dụ vẽ mỗi khối @defer thành một hộp quà.',
+    map: [
+      ['Hộp đóng', '@placeholder'],
+      ['Hộp rung lắc', '@loading'],
+      ['Món quà', 'nội dung đã tải'],
+      ['Điều kiện mở hộp', 'trigger (on viewport, on interaction…)'],
+    ],
+  },
   intro:
     '@defer tách phần template (và code của các component trong đó) ra một chunk JS riêng, chỉ tải khi trigger xảy ra. Trang đầu nhẹ hơn, mở nhanh hơn. Các khối @placeholder, @loading, @error cho bạn kiểm soát từng giai đoạn.',
   visualizer: {

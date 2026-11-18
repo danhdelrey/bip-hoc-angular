@@ -24,8 +24,16 @@ npm install tailwindcss @tailwindcss/postcss postcss
 
 export const TAILWIND: LessonContent = {
   slug: 'tailwind',
-  metaphor:
-    'Tailwind giống một hộp LEGO: mỗi class là một viên gạch nhỏ chỉ làm đúng một việc — p-4 là đệm, bg-sky-100 là màu nền, rounded-xl là bo góc. Bạn ghép gạch ngay trong template, không cần đặt tên class rồi chạy qua file CSS khác!',
+  definition:
+    'Tailwind CSS là framework CSS utility-first: giao diện được dựng bằng các class nhỏ, mỗi class ứng với một vài khai báo CSS.',
+  analogy: {
+    text: 'Ví dụ xem các utility class như những viên gạch LEGO ghép thành giao diện.',
+    map: [
+      ['Viên gạch', 'một utility class'],
+      ['Ghép gạch', 'tổ hợp class trên phần tử'],
+      ['Bộ màu của hộp gạch', 'theme (@theme)'],
+    ],
+  },
   intro:
     'Tailwind CSS là framework "utility-first": thay vì viết .card { padding: 1rem }, bạn viết class="p-4" thẳng vào HTML. Tailwind v4 cài vào Angular qua PostCSS, cấu hình bằng CSS (@theme) và chỉ sinh CSS cho những class bạn thật sự dùng.',
   visualizer: {

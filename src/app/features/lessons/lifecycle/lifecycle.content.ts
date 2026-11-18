@@ -3,8 +3,18 @@ import { SAMPLES } from './lifecycle.samples';
 
 export const LIFECYCLE: LessonContent = {
   slug: 'lifecycle',
-  metaphor:
-    'Mỗi component sống một cuộc đời nhỏ: sinh ra, nhận quà từ cha, lớn lên, ra mắt mọi người, thay đổi theo thời gian, rồi tạm biệt. Mỗi cột mốc là một lifecycle hook để bạn chen vào làm việc!',
+  definition:
+    'Lifecycle hooks là các phương thức Angular tự gọi tại những thời điểm cố định trong vòng đời của component, từ lúc tạo tới lúc huỷ.',
+  analogy: {
+    text: 'Ví dụ kể vòng đời component như hành trình một đời người; mỗi trạm dừng là một hook.',
+    map: [
+      ['Sinh ra', 'constructor'],
+      ['Nhận quà từ cha', 'ngOnChanges (input đổi)'],
+      ['Ra mắt mọi người', 'ngAfterViewInit / afterNextRender'],
+      ['Tạm biệt', 'ngOnDestroy'],
+      ['Trạm dừng', 'một lifecycle hook'],
+    ],
+  },
   intro:
     'Angular gọi các hook theo thứ tự cố định khi tạo, cập nhật và huỷ component. ngOnInit là nơi khởi tạo, ngOnDestroy là nơi dọn dẹp. Với signals, nhiều việc trước đây làm trong hook giờ dùng computed, effect hoặc afterNextRender.',
   visualizer: {

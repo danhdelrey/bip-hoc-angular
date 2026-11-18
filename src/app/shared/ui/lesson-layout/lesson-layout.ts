@@ -14,7 +14,7 @@ import { Quiz } from '../quiz/quiz';
 
 /**
  * Khung 7 phần thống nhất cho MỌI bài học:
- * ① Ẩn dụ ② Visualizer ③ Code ↔ Kết quả ④ Tự thử ⑤ Lỗi thường gặp ⑥ Quiz ⑦ Đánh dấu đã hiểu
+ * ① Định nghĩa ② Visualizer (kèm "Hình dung") ③ Code ↔ Kết quả ④ Tự thử ⑤ Lỗi thường gặp ⑥ Quiz ⑦ Đánh dấu đã hiểu
  * Visualizer và kết quả live được chiếu vào qua slot.
  */
 @Component({

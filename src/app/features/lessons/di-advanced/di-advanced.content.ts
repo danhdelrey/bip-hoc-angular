@@ -15,8 +15,18 @@ export function provideAnalytics(id: string): EnvironmentProviders {
 
 export const DI_ADVANCED: LessonContent = {
   slug: 'di-advanced',
-  metaphor:
-    'Bài DI cơ bản là "quầy dịch vụ trong toà nhà". Giờ Bíp làm trưởng tổng đài: một số điện thoại (token) có thể nối tới nhiều máy cùng lúc (multi), có số tự trả lời khi không ai nhấc máy (factory), và người gọi có thể dặn "đừng gọi máy của tôi, gọi tầng trên" (skipSelf) hoặc "không ai nghe cũng được" (optional).',
+  definition:
+    'DI nâng cao là các cách cấu hình provider và điều khiển việc tìm provider, vượt ra ngoài providers: [Service] cơ bản.',
+  analogy: {
+    text: 'Ví dụ vẽ hệ thống DI như một tổng đài điện thoại.',
+    map: [
+      ['Số điện thoại', 'InjectionToken'],
+      ['Một số nối nhiều máy', 'multi: true'],
+      ['Tổng đài tự trả lời', 'factory của token'],
+      ['"Gọi tầng trên"', 'skipSelf'],
+      ['"Không ai nghe cũng được"', 'optional'],
+    ],
+  },
   intro:
     'Ngoài providers cơ bản, DI của Angular còn: InjectionToken có factory mặc định, bốn công thức useClass / useValue / useFactory / useExisting, multi provider để nhiều nơi cùng "góp" vào một mảng (cách Angular làm HTTP interceptor, validator…), và các tuỳ chọn tìm kiếm optional, self, skipSelf, host của inject().',
   visualizer: {

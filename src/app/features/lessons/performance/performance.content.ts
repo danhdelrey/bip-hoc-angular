@@ -18,10 +18,18 @@ visible = computed(() => this.products().filter(…));
 
 export const PERFORMANCE: LessonContent = {
   slug: 'performance',
-  metaphor:
-    'Màn hình chậm giống bệnh nhân hụt hơi. Bác sĩ hiệu năng không đoán mò: đo nhịp tim (ms mỗi khung hình), tìm chỗ tắc (render lại quá nhiều, tính toán lặp, tải quá nặng), rồi kê đúng thuốc cho đúng bệnh!',
+  definition:
+    'Hiệu năng render là thời gian từ khi state thay đổi tới khi khung hình mới được vẽ; muốn đạt 60fps, mỗi khung hình cần dưới khoảng 16ms.',
+  analogy: {
+    text: 'Ví dụ xem màn hình chậm như một bệnh nhân, còn các kỹ thuật tối ưu là thuốc.',
+    map: [
+      ['Đo nhịp tim', 'đo ms mỗi khung hình (Profiler)'],
+      ['Chỗ tắc', 'điểm nghẽn hiệu năng'],
+      ['Thuốc', 'computed, track, OnPush, virtual scroll, @defer, NgOptimizedImage'],
+    ],
+  },
   intro:
-    'Một khung hình mượt cần dưới ~16ms (60fps). Thời gian thường mất vào: tính toán lặp trong template, change detection kiểm tra thừa, tạo lại DOM không cần thiết và tải JS/ảnh quá nặng. Angular có sẵn "thuốc" cho từng bệnh: computed, track, OnPush + signals, virtual scroll, @defer và NgOptimizedImage.',
+    'Một khung hình mượt cần dưới ~16ms (60fps). Thời gian thường mất vào: tính toán lặp trong template, change detection kiểm tra thừa, tạo lại DOM không cần thiết và tải JS/ảnh quá nặng. Angular có công cụ cho từng nguyên nhân: computed, track, OnPush + signals, virtual scroll, @defer và NgOptimizedImage.',
   visualizer: {
     title: 'Phòng khám hiệu năng',
     hint: 'Chọn một thao tác để "đo". Bật/tắt từng loại thuốc và xem biểu đồ khung hình, số node DOM tạo mới và dung lượng tải thay đổi. Step-player mổ xẻ từng giai đoạn của một khung hình.',
@@ -62,7 +70,7 @@ export const PERFORMANCE: LessonContent = {
   ],
   quiz: [
     { question: 'Muốn đạt 60fps, mỗi khung hình nên tốn khoảng bao nhiêu?', options: ['~16ms', '~100ms', '~1 giây', 'Không quan trọng'], correct: 0, explain: '1000ms / 60 khung ≈ 16,7ms cho cả JS, layout và paint.' },
-    { question: 'Danh sách 10.000 dòng làm trang giật khi cuộn. Thuốc phù hợp nhất?', options: ['Thêm setTimeout', 'Virtual scroll hoặc phân trang', 'Tăng font-size', 'Dùng thêm effect'], correct: 1, explain: 'Chỉ render phần đang nhìn thấy giúp số node DOM luôn nhỏ.' },
+    { question: 'Danh sách 10.000 dòng làm trang giật khi cuộn. Cách xử lý phù hợp nhất?', options: ['Thêm setTimeout', 'Virtual scroll hoặc phân trang', 'Tăng font-size', 'Dùng thêm effect'], correct: 1, explain: 'Chỉ render phần đang nhìn thấy giúp số node DOM luôn nhỏ.' },
     { question: 'Công cụ nào cho biết component nào bị change detection kiểm tra nhiều nhất?', options: ['Angular DevTools Profiler', 'console.log khắp nơi', 'npm audit', 'Lighthouse SEO'], correct: 0, explain: 'Profiler của Angular DevTools ghi lại từng chu kỳ change detection và thời gian mỗi component.' },
   ],
   doneMessage: 'Bệnh nhân đã khoẻ mạnh, chạy 60fps! Bạn là bác sĩ hiệu năng rồi.',

@@ -32,8 +32,17 @@ export const FORMS_COMPARE = [
 
 export const FORMS: LessonContent = {
   slug: 'forms',
-  metaphor:
-    'Một form giống một gia đình: FormGroup là bố mẹ, mỗi ô nhập là một đứa con. Con nào gặp lỗi thì nhăn mặt, và chỉ cần một đứa nhăn mặt là cả nhà chưa vui (invalid)!',
+  definition:
+    'Angular forms là hệ thống quản lý giá trị, trạng thái hợp lệ và trạng thái tương tác của các ô nhập liệu.',
+  analogy: {
+    text: 'Ví dụ vẽ cây form như một gia đình có biểu cảm.',
+    map: [
+      ['Bố mẹ', 'FormGroup'],
+      ['Mỗi đứa con', 'một control'],
+      ['Mặt cười / nhăn', 'valid / invalid'],
+      ['Cả nhà chưa vui', 'form invalid vì có control lỗi'],
+    ],
+  },
   intro:
     'Angular theo dõi trạng thái từng ô nhập: value, valid, dirty (đã sửa), touched (đã chạm) và errors. Trạng thái của form cha được gộp từ các con. Có 3 cách viết: template-driven, reactive và signal forms (mới, stable từ Angular 22).',
   visualizer: {

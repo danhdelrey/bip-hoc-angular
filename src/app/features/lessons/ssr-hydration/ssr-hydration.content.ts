@@ -21,8 +21,17 @@ export const appConfig: ApplicationConfig = {
 
 export const SSR_HYDRATION: LessonContent = {
   slug: 'ssr-hydration',
-  metaphor:
-    'CSR giống gửi cho khách một thùng đồ nội thất chưa lắp: khách phải chờ tự lắp (tải và chạy JS) mới thấy cái ghế. SSR giao luôn cái ghế đã lắp sẵn (HTML) để khách nhìn ngay, còn hydration là lúc Bíp vặn nốt mấy con ốc để ghế ngả được (gắn sự kiện). Event replay thì nhớ hộ những lần khách bấm thử trong lúc Bíp đang vặn ốc!',
+  definition:
+    'SSR (server-side rendering) là chạy Angular trên server để trả về HTML đã render; hydration là bước trình duyệt kích hoạt lại HTML đó thay vì render lại từ đầu.',
+  analogy: {
+    text: 'Ví dụ so sánh việc giao đồ nội thất chưa lắp với giao ghế đã lắp sẵn.',
+    map: [
+      ['Thùng đồ chưa lắp', 'CSR: HTML rỗng + JS'],
+      ['Ghế lắp sẵn', 'HTML render từ server'],
+      ['Vặn nốt con ốc', 'hydration'],
+      ['Nhớ lần khách bấm thử', 'event replay'],
+    ],
+  },
   intro:
     'Với SSR, server chạy Angular để trả về HTML đầy đủ nên người dùng thấy nội dung sớm và máy tìm kiếm đọc được. Trình duyệt sau đó tải JS và hydrate: dùng lại DOM có sẵn, gắn sự kiện thay vì vẽ lại. Event replay giữ các click xảy ra trước khi hydrate. Incremental hydration (@defer hydrate on …) cho phép phần ít quan trọng hydrate sau. Code phải giống nhau ở server và trình duyệt, nên mọi thứ chỉ có ở trình duyệt (window, localStorage) đặt trong afterNextRender.',
   visualizer: {

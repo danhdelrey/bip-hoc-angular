@@ -3,8 +3,17 @@ import { SAMPLES } from './http.samples';
 
 export const HTTP: LessonContent = {
   slug: 'http',
-  metaphor:
-    'Mỗi request HTTP là một phong bì có chân, đi bộ qua các trạm bưu điện (interceptor). Trạm thì đóng dấu token, trạm thì ghi sổ, trạm thì lo khi thư bị trả về. Tới server xong, phong bì lại đi ngược qua đúng các trạm đó để về nhà!',
+  definition:
+    'HttpClient là service gửi request HTTP và trả về response dưới dạng Observable; interceptor là hàm can thiệp vào mọi request và response đi qua nó.',
+  analogy: {
+    text: 'Ví dụ vẽ mỗi request thành một phong bì đi qua các trạm bưu điện.',
+    map: [
+      ['Phong bì', 'HttpRequest / HttpResponse'],
+      ['Trạm bưu điện', 'interceptor'],
+      ['Đóng dấu', 'sửa request (header, token)'],
+      ['Đi ngược qua các trạm', 'xử lý response theo thứ tự ngược lại'],
+    ],
+  },
   intro:
     'HttpClient gửi request và trả về Observable. Interceptor là hàm đứng giữa: sửa request trước khi đi (thêm header) và xử lý response khi về (log, retry, dịch lỗi). Thứ tự khai báo trong withInterceptors chính là thứ tự các trạm.',
   visualizer: {
@@ -54,7 +63,7 @@ bootstrapApplication(ProfileLoader, { providers: HTTP_PROVIDERS }).catch((err) =
     },
   ],
   quiz: [
-    { question: 'withInterceptors([auth, logging, error]). Trên đường VỀ, response đi qua theo thứ tự nào?', options: ['auth → logging → error', 'error → logging → auth', 'Ngẫu nhiên', 'Chỉ qua error'], correct: 1, explain: 'Đi thì theo thứ tự khai báo, về thì ngược lại — như đi và về qua cùng một dãy trạm.' },
+    { question: 'withInterceptors([auth, logging, error]). Trên đường VỀ, response đi qua theo thứ tự nào?', options: ['auth → logging → error', 'error → logging → auth', 'Ngẫu nhiên', 'Chỉ qua error'], correct: 1, explain: 'Đi thì theo thứ tự khai báo, về thì ngược lại: interceptor khai báo đầu tiên xử lý request đầu tiên và xử lý response cuối cùng.' },
     { question: 'Muốn mọi request đều có header Authorization, cách gọn nhất là…', options: ['Thêm header ở từng lời gọi http.get', 'Một interceptor clone request và setHeaders', 'Sửa file index.html', 'Dùng localStorage'], correct: 1, explain: 'Interceptor là điểm chung mọi request đều đi qua.' },
     { question: 'this.http.get(url) trả về gì?', options: ['Dữ liệu ngay lập tức', 'Một Promise', 'Một Observable, chỉ gửi request khi được subscribe', 'Một signal'], correct: 2, explain: 'HttpClient trả về Observable lạnh; subscribe (hoặc toSignal) mới thật sự gửi request.' },
   ],

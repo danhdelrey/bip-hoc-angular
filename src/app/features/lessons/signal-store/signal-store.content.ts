@@ -22,8 +22,17 @@ export function withLoading() {
 
 export const SIGNAL_STORE: LessonContent = {
   slug: 'signal-store',
-  metaphor:
-    'Khi app lớn, state rải rác khắp các service giống kho hàng không có sổ sách. SignalStore là một nhà kho có quy củ: kệ hàng (state), bảng tính tự động (computed), và quầy làm thủ tục (methods). Muốn đổi hàng trong kho phải qua quầy, không ai được tự ý thò tay vào kệ!',
+  definition:
+    'NgRx SignalStore là thư viện quản lý state dựa trên signals, gom state, computed và methods của một tính năng vào một store.',
+  analogy: {
+    text: 'Ví dụ vẽ store như một nhà kho có sổ sách.',
+    map: [
+      ['Kệ hàng', 'state (withState, withEntities)'],
+      ['Bảng tính tự động', 'withComputed'],
+      ['Quầy thủ tục', 'withMethods + patchState'],
+      ['Không tự thò tay vào kệ', 'state được bảo vệ, bất biến'],
+    ],
+  },
   intro:
     'NgRx SignalStore (@ngrx/signals) gom state, computed và methods của một tính năng vào một store dựng từ các mảnh: withState, withEntities, withComputed, withMethods, withHooks. Mọi thay đổi đi qua patchState với dữ liệu bất biến, mỗi phần state là một signal riêng nên component chỉ vẽ lại khi đúng phần nó đọc thay đổi.',
   visualizer: {

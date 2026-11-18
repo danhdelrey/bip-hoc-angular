@@ -7,6 +7,7 @@ Website học Angular **trực quan, tương tác, phong cách hoạt hình**. N
 - Animation: CSS + SVG, nét vẽ tay bằng **rough.js**; highlight code bằng **Shiki** (lazy-load)
 - **Tailwind CSS v4** chỉ được dùng bên trong bài 15 (site chính dùng design tokens riêng)
 - Bài nâng cao dùng thêm **@angular/aria** (tabs headless) và **@ngrx/signals** (SignalStore)
+- Mỗi bài mở đầu bằng **định nghĩa chuyên ngành**; ẩn dụ chỉ xuất hiện ở khung "Hình dung" ngay trên visualizer, kèm bảng ánh xạ hình ảnh → thuật ngữ
 - Tiến độ + huy hiệu lưu `localStorage` (bọc try/catch); sáng/tối; tôn trọng `prefers-reduced-motion`
 
 > **Trạng thái: 23 bài** — 15 bài lộ trình chính + 8 bài trên 4 **đảo phụ nâng cao** (mỗi bài đủ 7 phần), trang chủ bản đồ khái niệm hình đảo có đường rẽ nhánh sang đảo phụ, style guide, huy hiệu và màn ăn mừng khi xong lộ trình.
@@ -18,7 +19,7 @@ Website học Angular **trực quan, tương tác, phong cách hoạt hình**. N
 | Dịch Vụ+ | 20 DI nâng cao · 21 SSR & Hydration |
 | Phản Ứng+ | 22 RxJS flattening & race condition · 23 State lớn với SignalStore |
 
-Bài nâng cao có chip "Nâng cao" ở đầu trang . Trên bản đồ sidebar, đường chính đi qua 15 bài; sau bài cuối của mỗi đảo có nhánh rẽ phải sang 2 bài nâng cao (cấu hình ở `ISLAND_BRANCHES` trong `lessons.registry.ts`). Màn ăn mừng lớn vẫn chỉ tính 15 bài chính; đảo phụ có huy hiệu riêng ("Người qua cầu", "Huyền thoại đảo phụ").
+Bài nâng cao có chip "Nâng cao" ở đầu trang. Trên bản đồ sidebar, đường chính đi qua 15 bài; sau bài cuối của mỗi đảo có nhánh rẽ phải sang 2 bài nâng cao (cấu hình ở `ISLAND_BRANCHES` trong `lessons.registry.ts`). Màn ăn mừng lớn vẫn chỉ tính 15 bài chính; đảo phụ có huy hiệu riêng ("Người qua cầu", "Huyền thoại đảo phụ").
 >
 > Bản chạy thật: https://danhdelrey.github.io/bip-hoc-angular/
 
@@ -70,7 +71,7 @@ src/
 │     └─ lessons/<tên-bài>/
 │        ├─ <bài>.page.ts         ← lắp 7 phần bằng <app-lesson-layout>
 │        ├─ <bài>.visualizer.*    ← visualizer + logic sinh các bước
-│        ├─ <bài>.content.ts      ← TOÀN BỘ chữ: ẩn dụ, code mẫu, thử thách, lỗi thường gặp, quiz
+│        ├─ <bài>.content.ts      ← TOÀN BỘ chữ: định nghĩa, ẩn dụ kèm ví dụ, code mẫu, thử thách, lỗi thường gặp, quiz
 │        ├─ <bài>.samples.ts      ← SINH TỰ ĐỘNG từ demo/ (đừng sửa tay)
 │        └─ demo/                 ← component thật chạy trong khung "Kết quả live" + file .samples
 ```
@@ -96,7 +97,7 @@ src/
 
 1. Thêm một dòng vào `content/lessons.registry.ts` (và toạ độ ghim trong `features/home/concept-map.ts`). Bài nâng cao thì đặt `tier: 'advanced'` và `island: '<tên đảo phụ>'`.
 2. Tạo `features/lessons/<slug>/`:
-   - `<slug>.content.ts`: một object `LessonContent` (ẩn dụ, intro, code + `anchors`, 1–3 `challenges`, 2–4 `pitfalls`, 3 câu `quiz`).
+   - `<slug>.content.ts`: một object `LessonContent` (`definition` chuyên ngành, `intro`, `analogy` = câu hình dung + bảng ánh xạ hình ảnh → thuật ngữ hiển thị ngay trên visualizer, code + `anchors`, 1–3 `challenges`, 2–4 `pitfalls`, 3 câu `quiz`).
    - `<slug>.visualizer.ts`: dùng `createTimeline(initialFrame, { onEnter })`. Mỗi thao tác của người học sinh ra mảng `Step<Frame>` rồi gọi `tl.load(steps)`. Gắn `appAnchor="id"` lên phần tử cần đồng bộ với code. Khi người học làm xong thử thách thì gọi `ctx.completeChallenge(id)`.
    - `demo/`: component thật đúng như code mẫu, liệt kê tên file trong `demo/.samples`, chạy `npm run gen:samples` rồi dùng `SAMPLES['ten-file.ts']` trong content.
    - `<slug>.page.ts`: `providers: [LessonContext]` và

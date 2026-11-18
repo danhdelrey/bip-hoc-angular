@@ -3,8 +3,18 @@ import { SAMPLES } from './routing.samples';
 
 export const ROUTING: LessonContent = {
   slug: 'routing',
-  metaphor:
-    'Router là một nhà ga tàu hoả: URL là tấm vé, bảng route là bảng giờ tàu, <router-outlet> là sân ga nơi toa component chạy vào. Guard là nhân viên soát vé, còn lazy loading là toa hàng chỉ được kéo tới khi có người cần!',
+  definition:
+    'Router là service ánh xạ URL tới component, cho phép điều hướng giữa các màn hình mà không tải lại trang.',
+  analogy: {
+    text: 'Ví dụ vẽ router thành một nhà ga tàu hoả.',
+    map: [
+      ['Tấm vé', 'URL'],
+      ['Bảng giờ tàu', 'mảng Routes'],
+      ['Nhân viên soát vé', 'guard (canActivate…)'],
+      ['Toa hàng kéo tới khi cần', 'route lazy (loadComponent)'],
+      ['Sân ga', '<router-outlet>'],
+    ],
+  },
   intro:
     'Router đọc URL, so với bảng route từ trên xuống dưới, chạy guard nếu có, tải code nếu route lazy, rồi đặt component vào <router-outlet>. Tham số như :id được truyền vào component qua input() nhờ withComponentInputBinding().',
   visualizer: {

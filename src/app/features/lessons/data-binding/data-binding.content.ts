@@ -29,11 +29,22 @@ export const PROFILE_CARD_HTML = `<h2>{{ name() }} · ❤ {{ likes() }}</h2>
 
 export const DATA_BINDING: LessonContent = {
   slug: 'data-binding',
-  metaphor:
-    'Binding giống hệ thống ống nước giữa Class (bể chứa dữ liệu) và DOM (vòi nước ngoài sân). Có ống chảy xuống, có ống bơm ngược lên, và có ống chảy cả hai chiều!',
-  metaphorMood: 'wave',
+  definition:
+    'Data binding là cơ chế tự động đồng bộ dữ liệu giữa component class và DOM.',
+  analogy: {
+    text: 'Ví dụ vẽ mỗi loại binding thành một đường ống nối Class với DOM; viên bi lăn theo chiều dữ liệu đi.',
+    map: [
+      ['Bể chứa', 'component class'],
+      ['Vòi ngoài sân', 'DOM'],
+      ['Ống chảy xuống', '{{ }} và [property]'],
+      ['Ống bơm lên', '(event)'],
+      ['Ống hai chiều', '[(ngModel)]'],
+      ['Viên bi', 'giá trị hoặc sự kiện'],
+    ],
+  },
+  mascotMood: 'wave',
   intro:
-    'Class giữ dữ liệu, DOM là thứ người dùng nhìn thấy. Angular nối hai bên bằng 4 loại binding, mỗi loại là một chiều chảy khác nhau. Xem viên bi lăn để biết dữ liệu đi đâu.',
+    'Angular có 4 dạng binding: interpolation {{ }} và property binding [ ] đưa dữ liệu từ class xuống DOM, event binding ( ) đưa sự kiện từ DOM về class, two-way binding [( )] kết hợp cả hai chiều. Sau mỗi sự kiện, các binding được đánh giá lại để DOM khớp với state.',
   visualizer: {
     title: 'Ống nối Class ↔ DOM',
     hint: 'Bấm các nút điều khiển, bấm nút ❤ hoặc gõ vào ô input bên DOM. Bấm vào một ống để đọc giải thích.',

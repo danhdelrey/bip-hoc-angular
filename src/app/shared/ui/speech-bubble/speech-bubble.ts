@@ -60,7 +60,7 @@ export class SpeechBubble {
   readonly tail = input<'left' | 'bottom' | 'none'>('left');
 }
 
-/** Bíp + bong bóng thoại — dùng cho ẩn dụ, gợi ý, phản ứng quiz, ăn mừng. */
+/** Bíp + bong bóng thoại — dùng cho định nghĩa, gợi ý, phản ứng quiz, ăn mừng. */
 @Component({
   selector: 'app-mascot-says',
   changeDetection: ChangeDetectionStrategy.OnPush,

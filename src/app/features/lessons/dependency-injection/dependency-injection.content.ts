@@ -4,7 +4,7 @@ export const CART_SERVICE_TS = `import { Service, signal } from '@angular/core';
 
 let nextId = 1;
 
-@Service() // tự đặt "quầy" ở tầng Root
+@Service() // tự provide ở root injector
 export class CartService {
   readonly id = nextId++;
   readonly count = signal(0);
@@ -33,7 +33,7 @@ import { CartService } from './cart.service';
 
 @Component({
   selector: 'app-cart-panel',
-  providers: [CartService], // quầy riêng trong phòng C
+  providers: [CartService], // provider riêng: CartPanel nhận instance mới
   template: \`
     <h3>CartPanel — Giỏ #{{ cart.id }}</h3>
     <button (click)="cart.add()">+1 món ({{ cart.count() }})</button>
@@ -66,7 +66,7 @@ export const routes: Routes = [
     path: 'cua-hang',
     component: ShopPage,
     providers: [
-      // CartService, // bỏ comment = đặt quầy ở tầng route
+      // CartService, // bỏ comment = provide ở cấp route
       { provide: API_URL, useValue: 'https://staging.bip.vn' },
     ],
   },
@@ -83,11 +83,22 @@ export const API_URL = new InjectionToken<string>('API_URL', {
 
 export const DEPENDENCY_INJECTION: LessonContent = {
   slug: 'dependency-injection',
-  metaphor:
-    'DI giống một toà nhà có các quầy phát đồ. Component cần gì thì đi ngược lên cầu thang, gặp quầy nào gần nhất thì lấy đồ ở quầy đó!',
-  metaphorMood: 'wave',
+  definition:
+    'Dependency Injection là cơ chế Angular tạo và cung cấp dependency (thường là service) cho class cần dùng, thay vì để class tự khởi tạo.',
+  analogy: {
+    text: 'Ví dụ vẽ cây injector thành một toà nhà nhiều tầng, mỗi provider là một quầy phát đồ.',
+    map: [
+      ['Toà nhà', 'cây injector'],
+      ['Tầng / phòng', 'route, component'],
+      ['Quầy', 'provider'],
+      ['Đồ được phát', 'instance của service'],
+      ['Đi ngược cầu thang', 'tìm provider từ dưới lên'],
+      ['Không thấy quầy nào', 'NullInjectorError'],
+    ],
+  },
+  mascotMood: 'wave',
   intro:
-    'Component không tự new CartService() mà xin qua inject(). Angular tìm provider từ chính component, lên component cha, lên route, rồi tới Root. Quầy đặt ở tầng nào quyết định ai dùng chung một instance.',
+    'Component không tự new CartService() mà xin qua inject(). Angular tìm provider từ chính component, lên component cha, lên route, rồi tới Root. Provider khai báo ở cấp nào quyết định phạm vi chia sẻ: mọi consumer tìm tới cùng một provider sẽ dùng chung một instance.',
   visualizer: {
     title: 'Toà nhà Injector',
     hint: 'Bấm "Đặt quầy" ở các tầng khác nhau. Mỗi quầy tạo một instance có màu và số riêng. Component nhận instance nào thì được tô cùng màu.',
@@ -143,9 +154,9 @@ bootstrapApplication(ShopPage).catch((err) => console.error(err));
     },
     {
       title: 'Lỡ thêm providers ở component nên state không còn chia sẻ',
-      explain: 'Thêm providers: [CartService] vào component nghĩa là đặt quầy riêng. Component đó (và con của nó) nhận instance mới, nên state không còn chung với nơi khác.',
+      explain: 'Thêm providers: [CartService] vào component tạo một provider riêng ở element injector của component. Component đó (và con của nó) nhận instance mới, nên state không còn chung với nơi khác.',
       wrong: { lang: 'angular-ts', code: `@Component({\n  selector: 'app-cart-badge',\n  providers: [CartService], // vô tình tạo giỏ riêng\n})` },
-      right: { lang: 'angular-ts', code: `@Component({\n  selector: 'app-cart-badge',\n  // không khai báo -> dùng quầy ở Root\n})` },
+      right: { lang: 'angular-ts', code: `@Component({\n  selector: 'app-cart-badge',\n  // không khai báo -> dùng provider ở root injector\n})` },
     },
     {
       title: 'Gọi inject() ngoài injection context',
@@ -170,7 +181,7 @@ bootstrapApplication(ShopPage).catch((err) => console.error(err));
         'Angular tạo instance mới mỗi lần gọi inject()',
       ],
       correct: 1,
-      explain: 'Mỗi component tìm quầy gần nhất. Phòng của CartPanel có quầy riêng; CartBadge đi ngược lên tới Root.',
+      explain: 'inject() dùng provider gần nhất tính từ component. CartPanel có provider riêng nên nhận instance mới; CartBadge không có nên tìm lên tới root injector.',
     },
     {
       question: 'Thứ tự Angular tìm provider khi một component gọi inject() là gì?',

@@ -36,8 +36,11 @@ export interface QuizItem {
 /** Toàn bộ nội dung CHỮ của một bài — tách khỏi template để dễ sửa / thêm bài. */
 export interface LessonContent {
   slug: string;
-  metaphor: string;
-  metaphorMood?: MascotMood;
+  /** Định nghĩa chuyên ngành ngắn gọn — Bíp nói ở đầu bài */
+  definition: string;
+  mascotMood?: MascotMood;
+  /** Ẩn dụ chỉ dùng kèm ví dụ (visualizer): câu dẫn + bảng ánh xạ hình ảnh → thuật ngữ */
+  analogy: { text: string; map: [string, string][] };
   intro: string;
   visualizer: { title: string; hint: string };
   code: CodeFile[];

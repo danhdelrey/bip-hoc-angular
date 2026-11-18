@@ -21,8 +21,18 @@ export class WidgetHost {
 
 export const DYNAMIC_COMPONENTS: LessonContent = {
   slug: 'dynamic-components',
-  metaphor:
-    'Component động giống nhà lắp ghép: bạn chưa biết trước khách cần căn nào, nên giữ sẵn một bãi đất trống (ViewContainerRef). Khi khách chọn, xe cẩu mang module tới đặt xuống (createComponent), lắp điện nước (setInput), và khi không cần thì nhấc đi (destroy). hostDirectives là phụ kiện được hàn sẵn vào từng module!',
+  definition:
+    'Component động là component được chọn và khởi tạo lúc runtime, thay vì được khai báo cố định trong template.',
+  analogy: {
+    text: 'Ví dụ vẽ vùng chứa thành một bãi đất, mỗi component là một module nhà lắp ghép.',
+    map: [
+      ['Bãi đất trống', 'ViewContainerRef'],
+      ['Cẩu module xuống', 'createComponent()'],
+      ['Lắp điện nước', 'setInput()'],
+      ['Nhấc đi', 'destroy()'],
+      ['Phụ kiện hàn sẵn', 'hostDirectives'],
+    ],
+  },
   intro:
     'Đôi khi bạn chỉ biết component nào cần hiển thị lúc chạy: dashboard cho người dùng tự thêm widget, hộp thoại, plugin. Angular cho hai cách: khai báo bằng *ngComponentOutlet, hoặc điều khiển bằng code qua ViewContainerRef.createComponent. hostDirectives giúp ghép hành vi có sẵn vào component mà không cần kế thừa.',
   visualizer: {

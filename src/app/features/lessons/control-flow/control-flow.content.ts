@@ -5,8 +5,17 @@ export { SAMPLES as CF_SAMPLES };
 
 export const CONTROL_FLOW: LessonContent = {
   slug: 'control-flow',
-  metaphor:
-    'Template giống một khu vườn: @if quyết định cây có được trồng hay không, @for trồng cả một luống theo danh sách. track là tấm thẻ tên cắm cạnh mỗi cây, để khi sắp xếp lại vườn, Angular bứng nguyên cây đi chứ không chặt đi trồng lại!',
+  definition:
+    'Control flow (@if, @for, @switch) là cú pháp template dựng sẵn để thêm, gỡ và lặp node DOM theo dữ liệu; directive là class gắn thêm hành vi cho một phần tử DOM.',
+  analogy: {
+    text: 'Ví dụ xem template như một khu vườn, mỗi node DOM là một cây.',
+    map: [
+      ['Trồng / nhổ cây', '@if thêm / gỡ node'],
+      ['Trồng cả luống', '@for render danh sách'],
+      ['Thẻ tên cạnh cây', 'biểu thức track'],
+      ['Bứng nguyên cây đi', 'tái sử dụng node DOM'],
+    ],
+  },
   intro:
     'Control flow (@if, @for, @switch) thêm và gỡ phần tử DOM theo dữ liệu. Với @for, biểu thức track cho Angular biết item nào là item nào, để tái sử dụng DOM thay vì tạo lại. Directive là cách bạn tự viết hành vi gắn lên phần tử.',
   visualizer: {

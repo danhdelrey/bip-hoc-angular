@@ -3,8 +3,17 @@ import { SAMPLES } from './pipes.samples';
 
 export const PIPES: LessonContent = {
   slug: 'pipes',
-  metaphor:
-    'Pipe giống một dây chuyền nhà máy: món hàng (giá trị) chạy qua từng cỗ máy, mỗi máy biến đổi một chút rồi chuyền cho máy sau. Đổi thứ tự máy là đổi luôn sản phẩm cuối cùng!',
+  definition:
+    'Pipe là hàm biến đổi giá trị để hiển thị ngay trong template, không làm thay đổi dữ liệu gốc.',
+  analogy: {
+    text: 'Ví dụ vẽ chuỗi pipe thành một dây chuyền nhà máy.',
+    map: [
+      ['Món hàng', 'giá trị đầu vào'],
+      ['Cỗ máy', 'một pipe'],
+      ['Thứ tự các máy', 'thứ tự pipe từ trái sang phải'],
+      ['Sản phẩm cuối', 'giá trị hiển thị'],
+    ],
+  },
   intro:
     'Pipe biến đổi giá trị ngay trong template mà không đổi dữ liệu gốc: {{ value | date | uppercase }}. Các pipe nối nhau từ trái sang phải. Pipe mặc định là pure: chỉ chạy lại khi giá trị đầu vào đổi (đổi tham chiếu).',
   visualizer: {

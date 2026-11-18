@@ -2,7 +2,7 @@ import { Service, signal } from '@angular/core';
 
 let nextId = 1;
 
-@Service() // tự đặt "quầy" ở tầng Root
+@Service() // tự provide ở root injector
 export class CartService {
   readonly id = nextId++;
   readonly count = signal(0);

@@ -14,8 +14,17 @@ bootstrapApplication(App);`;
 
 export const CHANGE_DETECTION: LessonContent = {
   slug: 'change-detection',
-  metaphor:
-    'Change detection là một thanh tra cầm kính lúp đi kiểm tra từng ngôi nhà trong khu phố, xem có gì cần sơn lại không. Thanh tra chăm quá thì mệt; thanh tra thông minh chỉ ghé những nhà treo cờ "có thay đổi"!',
+  definition:
+    'Change detection là quá trình Angular xác định component nào cần cập nhật và đồng bộ state của chúng lên DOM.',
+  analogy: {
+    text: 'Ví dụ vẽ cây component thành một khu phố, còn change detection là thanh tra cầm kính lúp đi kiểm tra.',
+    map: [
+      ['Khu phố', 'cây component'],
+      ['Ngôi nhà', 'component'],
+      ['Thanh tra ghé nhà', 'một lần kiểm tra component'],
+      ['Cờ "có thay đổi"', 'component bị đánh dấu dirty'],
+    ],
+  },
   intro:
     'Sau mỗi sự kiện, Angular phải biết phần giao diện nào cần cập nhật. Kiểu cũ (Eager + zone.js) kiểm tra cả cây; OnPush chỉ kiểm tra nhánh được đánh dấu; Zoneless + signals (mặc định từ Angular 21–22) chỉ chạy khi thật sự có thay đổi và nhắm đúng component.',
   visualizer: {

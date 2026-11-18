@@ -7,10 +7,21 @@ const PRODUCT_CARD_CSS = SAMPLES['product-card.css'];
 
 export const COMPONENT: LessonContent = {
   slug: 'component',
-  metaphor:
-    'Mỗi component là một ngôi nhà nhỏ 3 tầng: tầng Class giữ đồ đạc và logic, tầng Template là mặt tiền ai đi ngang cũng thấy, tầng Styles là màu sơn riêng. Cả ứng dụng là một khu phố!',
+  definition:
+    'Component là một class TypeScript gắn decorator @Component, đóng gói logic (class), giao diện (template) và CSS (styles) thành một khối UI dùng lại được.',
+  analogy: {
+    text: 'Ví dụ bên dưới vẽ mỗi component thành một ngôi nhà 3 tầng; nhiều instance đặt cạnh nhau tạo thành một khu phố.',
+    map: [
+      ['Ngôi nhà', 'component instance'],
+      ['Tầng Class', 'logic và state'],
+      ['Tầng Template', 'HTML hiển thị'],
+      ['Tầng Styles', 'CSS được đóng gói'],
+      ['Bản thiết kế', 'class + @Component'],
+      ['Khu phố', 'cây component'],
+    ],
+  },
   intro:
-    'Component là viên gạch xây nên mọi ứng dụng Angular. Decorator @Component gắn bản thiết kế (selector, template, styles) vào một class TypeScript. Đặt thẻ selector vào template của nhà khác là có thêm một ngôi nhà trong khu phố.',
+    'Decorator @Component khai báo metadata cho class: selector (tên thẻ để dùng component trong template khác), template và styles. Mỗi lần thẻ selector xuất hiện, Angular tạo một instance mới từ cùng một class; styles được đóng gói nên chỉ áp dụng trong chính component đó.',
   visualizer: {
     title: 'Ngôi nhà 3 tầng & khu phố',
     hint: 'Bấm từng tầng của ngôi nhà lớn để xem vai trò. Bấm một ngôi nhà trong khu phố để xem bản thiết kế của nó. Bấm "Xây nhà" để xem Angular dựng component từng bước.',
@@ -43,7 +54,7 @@ bootstrapApplication(ProductCard).catch((err) => console.error(err));
     },
     {
       title: 'Nghĩ rằng CSS của component ảnh hưởng toàn trang',
-      explain: 'Mặc định styles được "đóng gói" (emulated encapsulation): .card chỉ tô ngôi nhà của chính nó. Muốn style chung thì đặt ở styles.css toàn cục.',
+      explain: 'Mặc định styles được "đóng gói" (emulated encapsulation): .card chỉ áp dụng cho template của chính component đó. Muốn style chung thì đặt ở styles.css toàn cục.',
       wrong: { lang: 'css', code: `/* product-card.css */\nh1 { color: red; } /* mong đổi tiêu đề trang chủ */` },
       right: { lang: 'css', code: `/* src/styles.css (toàn cục) */\nh1 { color: red; }` },
     },
@@ -55,7 +66,7 @@ bootstrapApplication(ProductCard).catch((err) => console.error(err));
     },
   ],
   quiz: [
-    { question: 'Phần nào của component quyết định thẻ HTML dùng để đặt nó vào trang?', options: ['templateUrl', 'selector', 'styleUrl', 'Tên class'], correct: 1, explain: 'selector là "biển tên" của ngôi nhà: viết <app-product-card /> ở đâu thì nhà xuất hiện ở đó.' },
+    { question: 'Phần nào của component quyết định thẻ HTML dùng để đặt nó vào trang?', options: ['templateUrl', 'selector', 'styleUrl', 'Tên class'], correct: 1, explain: 'selector là tên thẻ của component: viết <app-product-card /> ở đâu thì Angular tạo một instance ProductCard ở đó.' },
     { question: 'Hai thẻ <app-product-card /> trên cùng một trang thì…', options: ['Dùng chung một object', 'Là hai instance riêng, state độc lập', 'Angular báo lỗi trùng', 'Chỉ cái đầu hiển thị'], correct: 1, explain: 'Mỗi lần dùng selector, Angular tạo một instance mới của class.' },
     { question: 'Viết .card { color: red } trong product-card.css thì ảnh hưởng tới đâu?', options: ['Mọi .card trên trang', 'Chỉ .card bên trong ProductCard', 'Không có tác dụng', 'Chỉ trong index.html'], correct: 1, explain: 'Angular thêm thuộc tính riêng vào selector CSS để styles chỉ áp dụng trong component đó.' },
   ],

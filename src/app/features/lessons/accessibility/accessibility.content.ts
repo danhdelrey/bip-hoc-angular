@@ -15,8 +15,16 @@ export const A11Y_BASICS = `<!-- 1. Dùng đúng thẻ: có sẵn focus, Enter/S
 
 export const ACCESSIBILITY: LessonContent = {
   slug: 'accessibility',
-  metaphor:
-    'Hãy tưởng tượng một bạn ghé cửa hàng nhưng không nhìn thấy màn hình: bạn ấy "nghe" trang web qua trình đọc màn hình và đi lại bằng phím Tab. Nếu nút không có tên, ảnh không có mô tả, thì cửa hàng như bị khoá cửa. Accessibility là làm cho MỌI người vào được!',
+  definition:
+    'Accessibility (a11y) là việc bảo đảm ứng dụng dùng được với bàn phím, trình đọc màn hình và người có hạn chế về thị lực, theo chuẩn WCAG và WAI-ARIA.',
+  analogy: {
+    text: 'Ví dụ mô phỏng một khách hàng không nhìn màn hình, mua hàng bằng trình đọc màn hình và phím Tab.',
+    map: [
+      ['Lời trình đọc nói', 'role + accessible name'],
+      ['Đi bằng phím Tab', 'thứ tự focus'],
+      ['Cửa hàng bị khoá', 'phần tử không truy cập được'],
+    ],
+  },
   intro:
     'Accessibility (a11y) là làm cho ứng dụng dùng được với bàn phím, trình đọc màn hình, người nhìn kém màu. Phần lớn đến từ HTML đúng nghĩa (button, label, alt) và độ tương phản đủ. Với widget phức tạp như tabs, menu, listbox, Angular có @angular/aria: các directive không kèm giao diện, lo sẵn role, aria-* và phím mũi tên theo chuẩn WAI-ARIA.',
   visualizer: {

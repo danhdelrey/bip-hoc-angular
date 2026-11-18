@@ -155,6 +155,7 @@ const XW = 610;
     .group { display: flex; flex-wrap: wrap; gap: 8px; }
     .group .chip { cursor: pointer; }
     .opbtn { display: grid; padding: 6px 12px; border: var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text); text-align: left; cursor: pointer; box-shadow: var(--shadow-sm); transition: transform var(--dur) var(--ease-bounce); }
+    .opbtn code { padding: 0; background: none; border: 0; color: inherit; font-weight: 800; }
     .opbtn small { font-size: 11px; color: var(--text-muted); }
     .opbtn.on { background: var(--c-event); color: var(--pal-ink); transform: translateY(-2px); }
     .opbtn.on small { color: var(--pal-ink); }

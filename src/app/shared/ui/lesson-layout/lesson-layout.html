@@ -17,11 +17,12 @@
   </div>
 </header>
 
-<!-- ① Ẩn dụ -->
+<!-- ① Định nghĩa -->
 <section class="part" aria-labelledby="p1">
-  <h2 id="p1" class="sr-only">Ẩn dụ</h2>
-  <app-mascot-says [mood]="c.metaphorMood ?? 'wave'" [size]="110" class="metaphor">
-    <p class="metaphor-text">{{ c.metaphor }}</p>
+  <h2 id="p1" class="sr-only">Định nghĩa</h2>
+  <app-mascot-says [mood]="c.mascotMood ?? 'wave'" [size]="110" class="definition">
+    <p class="def-label">Định nghĩa</p>
+    <p class="def-text">{{ c.definition }}</p>
   </app-mascot-says>
   <p class="intro">{{ c.intro }}</p>
 </section>
@@ -29,6 +30,14 @@
 <!-- ② Visualizer -->
 <section class="part" aria-labelledby="p2">
   <h2 id="p2" class="part-title"><span class="num">2</span> {{ c.visualizer.title }}</h2>
+  <aside class="analogy" aria-label="Hình dung qua ví dụ">
+    <p class="an-text"><app-icon name="bulb" [size]="18" /> <strong>Hình dung:</strong> {{ c.analogy.text }}</p>
+    <ul class="an-map">
+      @for (pair of c.analogy.map; track pair[0]) {
+        <li><span class="an-img">{{ pair[0] }}</span><span class="an-arrow" aria-label="tương ứng với">→</span><span class="an-term">{{ pair[1] }}</span></li>
+      }
+    </ul>
+  </aside>
   <p class="part-hint"><app-icon name="hint" [size]="18" /> {{ c.visualizer.hint }}</p>
   <div class="visualizer toon toon-lg">
     <ng-content select="[slot=visualizer]" />

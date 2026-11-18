@@ -20,10 +20,19 @@ query$ = toObservable(this.query).pipe(debounceTime(300));`;
 
 export const RXJS: LessonContent = {
   slug: 'rxjs',
-  metaphor:
-    'Observable là một băng chuyền: các viên bi (giá trị) trôi tới theo thời gian. Operator là những cỗ máy đặt trên băng: máy đổi màu bi (map), máy lọc bi (filter), máy chờ yên lặng (debounceTime), máy bỏ việc cũ làm việc mới (switchMap).',
+  definition:
+    'RxJS là thư viện xử lý luồng dữ liệu bất đồng bộ bằng Observable, một nguồn phát ra nhiều giá trị theo thời gian.',
+  analogy: {
+    text: 'Ví dụ dùng sơ đồ marble: mỗi luồng là một băng chuyền, mỗi giá trị là một viên bi.',
+    map: [
+      ['Băng chuyền', 'Observable'],
+      ['Viên bi', 'giá trị được phát ra'],
+      ['Cỗ máy trên băng', 'operator'],
+      ['Cuối băng chuyền', 'subscribe() / toSignal()'],
+    ],
+  },
   intro:
-    'RxJS mô tả các sự kiện xảy ra theo thời gian. Bạn nối operator bằng pipe() để biến đổi dòng bi, rồi subscribe (hoặc toSignal) để nhận kết quả. Với Angular hiện đại: signal cho state, RxJS cho những gì phụ thuộc thời gian.',
+    'RxJS mô tả các sự kiện xảy ra theo thời gian. Bạn nối operator bằng pipe() để biến đổi luồng, rồi subscribe (hoặc toSignal) để nhận kết quả. Với Angular hiện đại: signal cho state, RxJS cho những gì phụ thuộc thời gian.',
   visualizer: {
     title: 'Băng chuyền marble',
     hint: 'Bấm "Thả bi" để thả giá trị vào stream nguồn khi đồng hồ đang chạy. Đổi operator để xem cùng dòng bi nguồn cho ra kết quả khác nhau. ▶ ⏸ ⏭ điều khiển thời gian.',

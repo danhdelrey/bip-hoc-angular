@@ -12,8 +12,18 @@ results = toSignal(this.search$, { initialValue: [] });`;
 
 export const RXJS_FLATTENING: LessonContent = {
   slug: 'rxjs-flattening',
-  metaphor:
-    'Bốn bạn shipper nhận đơn theo bốn kiểu. mergeMap chạy hết mọi đơn cùng lúc, ai về trước giao trước. concatMap xếp hàng, xong đơn này mới đi đơn kia. switchMap thấy đơn mới là bỏ ngang đơn cũ. exhaustMap đang bận thì bịt tai, không nhận thêm. Chọn sai shipper là khách nhận nhầm hàng!',
+  definition:
+    'Flattening operator biến mỗi giá trị nguồn thành một Observable con và gộp kết quả của chúng vào một luồng duy nhất.',
+  analogy: {
+    text: 'Ví dụ xem mỗi operator như một shipper nhận đơn theo một kiểu riêng.',
+    map: [
+      ['Đơn hàng', 'giá trị nguồn → Observable con'],
+      ['Chạy mọi đơn cùng lúc', 'mergeMap'],
+      ['Xếp hàng', 'concatMap'],
+      ['Bỏ ngang đơn cũ', 'switchMap'],
+      ['Bận thì không nhận', 'exhaustMap'],
+    ],
+  },
   intro:
     'Khi mỗi giá trị của một stream sinh ra một Observable con (gọi HTTP chẳng hạn), bạn phải chọn cách "làm phẳng": chạy song song (mergeMap), xếp hàng (concatMap), huỷ cái cũ (switchMap) hay bỏ qua cái mới (exhaustMap). Chọn sai sinh ra race condition: kết quả cũ về muộn ghi đè kết quả mới, đơn hàng bị tạo hai lần, bản lưu bị đảo thứ tự.',
   visualizer: {

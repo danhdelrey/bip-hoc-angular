@@ -3,8 +3,17 @@ import { SAMPLES } from './input-output.samples';
 
 export const INPUT_OUTPUT: LessonContent = {
   slug: 'input-output',
-  metaphor:
-    'Nhà Cha và nhà Con nối với nhau bằng ống khói. Cha thả bi dữ liệu xuống qua input(), Con thổi bong bóng sự kiện lên qua output(). Còn model() là ống hai chiều: ai đổi, bên kia cũng biết!',
+  definition:
+    'input(), output() và model() là API để component cha và component con trao đổi dữ liệu và sự kiện với nhau.',
+  analogy: {
+    text: 'Ví dụ vẽ component cha và con thành hai ngôi nhà nối với nhau bằng ống khói.',
+    map: [
+      ['Nhà Cha / Nhà Con', 'parent / child component'],
+      ['Bi xanh rơi xuống', 'giá trị truyền vào input()'],
+      ['Bong bóng cam bay lên', 'sự kiện phát ra từ output()'],
+      ['Ống hai chiều', 'model() với [( )]'],
+    ],
+  },
   intro:
     'Component con nhận dữ liệu từ cha bằng input() và báo ngược lên bằng output(). Dữ liệu chỉ đi xuống, sự kiện chỉ đi lên: luồng một chiều giúp app dễ đoán. Khi cần đồng bộ hai chiều, dùng model() với cú pháp [( )].',
   visualizer: {

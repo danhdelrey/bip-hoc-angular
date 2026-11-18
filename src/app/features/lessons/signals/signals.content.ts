@@ -59,9 +59,18 @@ product = resource({
 
 export const SIGNALS: LessonContent = {
   slug: 'signals',
-  metaphor:
-    'Signal giống những bóng đèn nối dây với nhau. Bật một công tắc, dòng điện chạy sang các đèn phụ thuộc. Còn effect là cái chuông, reo mỗi khi đèn nó theo dõi đổi màu!',
-  metaphorMood: 'wave',
+  definition:
+    'Signal là một giá trị phản ứng: nó thông báo cho những nơi đang đọc mỗi khi giá trị thay đổi.',
+  analogy: {
+    text: 'Ví dụ vẽ đồ thị phụ thuộc giữa các signal thành một bảng điện.',
+    map: [
+      ['Bóng đèn gốc', 'signal()'],
+      ['Đèn phụ thuộc', 'computed()'],
+      ['Dây điện', 'quan hệ phụ thuộc'],
+      ['Cái chuông', 'effect()'],
+    ],
+  },
+  mascotMood: 'wave',
   intro:
     'signal giữ giá trị, computed tính ra từ signal khác, effect chạy việc phụ khi giá trị đổi. Điểm hay nhất: computed lười biếng (chỉ tính khi có ai đọc) và biết nhớ (giá trị không đổi thì không làm phiền ai).',
   visualizer: {
