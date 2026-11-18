@@ -34,16 +34,16 @@ figcaption { font-family: var(--font-display); font-weight: 800; }
 .sketch { width: 100%; height: auto; margin-top: 10px; }
 .sk-text { font-family: var(--font-display); font-weight: 800; font-size: 22px; fill: var(--text); }
 .sk-label { font-weight: 800; font-size: 15px; fill: var(--text-muted); }
-.r-ink { --r-stroke: var(--line); --r-sw: 3; }
-.r-data { --r-stroke: var(--c-data-strong); --r-sw: 3.5; --arrow-flow: var(--c-data); }
-.r-event { --r-stroke: var(--c-event-strong); --r-sw: 3.5; }
+.r-ink { --r-stroke: var(--line); --r-sw: 2.25; }
+.r-data { --r-stroke: var(--c-data-strong); --r-sw: 2.5; --arrow-flow: var(--c-data); }
+.r-event { --r-stroke: var(--c-event-strong); --r-sw: 2.5; }
 .r-signal { --r-stroke: var(--line); --r-fill: var(--c-signal); }
 .r-signal ::ng-deep .r-stroke { stroke-width: 2; }
 
 .ball-stage { position: relative; height: 210px; max-width: 560px; margin: 0 auto 12px; }
 .ball-stage svg { position: absolute; inset: 0; width: 540px; height: 200px; }
-.floor { stroke: var(--line); stroke-width: 3; stroke-dasharray: 10 6; }
-.table { fill: var(--surface-2); stroke: var(--line); stroke-width: 3; }
+.floor { stroke: var(--line); stroke-width: 2.25; stroke-dasharray: 10 6; }
+.table { fill: var(--surface-2); stroke: var(--line); stroke-width: 2.25; }
 .ball { position: absolute; left: 0; top: 0; transition-property: transform; transition-timing-function: var(--ease-in-out); }
 .ball-inner {
   display: grid; place-items: center;

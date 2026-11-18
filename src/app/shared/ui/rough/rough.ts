@@ -64,7 +64,7 @@ export function roughPaths(spec: RoughSpec, opts: Options = {}): RoughPath[] {
   `,
   host: { '[class.is-draw]': 'draw()' },
   styles: `
-    .r-stroke { fill: none; stroke: var(--r-stroke, var(--line)); stroke-width: var(--r-sw, 2.5); stroke-linecap: round; stroke-linejoin: round; vector-effect: var(--r-ve, none); }
+    .r-stroke { fill: none; stroke: var(--r-stroke, var(--line)); stroke-width: var(--r-sw, 2); stroke-linecap: round; stroke-linejoin: round; vector-effect: var(--r-ve, none); }
     .r-fill { stroke: none; fill: var(--r-fill, transparent); }
     @media (prefers-reduced-motion: no-preference) {
       :host(.is-draw) .r-stroke { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw var(--r-dur, 700ms) var(--ease-out) forwards; }

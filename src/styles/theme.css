@@ -48,8 +48,8 @@
   --surface-sunken: #f5ecd6;
   --text: var(--pal-ink);
   --text-muted: #4a4570;
-  --line: var(--pal-ink);             /* màu viền cartoon */
-  --shadow-color: var(--pal-ink);     /* màu bóng cứng */
+  --line: #5b5779;                    /* màu viền: mực pha nhạt cho dịu mắt */
+  --shadow-color: rgba(30, 27, 58, 0.16); /* bóng cứng nhưng nhạt */
   --on-accent: var(--pal-ink);        /* chữ trên nền màu nhấn */
   --focus-ring: #2563eb;
 
@@ -68,8 +68,8 @@
   --mascot-line: var(--pal-ink);
 
   /* ---------- Viền, bo góc, bóng ---------- */
-  --border-w: 3px;
-  --border-w-thin: 2.5px;
+  --border-w: 2px;
+  --border-w-thin: 1.5px;
   --border: var(--border-w) solid var(--line);
   --border-thin: var(--border-w-thin) solid var(--line);
 
@@ -78,10 +78,10 @@
   --radius-lg: 24px;
   --radius-pill: 999px;
 
-  --shadow-offset: 4px;
+  --shadow-offset: 3px;
   --shadow-sm: 2px 2px 0 var(--shadow-color);
   --shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--shadow-color);
-  --shadow-lg: 6px 6px 0 var(--shadow-color);
+  --shadow-lg: 5px 5px 0 var(--shadow-color);
   --shadow-pressed: 0 0 0 var(--shadow-color);
 
   /* ---------- Typography ---------- */
@@ -128,8 +128,8 @@
   --surface-sunken: #121331;
   --text: #f5f0e1;
   --text-muted: #c9c3e6;
-  --line: #f5f0e1;
-  --shadow-color: #4b4f9e;
+  --line: #8e8bbf;
+  --shadow-color: rgba(5, 6, 30, 0.45);
   --on-accent: var(--pal-ink);
   --focus-ring: #7cc4ff;
 

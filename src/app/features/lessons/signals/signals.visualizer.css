@@ -9,18 +9,18 @@
 .graph { display: block; width: 100%; height: auto; min-width: 640px; overflow: visible; }
 
 /* Dây */
-.wire { --r-stroke: color-mix(in srgb, var(--line) 55%, transparent); --r-sw: 2.5; }
-.wire.hot { --r-stroke: var(--line); --r-sw: 3.2; --arrow-flow: var(--c-signal); }
+.wire { --r-stroke: color-mix(in srgb, var(--line) 55%, transparent); --r-sw: 2; }
+.wire.hot { --r-stroke: var(--line); --r-sw: 2.4; --arrow-flow: var(--c-signal); }
 .wire.off { opacity: 0.25; }
 
 /* Bóng đèn */
 .node { cursor: help; outline: none; }
-.glass { fill: var(--surface); stroke: var(--line); stroke-width: 3; transition: fill var(--dur) ease; }
+.glass { fill: var(--surface); stroke: var(--line); stroke-width: 2.25; transition: fill var(--dur) ease; }
 .kind-signal.lit .glass { fill: var(--c-signal); }
 .kind-computed.lit .glass { fill: #ffe68a; }
 .kind-computed .glass { stroke-dasharray: none; }
 .filament { fill: none; stroke: color-mix(in srgb, var(--pal-ink) 35%, transparent); stroke-width: 2; }
-.base { fill: var(--surface-2); stroke: var(--line); stroke-width: 3; }
+.base { fill: var(--surface-2); stroke: var(--line); stroke-width: 2.25; }
 .screw { stroke: var(--line); stroke-width: 2; }
 .value { font-family: var(--font-mono); font-weight: 700; font-size: 17px; fill: var(--pal-ink); }
 .node:not(.lit) .value { fill: var(--text); }
@@ -38,7 +38,7 @@
 
 .ring { fill: none; stroke: var(--c-signal-strong); stroke-width: 4; transform-box: fill-box; transform-origin: center; animation: flash-ring 900ms var(--ease-out) forwards; }
 .rays path { fill: none; stroke: var(--c-signal-strong); stroke-width: 4; stroke-linecap: round; }
-.badge circle, .badge rect { stroke: var(--pal-ink); stroke-width: 2.5; }
+.badge circle, .badge rect { stroke: var(--pal-ink); stroke-width: 2; }
 .badge text { font-family: var(--font-display); font-weight: 800; font-size: 14px; fill: var(--pal-ink); }
 .b-stale circle { fill: var(--pal-cream); }
 .b-same circle { fill: var(--c-data); }
@@ -48,9 +48,9 @@
 .node.is-hl .glass, .screen.is-hl .monitor, .bell.is-hl .bell-shape { stroke: var(--c-signal-strong); stroke-width: 5; }
 
 /* Màn hình */
-.monitor { fill: var(--surface-2); stroke: var(--line); stroke-width: 3; }
+.monitor { fill: var(--surface-2); stroke: var(--line); stroke-width: 2.25; }
 .display { fill: #10112b; stroke: var(--line); stroke-width: 2; }
-.stand { fill: var(--surface-2); stroke: var(--line); stroke-width: 3; stroke-linejoin: round; }
+.stand { fill: var(--surface-2); stroke: var(--line); stroke-width: 2.25; stroke-linejoin: round; }
 .scr-line { font-family: var(--font-body); font-weight: 800; font-size: 13px; fill: #b9fbff; }
 .scr-total { font-family: var(--font-mono); font-weight: 700; font-size: 15px; fill: var(--pal-lemon); }
 .scr-off { font-size: 13px; font-weight: 700; fill: #9a96c4; }
@@ -58,13 +58,13 @@
 .screen.st-stale .monitor { stroke-dasharray: 6 5; }
 
 /* Chuông */
-.bell-shape { fill: var(--c-signal); stroke: var(--line); stroke-width: 3; stroke-linejoin: round; }
-.clapper { fill: var(--surface-2); stroke: var(--line); stroke-width: 3; }
-.bell-top { fill: none; stroke: var(--line); stroke-width: 3; }
+.bell-shape { fill: var(--c-signal); stroke: var(--line); stroke-width: 2.25; stroke-linejoin: round; }
+.clapper { fill: var(--surface-2); stroke: var(--line); stroke-width: 2.25; }
+.bell-top { fill: none; stroke: var(--line); stroke-width: 2.25; }
 .bell.st-off .bell-shape { fill: var(--surface-sunken); }
 .bell.st-stale .bell-shape { stroke-dasharray: 6 5; }
 .slash { stroke: var(--c-error-strong); stroke-width: 5; stroke-linecap: round; }
-.waves { fill: none; stroke: var(--c-signal-strong); stroke-width: 3.5; stroke-linecap: round; }
+.waves { fill: none; stroke: var(--c-signal-strong); stroke-width: 2.5; stroke-linecap: round; }
 .bell-body { transform-box: view-box; transform-origin: 0 -26px; }
 /* Chuông lắc là chuyển động giải thích (effect chạy) — giữ cả khi reduced-motion nhưng nhẹ hơn */
 .bell.st-changed .bell-body { animation: ring 700ms var(--ease-out); }

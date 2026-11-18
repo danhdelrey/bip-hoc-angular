@@ -89,7 +89,7 @@ interface Frame {
     .k-err .lbl { background: var(--c-error); color: var(--pal-ink); }
     .k-ok .lbl { background: var(--c-data); color: var(--pal-ink); }
     .stamps { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 8px 22px 16px; }
-    .stamp { padding: 2px 10px; font-weight: 800; font-size: 13px; border: 2.5px dashed var(--c-event-strong); color: var(--c-event-strong); border-radius: 8px; transform: rotate(-3deg); }
+    .stamp { padding: 2px 10px; font-weight: 800; font-size: 13px; border: 2px dashed var(--c-event-strong); color: var(--c-event-strong); border-radius: 8px; transform: rotate(-3deg); }
     @media (max-width: 760px) { .street { margin: 18px 40px 0; } .office { width: 70px; } .office strong { font-size: 9.5px; } }
   `,
 })

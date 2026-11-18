@@ -178,14 +178,14 @@ const pt = (p: [number, number]) => `${p[0]} ${p[1]}`;
     :host { display: block; overflow-x: auto; padding: 0 8px 10px 0; }
     .map { position: relative; width: 100%; min-width: 860px; aspect-ratio: 1400 / 760; border: var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); overflow: hidden; background: color-mix(in srgb, var(--c-brand) 22%, var(--surface)); }
     .sea { position: absolute; inset: 0; width: 100%; height: 100%; }
-    .wave { fill: none; stroke: color-mix(in srgb, var(--line) 25%, transparent); stroke-width: 2.5; stroke-linecap: round; }
-    .island { --r-stroke: var(--pal-ink); --r-sw: 3; }
+    .wave { fill: none; stroke: color-mix(in srgb, var(--line) 25%, transparent); stroke-width: 2; stroke-linecap: round; }
+    .island { --r-stroke: var(--line); --r-sw: 2; }
     .shore { --r-stroke: color-mix(in srgb, var(--pal-cream) 80%, transparent); --r-sw: 6; }
     .island-name { font-family: var(--font-display); font-weight: 800; font-size: 22px; fill: var(--pal-ink); paint-order: stroke; stroke: var(--pal-cream); stroke-width: 5px; }
     .island-name.sub { font-size: 18px; }
     .road-edge { fill: none; stroke: var(--pal-ink); stroke-width: 15; stroke-linecap: round; stroke-linejoin: round; opacity: 0.55; }
     .road { fill: none; stroke: color-mix(in srgb, var(--pal-cream) 70%, #c8b89a); stroke-width: 11; stroke-linecap: round; stroke-linejoin: round; }
-    .steps { fill: none; stroke: var(--pal-ink); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 2 10; opacity: 0.45; }
+    .steps { fill: none; stroke: var(--pal-ink); stroke-width: 2.25; stroke-linecap: round; stroke-dasharray: 2 10; opacity: 0.45; }
     .branch.open .road-edge { opacity: 1; }
     .branch.open .road { stroke: var(--pal-cream); }
     .branch.open .steps { stroke: var(--c-accent); stroke-width: 4; stroke-dasharray: 1 12; opacity: 1; }
@@ -193,30 +193,30 @@ const pt = (p: [number, number]) => `${p[0]} ${p[1]}`;
       .branch.open .steps { animation: march 1.6s linear infinite; }
     }
     @keyframes march { to { stroke-dashoffset: -26; } }
-    .bridge .rail { stroke: var(--pal-ink); stroke-width: 3; stroke-linecap: round; }
+    .bridge .rail { stroke: var(--pal-ink); stroke-width: 2.25; stroke-linecap: round; }
     .bridge .plank { stroke-width: 5; stroke: #a16207; stroke-linecap: round; }
     .branch:not(.open) .bridge { opacity: 0.7; }
     .post { stroke: #7c4a12; stroke-width: 5; stroke-linecap: round; }
     .post-base { fill: var(--pal-ink); opacity: 0.25; }
-    .board { fill: #f4c27a; stroke: var(--pal-ink); stroke-width: 2.5; stroke-linejoin: round; }
+    .board { fill: #f4c27a; stroke: var(--pal-ink); stroke-width: 2; stroke-linejoin: round; }
     .branch.open .board { fill: var(--c-accent); }
     .sign-text { font-family: var(--font-display); font-weight: 800; font-size: 15px; fill: var(--pal-ink); }
     .lock rect { fill: var(--pal-cream); stroke: var(--pal-ink); stroke-width: 2; }
     .lock path { fill: none; stroke: var(--pal-ink); stroke-width: 2; }
     .road.main { stroke: color-mix(in srgb, var(--pal-cream) 85%, #c8b89a); stroke-width: 9; }
     .road-edge.main { stroke-width: 13; opacity: 0.35; }
-    .route { --r-stroke: var(--line); --r-sw: 2.5; }
+    .route { --r-stroke: var(--line); --r-sw: 2; }
     .route ::ng-deep .r-stroke { stroke-dasharray: 3 9; opacity: 0.6; }
-    .compass circle { fill: var(--surface); stroke: var(--line); stroke-width: 3; }
+    .compass circle { fill: var(--surface); stroke: var(--line); stroke-width: 2.25; }
     .compass path { fill: var(--c-error); stroke: var(--line); stroke-width: 2; }
     .compass text { font-family: var(--font-display); font-weight: 800; fill: var(--text); }
-    .boat path { fill: var(--surface); stroke: var(--line); stroke-width: 3; stroke-linejoin: round; }
+    .boat path { fill: var(--surface); stroke: var(--line); stroke-width: 2.25; stroke-linejoin: round; }
     @media (prefers-reduced-motion: no-preference) {
       .boat { animation: sail 6s var(--ease-in-out) infinite alternate; }
     }
     @keyframes sail { to { transform: translate(760px, 712px) rotate(3deg); } }
     .pin { position: absolute; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: var(--pal-ink); z-index: 2; }
-    .dot { display: grid; place-items: center; width: 42px; height: 42px; background: var(--pal-cream); border: 3px solid var(--pal-ink); border-radius: 50% 50% 50% 8px; transform: rotate(-45deg); box-shadow: 3px 3px 0 var(--pal-ink); transition: transform var(--dur-fast) var(--ease-bounce); }
+    .dot { display: grid; place-items: center; width: 42px; height: 42px; background: var(--pal-cream); border: var(--border-w) solid var(--line); border-radius: 50% 50% 50% 8px; transform: rotate(-45deg); box-shadow: var(--shadow-sm); transition: transform var(--dur-fast) var(--ease-bounce); }
     .dot app-icon { transform: rotate(45deg); }
     .pin:hover .dot, .pin:focus-visible .dot { transform: rotate(-45deg) scale(1.2); }
     .pin.done .dot { background: var(--c-data); }
@@ -226,7 +226,7 @@ const pt = (p: [number, number]) => `${p[0]} ${p[1]}`;
       .pin.next .dot { animation: hop 1.4s var(--ease-bounce) infinite; }
     }
     @keyframes hop { 0%, 100% { transform: rotate(-45deg) translate(0, 0); } 50% { transform: rotate(-45deg) translate(4px, -4px); } }
-    .label { padding: 1px 8px; font-size: 12px; font-weight: 800; white-space: nowrap; background: var(--pal-cream); border: 2px solid var(--pal-ink); border-radius: 8px; }
+    .label { padding: 1px 8px; font-size: 12px; font-weight: 800; white-space: nowrap; background: var(--pal-cream); border: var(--border-w-thin) solid var(--line); border-radius: 8px; }
     .label b { font-family: var(--font-display); }
     @media (max-width: 760px) { .label { font-size: 9.5px; padding: 0 4px; } .dot { width: 28px; height: 28px; } .island-name { font-size: 28px; } }
   `,

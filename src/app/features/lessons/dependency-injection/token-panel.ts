@@ -70,7 +70,7 @@ const STAGING_URL = 'https://staging.bip.vn';
     .tier code { background: none; border: none; }
     .consumer { background: color-mix(in srgb, var(--c-brand) 14%, var(--surface)); }
     .arrows { position: absolute; right: 0; top: 0; width: 120px; height: 100%; }
-    .tok-arrow { --r-stroke: var(--c-di-strong); --r-sw: 3.5; --r-ve: non-scaling-stroke; }
+    .tok-arrow { --r-stroke: var(--c-di-strong); --r-sw: 2.5; --r-ve: non-scaling-stroke; }
     .row { padding: 12px 22px 16px; }
   `,
 })

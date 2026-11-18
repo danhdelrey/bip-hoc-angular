@@ -37,11 +37,11 @@ const ICON_PATHS: Record<string, string> = {
   styles: `
     :host { display: inline-flex; flex-direction: column; align-items: center; gap: 6px; width: var(--size); }
     svg { width: 100%; overflow: visible; }
-    .ribbon { fill: var(--c-accent); stroke: var(--pal-ink); stroke-width: 3; stroke-linejoin: round; }
-    .burst { stroke: var(--pal-ink); stroke-width: 3; stroke-linejoin: round; }
-    .inner { fill: var(--pal-cream); stroke: var(--pal-ink); stroke-width: 3; }
-    .icon { fill: none; stroke: var(--pal-ink); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
-    .lock rect, .lock path { fill: none; stroke: #6b6890; stroke-width: 3.2; stroke-linecap: round; }
+    .ribbon { fill: var(--c-accent); stroke: var(--pal-ink); stroke-width: 2.25; stroke-linejoin: round; }
+    .burst { stroke: var(--pal-ink); stroke-width: 2.25; stroke-linejoin: round; }
+    .inner { fill: var(--pal-cream); stroke: var(--pal-ink); stroke-width: 2.25; }
+    .icon { fill: none; stroke: var(--pal-ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+    .lock rect, .lock path { fill: none; stroke: #6b6890; stroke-width: 2.4; stroke-linecap: round; }
     :host(.locked) .burst { fill: #d9d4e8; }
     :host(.locked) .ribbon { fill: #c4bfd6; }
     .label { font-family: var(--font-display); font-weight: 800; font-size: var(--fs-sm); text-align: center; line-height: 1.2; }

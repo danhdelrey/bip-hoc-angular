@@ -108,7 +108,7 @@ const NONE: Frame = { built: { roof: true, class: true, template: true, styles: 
     .house { --hc: var(--pal-lemon); position: relative; width: 270px; display: grid; gap: 0; transition: filter var(--dur) ease; }
     .house.blue { filter: hue-rotate(180deg) saturate(0.6); }
     .roof { height: 74px; display: grid; place-items: end center; padding-bottom: 8px; background: var(--hc); border: var(--border); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
-    .roof.ghost, .floor.ghost { background: transparent; border: 3px dashed color-mix(in srgb, var(--line) 40%, transparent); color: var(--text-muted); }
+    .roof.ghost, .floor.ghost { background: transparent; border: 2px dashed color-mix(in srgb, var(--line) 40%, transparent); color: var(--text-muted); }
     .roof .sign { font-family: var(--font-mono); font-size: 12px; font-weight: 700; padding: 1px 8px; background: var(--surface); border: 2px solid var(--line); border-radius: 8px; color: var(--text); }
     .roof.is-hl { filter: drop-shadow(0 0 6px var(--c-signal)); }
     .floor { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 2px 8px; min-height: 76px; padding: 8px 14px; text-align: left; background: color-mix(in srgb, var(--hc) 35%, var(--surface)); border: var(--border); border-top: none; cursor: pointer; transition: transform var(--dur-fast) var(--ease-bounce), background-color var(--dur) ease; }

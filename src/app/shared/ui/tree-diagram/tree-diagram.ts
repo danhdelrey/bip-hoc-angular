@@ -92,7 +92,7 @@ export function layoutTree<T extends TreeNode>(nodes: readonly T[], o: TreeLayou
     :host { display: block; overflow-x: auto; padding: 6px 4px 10px; }
     .tree { position: relative; margin: 0 auto; }
     .edges { position: absolute; inset: 0; overflow: visible; }
-    .edge { --r-stroke: color-mix(in srgb, var(--line) 60%, transparent); --r-sw: 2.5; }
+    .edge { --r-stroke: color-mix(in srgb, var(--line) 60%, transparent); --r-sw: 2; }
     .edge.hot { --r-stroke: var(--c-signal-strong); --r-sw: 4; }
     .node { position: absolute; display: flex; }
     :host ::ng-deep .node > * { flex: 1; min-width: 0; }

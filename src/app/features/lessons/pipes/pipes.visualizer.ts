@@ -123,7 +123,7 @@ interface Todo { title: string; done: boolean }
   styles: `
     :host { display: block; }
     .factory { padding: 18px 22px 6px; }
-    .list { display: flex; gap: 10px; flex-wrap: wrap; min-height: 64px; padding: 8px; border: 2.5px dashed color-mix(in srgb, var(--line) 35%, transparent); border-radius: var(--radius-sm); }
+    .list { display: flex; gap: 10px; flex-wrap: wrap; min-height: 64px; padding: 8px; border: 2px dashed color-mix(in srgb, var(--line) 35%, transparent); border-radius: var(--radius-sm); }
     .empty { align-self: center; font-weight: 700; padding: 0 8px; }
     .machine { --mc: var(--pal-sky); position: relative; display: flex; align-items: center; gap: 6px; padding: 8px 10px; font-family: var(--font-mono); font-weight: 700; font-size: 13px; background: color-mix(in srgb, var(--mc) 55%, var(--surface)); border: var(--border); border-radius: 12px 12px 6px 6px; box-shadow: var(--shadow-sm); cursor: grab; }
     .machine::before { content: ''; position: absolute; left: 10px; right: 10px; top: -9px; height: 9px; background: repeating-linear-gradient(90deg, var(--line) 0 4px, transparent 4px 9px); opacity: 0.5; }

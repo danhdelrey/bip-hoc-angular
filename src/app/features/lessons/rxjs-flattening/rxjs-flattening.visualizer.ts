@@ -163,17 +163,17 @@ const XW = 610;
     .tl { display: block; width: 100%; min-width: 600px; height: auto; }
     .lab { font-family: var(--font-mono); font-size: 12px; font-weight: 700; fill: var(--text-muted); }
     .belt { stroke: var(--line); stroke-width: 5; stroke-linecap: round; opacity: 0.8; }
-    .ev circle { fill: var(--c-event); stroke: var(--pal-ink); stroke-width: 3; }
-    .out circle { fill: var(--c-data); stroke: var(--pal-ink); stroke-width: 3; }
+    .ev circle { fill: var(--c-event); stroke: var(--pal-ink); stroke-width: 2.25; }
+    .out circle { fill: var(--c-data); stroke: var(--pal-ink); stroke-width: 2.25; }
     .ev text, .out text { font-family: var(--font-display); font-weight: 800; font-size: 11px; fill: var(--pal-ink); }
     .ev, .out { animation: pop 300ms var(--ease-bounce); transform-box: fill-box; }
-    .bar { fill: var(--c-di); stroke: var(--pal-ink); stroke-width: 2.5; }
+    .bar { fill: var(--c-di); stroke: var(--pal-ink); stroke-width: 2; }
     .bar.cancel { fill: var(--surface-sunken); stroke-dasharray: 5 3; }
-    .wait { stroke: var(--text-muted); stroke-width: 2.5; stroke-dasharray: 3 4; }
-    .dot { fill: var(--c-data); stroke: var(--pal-ink); stroke-width: 2.5; }
+    .wait { stroke: var(--text-muted); stroke-width: 2; stroke-dasharray: 3 4; }
+    .dot { fill: var(--c-data); stroke: var(--pal-ink); stroke-width: 2; }
     .xmark { font-weight: 800; font-size: 13px; fill: var(--c-error-strong); }
     .ign { font-weight: 800; font-size: 13px; fill: var(--text-muted); }
-    .now { stroke: var(--c-signal-strong); stroke-width: 3; stroke-dasharray: 6 4; }
+    .now { stroke: var(--c-signal-strong); stroke-width: 2.25; stroke-dasharray: 6 4; }
     .nowlab { font-family: var(--font-mono); font-weight: 700; font-size: 11px; fill: var(--c-signal-strong); }
     .verdict { display: flex; align-items: center; gap: 8px; margin: 4px 22px 12px; padding: 8px 12px; border: var(--border); border-radius: var(--radius); font-weight: 800; }
     .verdict.ok { background: var(--c-data); color: var(--on-accent); }

@@ -57,10 +57,10 @@ export interface Lane {
     .mb { width: 100%; height: auto; min-width: 560px; display: block; }
     .lane-label { font-family: var(--font-mono); font-weight: 700; font-size: 13px; fill: var(--text-muted); }
     .belt { stroke: var(--line); stroke-width: 6; stroke-linecap: round; opacity: 0.85; }
-    .belt-arrow { fill: none; stroke: var(--line); stroke-width: 3; }
-    .op rect { fill: var(--surface-2); stroke: var(--line); stroke-width: 3; }
+    .belt-arrow { fill: none; stroke: var(--line); stroke-width: 2.25; }
+    .op rect { fill: var(--surface-2); stroke: var(--line); stroke-width: 2.25; }
     .op text { font-family: var(--font-mono); font-weight: 700; font-size: 14px; fill: var(--text); }
-    .m circle { stroke: var(--pal-ink); stroke-width: 3; fill: var(--c-data); }
+    .m circle { stroke: var(--pal-ink); stroke-width: 2.25; fill: var(--c-data); }
     .m text { font-family: var(--font-display); font-weight: 800; font-size: 13px; fill: var(--pal-ink); }
     .k-event circle { fill: var(--c-event); }
     .k-signal circle { fill: var(--c-signal); }
@@ -68,11 +68,11 @@ export interface Lane {
     .k-cancel circle { fill: var(--surface-sunken); stroke-dasharray: 4 3; }
     .k-muted circle { fill: var(--surface-sunken); }
     .k-muted text { fill: var(--text-muted); }
-    .x { stroke: var(--c-error-strong); stroke-width: 3.5; stroke-linecap: round; }
+    .x { stroke: var(--c-error-strong); stroke-width: 2.5; stroke-linecap: round; }
     .m { transform-box: fill-box; }
     .m circle, .m text { animation: drop 360ms var(--ease-bounce); transform-origin: center; transform-box: fill-box; }
     @keyframes drop { from { transform: translateY(-14px) scale(0.6); opacity: 0; } }
-    .now { stroke: var(--c-signal-strong); stroke-width: 3; stroke-dasharray: 6 4; }
+    .now { stroke: var(--c-signal-strong); stroke-width: 2.25; stroke-dasharray: 6 4; }
     .now-label { font-family: var(--font-mono); font-weight: 700; font-size: 12px; fill: var(--c-signal-strong); }
   `,
 })

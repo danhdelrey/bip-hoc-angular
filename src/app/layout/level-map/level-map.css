@@ -23,7 +23,7 @@
 .road { position: absolute; inset: 0 auto auto 0; width: 244px; }
 .road-edge { fill: none; stroke: var(--line); stroke-width: 22; stroke-linecap: round; }
 .road-fill { fill: none; stroke: var(--surface-2); stroke-width: 16; stroke-linecap: round; }
-.road-dash { fill: none; stroke: var(--line); stroke-width: 2.5; stroke-dasharray: 7 9; opacity: 0.45; }
+.road-dash { fill: none; stroke: var(--line); stroke-width: 2; stroke-dasharray: 7 9; opacity: 0.45; }
 
 .stations { position: relative; list-style: none; margin: 0; padding: 0; }
 .stations li { position: absolute; transform: translate(-50%, -50%); }
