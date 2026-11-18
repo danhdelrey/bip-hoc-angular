@@ -6,21 +6,22 @@
 
 :root {
   /* ---------- Bảng màu gốc (palette) ---------- */
-  --pal-ink: #1e1b3a;          /* mực vẽ viền */
-  --pal-cream: #fff8e7;        /* giấy kem */
-  --pal-cream-2: #fff1cc;      /* giấy kem đậm hơn */
+  --pal-ink: #0f172a;          /* chữ & nét chính (slate-900) */
+  --pal-cream: #f8fafc;        /* nền sáng trung tính */
+  --pal-cream-2: #f1f5f9;
   --pal-white: #ffffff;
-  --pal-navy: #17183a;
-  --pal-navy-2: #23255a;
-  --pal-navy-3: #2f3270;
+  --pal-navy: #0b1120;
+  --pal-navy-2: #151d2e;
+  --pal-navy-3: #1f2a3d;
 
-  --pal-mint: #3ddc97;
-  --pal-orange: #ff9f43;
+  --pal-mint: #34d399;
+  --pal-orange: #fb923c;
   --pal-lavender: #a78bfa;
-  --pal-lemon: #ffd43b;
-  --pal-red: #ff5c5c;
-  --pal-sky: #4cc9f0;
-  --pal-coral: #ff8fab;
+  --pal-lemon: #facc15;
+  --pal-red: #f87171;
+  --pal-sky: #38bdf8;
+  --pal-coral: #f472b6;
+  --pal-indigo: #4f46e5;
 
   /* ---------- Màu NGỮ NGHĨA (cố định xuyên suốt site) ----------
      Luôn đi kèm icon + nhãn, không bao giờ dùng màu một mình.      */
@@ -39,23 +40,26 @@
   /* Màu trang trí (không mang nghĩa) */
   --c-brand: var(--pal-sky);
   --c-accent: var(--pal-coral);
+  --c-primary: var(--pal-indigo);     /* nút chính, thanh tiến độ */
+  --c-primary-text: #4338ca;          /* khi màu chính là CHỮ (đạt AA) */
+  --on-primary: #ffffff;
 
   /* ---------- Bề mặt & chữ (chế độ sáng) ---------- */
-  --bg: var(--pal-cream);
-  --bg-doodle: rgba(30, 27, 58, 0.07);
+  --bg: #f6f7f9;
   --surface: var(--pal-white);
   --surface-2: var(--pal-cream-2);
-  --surface-sunken: #f5ecd6;
+  --surface-sunken: #eef1f5;
   --text: var(--pal-ink);
-  --text-muted: #4a4570;
-  --line: #5b5779;                    /* màu viền: mực pha nhạt cho dịu mắt */
-  --shadow-color: rgba(30, 27, 58, 0.16); /* bóng cứng nhưng nhạt */
+  --text-muted: #475569;
+  --line: #d4dae3;                    /* viền mảnh, trung tính */
+  --line-strong: #94a3b8;             /* nét sơ đồ cần nổi hơn */
+  --shadow-color: rgba(15, 23, 42, 0.08);
   --on-accent: var(--pal-ink);        /* chữ trên nền màu nhấn */
   --focus-ring: #2563eb;
 
   /* Khung code — sạch, không hoạt hình */
   --code-bg: #ffffff;
-  --code-gutter: #6b6890;
+  --code-gutter: #64748b;
   --code-line-hl: rgba(255, 212, 59, 0.38);
 
   /* Linh vật */
@@ -68,36 +72,36 @@
   --mascot-line: var(--pal-ink);
 
   /* ---------- Viền, bo góc, bóng ---------- */
-  --border-w: 2px;
-  --border-w-thin: 1.5px;
+  --border-w: 1px;
+  --border-w-thin: 1px;
   --border: var(--border-w) solid var(--line);
   --border-thin: var(--border-w-thin) solid var(--line);
 
-  --radius-sm: 12px;
-  --radius: 18px;
-  --radius-lg: 24px;
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 16px;
   --radius-pill: 999px;
 
-  --shadow-offset: 3px;
-  --shadow-sm: 2px 2px 0 var(--shadow-color);
-  --shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--shadow-color);
-  --shadow-lg: 5px 5px 0 var(--shadow-color);
-  --shadow-pressed: 0 0 0 var(--shadow-color);
+  --shadow-offset: 0px;
+  --shadow-sm: 0 1px 2px var(--shadow-color);
+  --shadow: 0 1px 2px var(--shadow-color), 0 4px 12px var(--shadow-color);
+  --shadow-lg: 0 2px 4px var(--shadow-color), 0 12px 32px var(--shadow-color);
+  --shadow-pressed: 0 0 0 transparent;
 
   /* ---------- Typography ---------- */
-  --font-display: 'Baloo 2', 'Nunito', system-ui, sans-serif;
-  --font-body: 'Nunito', system-ui, sans-serif;
+  --font-display: 'Be Vietnam Pro', system-ui, sans-serif;
+  --font-body: 'Be Vietnam Pro', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'Fira Code', monospace;
   --fs-xs: 0.8rem;
   --fs-sm: 0.9rem;
   --fs-md: 1rem;
   --fs-lg: 1.2rem;
   --fs-xl: 1.6rem;
-  --fs-2xl: 2.2rem;
+  --fs-2xl: 2rem;
   --fs-3xl: 3rem;
 
   /* ---------- Chuyển động ---------- */
-  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-bounce: cubic-bezier(0.22, 1, 0.36, 1); /* tên giữ để tương thích; không còn nảy */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   --dur-fast: 150ms;
@@ -119,17 +123,19 @@
   color-scheme: light;
 }
 
-/* ---------- Chế độ tối: vẫn cartoon — nền navy, viền sáng, màu nhấn giữ độ tươi ---------- */
+/* ---------- Chế độ tối: nền slate đậm, viền mảnh, màu nhấn giữ nguyên ---------- */
 :root[data-theme='dark'] {
   --bg: var(--pal-navy);
-  --bg-doodle: rgba(245, 240, 225, 0.07);
   --surface: var(--pal-navy-2);
   --surface-2: var(--pal-navy-3);
-  --surface-sunken: #121331;
-  --text: #f5f0e1;
-  --text-muted: #c9c3e6;
-  --line: #8e8bbf;
-  --shadow-color: rgba(5, 6, 30, 0.45);
+  --surface-sunken: #0a0f1c;
+  --text: #e5e9f0;
+  --text-muted: #a3adbd;
+  --line: #2c3850;
+  --line-strong: #64748b;
+  --shadow-color: rgba(0, 0, 0, 0.35);
+  --c-primary: #5b5ef0;
+  --c-primary-text: #a5b4fc;
   --on-accent: var(--pal-ink);
   --focus-ring: #7cc4ff;
 
@@ -139,14 +145,13 @@
   --c-signal-strong: #ffe066;
   --c-error-strong: #ff8a8a;
 
-  --code-bg: #0f1030;
-  --code-gutter: #9a96c4;
+  --code-bg: #0d1424;
+  --code-gutter: #8a94a6;
   --code-line-hl: rgba(255, 212, 59, 0.22);
 
   --mascot-belly: #fff1cc;
   --mascot-screen: #10112b;
-  --mascot-line: #f5f0e1;
+  --mascot-line: #e5e9f0;
 
-  --shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--shadow-color);
   color-scheme: dark;
 }

@@ -61,7 +61,7 @@ export interface Lane {
     .op rect { fill: var(--surface-2); stroke: var(--line); stroke-width: 2.25; }
     .op text { font-family: var(--font-mono); font-weight: 700; font-size: 14px; fill: var(--text); }
     .m circle { stroke: var(--pal-ink); stroke-width: 2.25; fill: var(--c-data); }
-    .m text { font-family: var(--font-display); font-weight: 800; font-size: 13px; fill: var(--pal-ink); }
+    .m text { font-family: var(--font-display); font-weight: 600; font-size: 13px; fill: var(--pal-ink); }
     .k-event circle { fill: var(--c-event); }
     .k-signal circle { fill: var(--c-signal); }
     .k-error circle { fill: var(--c-error); }

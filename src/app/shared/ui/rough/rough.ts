@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 import rough from 'roughjs';
 import type { Options } from 'roughjs/bin/core';
 
-/** Mô tả một hình vẽ tay */
+/** Mô tả một hình (vẽ bằng rough.js với nét sạch) */
 export type RoughSpec =
   | { kind: 'line'; x1: number; y1: number; x2: number; y2: number }
   | { kind: 'rect'; x: number; y: number; w: number; h: number }
@@ -19,14 +19,19 @@ const gen = rough.generator();
 const cache = new Map<string, RoughPath[]>();
 
 /**
- * Sinh các path "vẽ tay" từ rough.js. Seed cố định => hình không rung khi render lại.
+ * Sinh path SVG từ rough.js (nét sạch). Seed cố định => hình không rung khi render lại.
  * Kết quả được cache để không tính lại mỗi lần change detection.
  */
 export function roughPaths(spec: RoughSpec, opts: Options = {}): RoughPath[] {
   const key = JSON.stringify([spec, opts]);
   const hit = cache.get(key);
   if (hit) return hit;
-  const o: Options = { seed: 7, roughness: 1.3, bowing: 1.2, stroke: '#000', strokeWidth: 2.5, ...opts };
+  // Phong cách tối giản: nét thẳng, sạch (roughness 0, một nét, tô đặc) — vẫn dùng chung API cũ
+  const o: Options = {
+    seed: 7, stroke: '#000', strokeWidth: 2, ...opts,
+    roughness: 0, bowing: 0, disableMultiStroke: true, disableMultiStrokeFill: true, preserveVertices: true,
+    fillStyle: 'solid',
+  };
   let drawable;
   switch (spec.kind) {
     case 'line':
@@ -91,7 +96,7 @@ export class RoughShape {
   );
 }
 
-/** Mũi tên vẽ tay, có thể cong; `flow` = dòng chảy chạy dọc mũi tên. */
+/** Mũi tên, có thể cong; `flow` = dòng chảy chạy dọc mũi tên. */
 @Component({
   selector: 'g[appArrow]',
   changeDetection: ChangeDetectionStrategy.OnPush,

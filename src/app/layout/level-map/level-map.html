@@ -1,29 +1,22 @@
 <div class="map-head">
-  <span class="eyebrow"><app-icon name="map" [size]="16" /> Lộ trình</span>
+  <span class="eyebrow"><app-icon name="map" [size]="14" /> Lộ trình</span>
   <div class="pct" role="progressbar" [attr.aria-valuenow]="progress.percent()" aria-valuemin="0" aria-valuemax="100" aria-label="Tiến độ lộ trình">
     <div class="pct-bar" [style.width.%]="progress.percent()"></div>
-    <span class="pct-text">{{ progress.completedCount() }}/{{ lessons.length }} bài · {{ progress.percent() }}%</span>
   </div>
-  <p class="hint"><span class="sw main"></span> đường chính <span class="sw adv"></span> rẽ phải: nâng cao</p>
+  <p class="pct-text">{{ progress.completedCount() }}/{{ lessons.length }} bài · {{ progress.percent() }}%</p>
 </div>
 
 <nav class="map" aria-label="Lộ trình bài học">
   <svg class="road" [attr.viewBox]="'0 0 ' + W + ' ' + map.height" [attr.height]="map.height" aria-hidden="true">
+    <path class="line-main" [attr.d]="map.main" />
     @for (b of branchState(); track b.island) {
-      <g class="branch" [class.open]="b.open">
-        <path class="road-edge" [attr.d]="b.road" />
-        <path class="road-fill" [attr.d]="b.road" />
-        <path class="road-dash" [attr.d]="b.road" />
-      </g>
+      <path class="line-branch" [class.open]="b.open" [attr.d]="b.road" />
     }
-    <path class="road-edge" [attr.d]="map.main" />
-    <path class="road-fill" [attr.d]="map.main" />
-    <path class="road-dash" [attr.d]="map.main" />
   </svg>
   <ol class="stations" [style.height.px]="map.height">
     @for (b of branchState(); track b.island) {
       <li class="sign" [class.open]="b.open" [style.top.px]="b.sign.y" [style.left.px]="b.sign.x" aria-hidden="true">
-        <app-icon [name]="b.open ? 'bridge' : 'lock'" [size]="12" /> {{ b.island }}
+        @if (!b.open) { <app-icon name="lock" [size]="11" /> } Nâng cao · {{ b.island }}
       </li>
     }
     @for (p of map.points; track p.lesson.slug) {
@@ -35,15 +28,15 @@
            [attr.aria-current]="here ? 'page' : null"
            [attr.aria-label]="'Bài ' + p.lesson.number + ': ' + p.lesson.title + (p.branch ? ' (nâng cao, ' + p.branch + ')' : '') + (done ? ' (đã xong)' : '')">
           <span class="dot">
-            @if (done) { <app-icon name="check" [size]="16" /> } @else { {{ p.lesson.number }} }
+            @if (done) { <app-icon name="check" [size]="13" /> } @else { {{ p.lesson.number }} }
           </span>
-          <span class="label" [class.left]="p.branch">{{ p.lesson.title }}</span>
+          <span class="label">{{ p.lesson.title }}</span>
         </a>
       </li>
     }
     @if (current(); as c) {
-      <li class="me" [style.top.px]="c.y - 52" [style.left.px]="c.branch ? c.x - 44 : c.x + 6" aria-hidden="true">
-        <app-mascot mood="happy" [size]="38" />
+      <li class="me" [style.top.px]="c.y - 17" [style.left.px]="w - 34" aria-hidden="true">
+        <app-mascot mood="happy" [size]="30" />
       </li>
     }
   </ol>

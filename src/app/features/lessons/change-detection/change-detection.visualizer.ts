@@ -103,14 +103,14 @@ interface Frame {
     :host { display: block; }
     .pickers { display: grid; gap: 10px; padding: 18px 22px 0; }
     .seg { display: inline-flex; flex-wrap: wrap; border: var(--border); border-radius: var(--radius-pill); overflow: hidden; width: fit-content; box-shadow: var(--shadow-sm); }
-    .seg button { padding: 8px 14px; font-weight: 800; background: var(--surface); border: none; border-right: var(--border-thin); cursor: pointer; }
+    .seg button { padding: 8px 14px; font-weight: 600; background: var(--surface); border: none; border-right: var(--border-thin); cursor: pointer; }
     .seg button:last-child { border-right: none; }
     .seg button.on, .seg button.is-hl { background: var(--c-signal); color: var(--on-accent); }
     .acts { display: flex; flex-wrap: wrap; gap: 8px; }
     .town { padding: 16px 12px 4px; }
     .house { position: relative; display: flex; flex-direction: column; transition: opacity var(--dur) ease, transform var(--dur) var(--ease-bounce); }
     .roof { height: 20px; background: var(--pal-lavender); border: var(--border-thin); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
-    .body { flex: 1; display: grid; place-items: center; align-content: center; font-size: 12px; font-weight: 800; background: var(--surface); border: var(--border-thin); border-top: none; border-radius: 0 0 8px 8px; }
+    .body { flex: 1; display: grid; place-items: center; align-content: center; font-size: 12px; font-weight: 600; background: var(--surface); border: var(--border-thin); border-top: none; border-radius: 0 0 8px 8px; }
     .body small { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
     .house.checked .body { background: var(--c-signal); color: var(--on-accent); }
     .house.checked .body small { color: var(--pal-ink); }

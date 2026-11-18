@@ -160,7 +160,7 @@ interface Todo { title: string; done: boolean }
     .pure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .col { padding: 10px 12px; background: var(--surface); border: var(--border-thin); border-radius: var(--radius-sm); }
     .col ul { margin: 6px 0 0; padding-left: 18px; }
-    .runs { float: right; font-size: 12px; font-weight: 800; padding: 0 8px; border: 2px solid var(--line); border-radius: var(--radius-pill); }
+    .runs { float: right; font-size: 12px; font-weight: 600; padding: 0 8px; border: 2px solid var(--line); border-radius: var(--radius-pill); }
     .pure-msg { margin: 10px 0 0; font-weight: 700; }
   `,
 })

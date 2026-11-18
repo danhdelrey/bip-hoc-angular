@@ -75,7 +75,7 @@ const ERR_VI: Record<string, string> = { required: 'bắt buộc', email: 'sai e
     :host { display: block; }
     .stage { display: grid; grid-template-columns: 280px 1fr; gap: 18px; padding: 20px 22px 14px; align-items: start; }
     .demo-form { display: grid; gap: 12px; padding: 14px; background: var(--surface-2); border: var(--border); border-radius: var(--radius); }
-    .demo-form label { display: grid; gap: 4px; font-weight: 800; font-size: var(--fs-sm); padding: 4px; border-radius: 10px; }
+    .demo-form label { display: grid; gap: 4px; font-weight: 600; font-size: var(--fs-sm); padding: 4px; border-radius: 10px; }
     .demo-form label.is-hl { background: color-mix(in srgb, var(--c-signal) 40%, transparent); }
     .row { display: flex; gap: 8px; flex-wrap: wrap; }
     .tree-side { min-width: 0; }
@@ -86,9 +86,9 @@ const ERR_VI: Record<string, string> = { required: 'bắt buộc', email: 'sai e
     .node strong { font-family: var(--font-mono); font-size: 13px; }
     .val { max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; background: none; border: none; color: var(--text-muted); }
     .flags { display: flex; flex-wrap: wrap; justify-content: center; gap: 3px; }
-    .flags span { font-size: 10.5px; font-weight: 800; padding: 0 5px; border: 1.5px solid var(--line); border-radius: var(--radius-pill); opacity: 0.4; }
+    .flags span { font-size: 10.5px; font-weight: 600; padding: 0 5px; border: 1.5px solid var(--line); border-radius: var(--radius-pill); opacity: 0.4; }
     .flags span.on { opacity: 1; background: var(--c-data); color: var(--on-accent); }
-    .errs { display: inline-flex; gap: 3px; align-items: center; font-size: 10.5px; font-weight: 800; color: var(--c-error-strong); }
+    .errs { display: inline-flex; gap: 3px; align-items: center; font-size: 10.5px; font-weight: 600; color: var(--c-error-strong); }
     .face { position: relative; width: 34px; height: 34px; border: var(--border-thin); border-radius: 50%; background: var(--surface-2); }
     .face i { position: absolute; top: 10px; width: 5px; height: 5px; border-radius: 50%; background: var(--pal-ink); }
     .face i:first-child { left: 9px; } .face i:nth-child(2) { right: 9px; }

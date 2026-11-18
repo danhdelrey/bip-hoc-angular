@@ -29,7 +29,7 @@ import { Mascot } from '../../shared/ui/mascot/mascot';
   styles: `
     .stack { position: fixed; right: 16px; top: calc(var(--header-h) + 12px); z-index: 900; display: flex; flex-direction: column; gap: 10px; width: min(440px, calc(100vw - 32px)); }
     .toast { display: flex; align-items: center; gap: 12px; padding: 8px 12px 8px 10px; background: var(--surface); border: var(--border); border-radius: var(--radius); box-shadow: var(--shadow-lg); }
-    p { flex: 1; margin: 0; font-weight: 800; }
+    p { flex: 1; margin: 0; font-weight: 600; }
     .x { display: grid; place-items: center; width: 32px; height: 32px; background: transparent; border: 2px solid var(--line); border-radius: 50%; cursor: pointer; }
     @media (prefers-reduced-motion: no-preference) {
       .toast { animation: rise 460ms var(--ease-bounce) both; }

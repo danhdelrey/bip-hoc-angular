@@ -42,7 +42,7 @@ import { RxjsVisualizer } from './rxjs.visualizer';
     .row > * { padding: 8px 12px; border-bottom: var(--border-thin); }
     .row:last-child > * { border-bottom: none; }
     .row > *:not(:last-child) { border-right: var(--border-thin); }
-    .head { font-family: var(--font-display); font-weight: 800; background: var(--surface-2); }
+    .head { font-family: var(--font-display); font-weight: 600; background: var(--surface-2); }
     .head span { display: flex; gap: 6px; align-items: center; }
     @media (max-width: 640px) { .row { grid-template-columns: 1fr; } .row > *:not(:last-child) { border-right: none; } }
   `,

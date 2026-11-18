@@ -108,7 +108,7 @@ const IDLE: Frame = { ticket: '/', trying: null, tried: [], matched: null, guard
     .ticket { padding: 6px 12px; font-family: var(--font-mono); font-weight: 700; font-size: 13px; background: var(--surface); border: var(--border-thin); border-radius: 8px; border-style: dashed; cursor: pointer; transform: rotate(-1deg); }
     .ticket.on { background: var(--c-signal); color: var(--on-accent); border-style: solid; transform: rotate(1deg) scale(1.05); }
     .go { display: flex; gap: 10px; align-items: center; }
-    .switch { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 4px 14px 4px 6px; font-weight: 800; background: var(--surface); border: var(--border); border-radius: var(--radius-pill); box-shadow: var(--shadow-sm); cursor: pointer; }
+    .switch { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 4px 14px 4px 6px; font-weight: 600; background: var(--surface); border: var(--border); border-radius: var(--radius-pill); box-shadow: var(--shadow-sm); cursor: pointer; }
     .knob { position: relative; width: 44px; height: 26px; background: var(--surface-sunken); border: var(--border-thin); border-radius: var(--radius-pill); }
     .knob::after { content: ''; position: absolute; top: 2px; left: 2px; width: 17px; height: 17px; background: var(--surface); border: 2px solid var(--line); border-radius: 50%; transition: transform var(--dur) var(--ease-bounce); }
     .switch[aria-checked='true'] .knob { background: var(--c-data); }
@@ -123,7 +123,7 @@ const IDLE: Frame = { ticket: '/', trying: null, tried: [], matched: null, guard
     .row.hit { background: var(--c-data); color: var(--pal-ink); }
     .row.hit code { color: var(--pal-ink); }
     .row.is-hl { border-color: var(--pal-lemon); }
-    .tag { font-size: 11px; font-weight: 800; padding: 0 6px; border-radius: var(--radius-pill); background: rgba(255,255,255,.12); }
+    .tag { font-size: 11px; font-weight: 600; padding: 0 6px; border-radius: var(--radius-pill); background: rgba(255,255,255,.12); }
     .yard { display: grid; gap: 10px; min-width: 0; }
     .url-bar { display: flex; align-items: center; gap: 8px; padding: 6px 12px; font-family: var(--font-mono); font-weight: 700; background: var(--surface); border: var(--border); border-radius: var(--radius-pill); }
     .dots { display: inline-flex; gap: 4px; }
@@ -131,7 +131,7 @@ const IDLE: Frame = { ticket: '/', trying: null, tried: [], matched: null, guard
     .rails { position: relative; height: 90px; background: repeating-linear-gradient(90deg, transparent 0 22px, color-mix(in srgb, var(--line) 30%, transparent) 22px 26px) bottom / 100% 14px no-repeat, linear-gradient(var(--line), var(--line)) bottom 12px left 0 / 100% 3px no-repeat; }
     .gate { position: absolute; left: 55%; bottom: 14px; display: grid; justify-items: center; padding: 2px 8px; background: var(--surface); border: var(--border-thin); border-radius: 10px; }
     .gate .officer { font-size: 26px; }
-    .gate small { font-size: 11px; font-weight: 800; }
+    .gate small { font-size: 11px; font-weight: 600; }
     .g-block { background: var(--c-error); animation: blink-err 500ms ease 2; }
     .g-pass { background: var(--c-data); }
     .g-check { box-shadow: 0 0 0 4px var(--c-signal); }
@@ -143,7 +143,7 @@ const IDLE: Frame = { ticket: '/', trying: null, tried: [], matched: null, guard
     .t-arrived { left: 78%; }
     .loco { font-size: 40px; transform: scaleX(-1); }
     .cargo { display: grid; justify-items: center; font-size: 26px; }
-    .cargo small { font-size: 10px; font-weight: 800; }
+    .cargo small { font-size: 10px; font-weight: 600; }
     .cargo.loading { animation: shake 300ms linear infinite; }
     @keyframes shake { 50% { transform: translateY(-3px); } }
     .platform { padding: 10px 12px; background: var(--surface-2); border: var(--border); border-radius: var(--radius-sm); }

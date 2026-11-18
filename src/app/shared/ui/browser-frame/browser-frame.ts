@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-/** Khung "cửa sổ trình duyệt" cartoon bao quanh kết quả live. */
+/** Khung "cửa sổ trình duyệt" bao quanh kết quả live. */
 @Component({
   selector: 'app-browser-frame',
   changeDetection: ChangeDetectionStrategy.OnPush,

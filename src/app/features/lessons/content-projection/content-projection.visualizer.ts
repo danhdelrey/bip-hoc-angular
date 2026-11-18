@@ -104,7 +104,7 @@ interface Frame {
     .slot.checking, .slot.is-hl { box-shadow: 0 0 0 4px var(--c-signal); }
     .sel code { font-size: 12px; background: none; border: none; padding: 0; color: var(--c-di-strong); font-weight: 700; }
     .content { display: flex; flex-wrap: wrap; gap: 6px; min-height: 36px; align-items: center; margin-top: 4px; }
-    .painting { padding: 4px 10px; font-weight: 800; background: var(--c-signal); color: var(--on-accent); border: var(--border-thin); border-radius: 8px; box-shadow: var(--shadow-sm); animation: deco-pop-in 420ms var(--ease-bounce); }
+    .painting { padding: 4px 10px; font-weight: 600; background: var(--c-signal); color: var(--on-accent); border: var(--border-thin); border-radius: 8px; box-shadow: var(--shadow-sm); animation: deco-pop-in 420ms var(--ease-bounce); }
     .empty { font-size: 12.5px; color: var(--text-muted); font-style: italic; }
     .tpl { margin: 10px 22px 16px; padding: 12px 14px; background: var(--surface-2); border: var(--border-thin); border-radius: var(--radius); }
     .tpl-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }

@@ -13,7 +13,7 @@ import type { StepTimeline } from './step-timeline';
       <button class="btn btn-sm btn-icon" type="button" (click)="t.prev()" [disabled]="t.index() === 0 || !t.total()" aria-label="Bước trước">
         <app-icon name="prev" [size]="18" />
       </button>
-      <button class="btn btn-icon btn-signal play" type="button" (click)="t.toggle()" [disabled]="!t.total()"
+      <button class="btn btn-icon btn-primary play" type="button" (click)="t.toggle()" [disabled]="!t.total()"
               [attr.aria-label]="t.playing() ? 'Tạm dừng' : 'Phát'">
         <app-icon [name]="t.playing() ? 'pause' : 'play'" [size]="20" />
       </button>

@@ -18,7 +18,7 @@ interface BallFrame {
   land: boolean;
 }
 
-/** Trang demo phong cách: để duyệt design tokens, linh vật, nút, card, bong bóng, nét vẽ tay. */
+/** Trang demo phong cách: để duyệt design tokens, linh vật, nút, card, bong bóng, sơ đồ. */
 @Component({
   selector: 'app-style-guide',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,7 +41,7 @@ export class StyleGuide {
   protected readonly semantics = SEMANTICS;
   protected readonly badges = BADGES;
   protected readonly palette = [
-    ['--pal-ink', 'Mực viền'], ['--pal-cream', 'Giấy kem'], ['--pal-mint', 'Mint'], ['--pal-orange', 'Cam'],
+    ['--pal-ink', 'Chữ chính'], ['--pal-cream', 'Nền sáng'], ['--pal-mint', 'Mint'], ['--pal-orange', 'Cam'],
     ['--pal-lavender', 'Lavender'], ['--pal-lemon', 'Vàng chanh'], ['--pal-red', 'Đỏ san hô'], ['--pal-sky', 'Xanh trời'],
     ['--pal-coral', 'Hồng'], ['--pal-navy', 'Navy (tối)'],
   ];

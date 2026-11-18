@@ -88,7 +88,7 @@ interface Frame {
     .walker { position: absolute; top: -6px; transform: translateX(-50%); transition: left var(--dur) var(--ease-in-out); }
     .bottom { display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: start; margin-top: 6px; }
     .console { display: grid; gap: 2px; min-height: 120px; padding: 10px 12px; background: #10112b; color: #e6e3ff; border: var(--border); border-radius: var(--radius-sm); }
-    .console-title { display: flex; gap: 6px; align-items: center; font-size: 11px; font-weight: 800; color: #b9fbff; }
+    .console-title { display: flex; gap: 6px; align-items: center; font-size: 11px; font-weight: 600; color: #b9fbff; }
     .console code { background: none; border: none; padding: 0; color: inherit; font-size: 12.5px; }
     .console code.new { color: var(--pal-lemon); }
     .muted-c { opacity: 0.6; }

@@ -110,7 +110,7 @@ const total = (items: Item[], d: number) => Math.round(items.reduce((s, i) => s 
     .impl label.is-hl { background: color-mix(in srgb, var(--c-signal) 30%, transparent); }
     .stage { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; padding: 8px 22px 14px; }
     .store { border: var(--border); border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--shadow); overflow: hidden; }
-    .shead { display: flex; gap: 6px; align-items: center; padding: 8px 12px; background: var(--c-signal); color: var(--pal-ink); font-family: var(--font-display); font-weight: 800; border-bottom: var(--border); }
+    .shead { display: flex; gap: 6px; align-items: center; padding: 8px 12px; background: var(--c-signal); color: var(--pal-ink); font-family: var(--font-display); font-weight: 600; border-bottom: var(--border); }
     .layer { display: grid; grid-template-columns: 120px 1fr; gap: 8px; align-items: center; padding: 8px 12px; border-bottom: var(--border-thin); transition: background var(--dur); }
     .layer:last-child { border-bottom: 0; }
     .layer code { font-size: 12px; font-weight: 700; }
@@ -129,7 +129,7 @@ const total = (items: Item[], d: number) => Math.round(items.reduce((s, i) => s 
     .comp.flash { animation: flash 0.8s var(--ease-out); }
     .view { display: flex; flex-wrap: wrap; gap: 4px; padding: 6px 8px; min-height: 30px; background: #fff; color: #111; border-radius: 8px; font-size: 13px; }
     .view span { padding: 0 6px; border: 1px solid #ccc; border-radius: 6px; }
-    .renders { position: absolute; top: 8px; right: 8px; padding: 0 6px; border-radius: 6px; font-size: 11px; font-weight: 800; background: var(--surface-sunken); }
+    .renders { position: absolute; top: 8px; right: 8px; padding: 0 6px; border-radius: 6px; font-size: 11px; font-weight: 600; background: var(--surface-sunken); }
     .comp.flash .renders { background: var(--c-event); color: var(--pal-ink); }
     @keyframes flash { 0% { box-shadow: 0 0 0 6px var(--c-event); transform: scale(1.03); } }
     @keyframes pulse { 50% { transform: scale(1.12); } }

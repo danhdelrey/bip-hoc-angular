@@ -2,7 +2,7 @@
   <p class="eyebrow">Giai đoạn 1a · Duyệt phong cách</p>
   <h1>Style guide</h1>
   <app-mascot-says mood="wave" [size]="100">
-    Đây là "tủ quần áo" của site: màu, nút, card, bong bóng thoại, nét vẽ tay… và mình! Bấm nút đổi theme để xem bản tối.
+    Đây là bộ thành phần giao diện của site: màu, chữ, nút, card, bong bóng thoại, sơ đồ… và mình! Bấm nút đổi theme để xem bản tối.
   </app-mascot-says>
   <div class="row">
     <button type="button" class="btn btn-primary" (click)="theme.toggle()">
@@ -50,15 +50,15 @@
 <!-- Typography -->
 <section class="block toon toon-lg">
   <h2>3. Chữ</h2>
-  <p class="type-display">Baloo 2 — Tiêu đề tròn mập: "Ánh đèn Signal sáng rực!"</p>
-  <p class="type-body">Nunito — Nội dung dễ đọc, đủ dấu tiếng Việt: ắ ằ ẳ ẵ ặ ấ ầ ẩ ẫ ậ ế ề ể ễ ệ ố ồ ổ ỗ ộ ớ ờ ở ỡ ợ ứ ừ ử ữ ự.</p>
+  <p class="type-display">Be Vietnam Pro 700 — Tiêu đề: "Signal cập nhật đúng chỗ cần cập nhật"</p>
+  <p class="type-body">Be Vietnam Pro 400 — Nội dung dễ đọc, đủ dấu tiếng Việt: ắ ằ ẳ ẵ ặ ấ ầ ẩ ẫ ậ ế ề ể ễ ệ ố ồ ổ ỗ ộ ớ ờ ở ỡ ợ ứ ừ ử ữ ự.</p>
   <p class="type-mono">JetBrains Mono — const đènBàn = signal(true); // chú thích tiếng Việt</p>
 </section>
 
 <!-- Nút & card -->
 <section class="block toon toon-lg">
-  <h2>4. Nút "nhấn lún" & card</h2>
-  <p class="muted">Bấm giữ một nút: nút dịch xuống đúng bằng độ lệch bóng đổ. Rê chuột lên card: card nghiêng nhẹ.</p>
+  <h2>4. Nút & card</h2>
+  <p class="muted">Nút phẳng, bo góc 8px, viền 1px. Rê chuột lên card: card nhấc nhẹ lên và bóng đậm hơn.</p>
   <div class="row">
     <button type="button" class="btn">Mặc định</button>
     <button type="button" class="btn btn-primary">Chính</button>
@@ -70,7 +70,7 @@
     <button type="button" class="btn" disabled>Tắt</button>
   </div>
   <div class="row">
-    <input class="field" placeholder="Ô nhập cartoon…" aria-label="Ô nhập mẫu" />
+    <input class="field" placeholder="Ô nhập…" aria-label="Ô nhập mẫu" />
     <span class="chip chip-data"><app-icon name="data" [size]="16" /> chip dữ liệu</span>
     <span class="chip chip-event"><app-icon name="event" [size]="16" /> chip sự kiện</span>
   </div>
@@ -79,7 +79,7 @@
       <article class="toon deco-tilt mini-card">
         <app-icon [name]="['house', 'bulb', 'gift'][i - 1]" [size]="34" />
         <h3>Card số {{ i }}</h3>
-        <p class="muted">Viền 2px màu mực nhạt, bo góc 18px, bóng cứng 3px không blur và chỉ đậm 16%.</p>
+        <p class="muted">Viền 1px trung tính, bo góc 12px, bóng mềm nhiều lớp.</p>
       </article>
     }
   </div>
@@ -95,12 +95,12 @@
   </div>
 </section>
 
-<!-- Nét vẽ tay -->
+<!-- Sơ đồ -->
 <section class="block toon toon-lg">
-  <h2>6. Nét vẽ tay (rough.js)</h2>
+  <h2>6. Nét sơ đồ (rough.js, nét sạch)</h2>
   <button type="button" class="btn btn-sm" (click)="redraw()"><app-icon name="replay" [size]="16" /> Vẽ lại</button>
   @for (k of [drawKey()]; track k) {
-    <svg class="sketch" viewBox="0 0 640 200" role="img" aria-label="Ví dụ khung và mũi tên vẽ tay">
+    <svg class="sketch" viewBox="0 0 640 200" role="img" aria-label="Ví dụ khung và mũi tên trong sơ đồ">
       <g appRough [spec]="{ kind: 'rect', x: 20, y: 50, w: 150, h: 90 }" [draw]="true" class="r-ink" />
       <text x="95" y="102" text-anchor="middle" class="sk-text">Class</text>
       <g appRough [spec]="{ kind: 'rect', x: 460, y: 50, w: 150, h: 90 }" [draw]="true" [seed]="3" class="r-ink" />
@@ -146,7 +146,7 @@
 
 <!-- Code -->
 <section class="block toon toon-lg">
-  <h2>9. Khung code (không hoạt hình hoá)</h2>
-  <p class="muted">Nền sạch, mono, highlight rõ. Viền & bóng cartoon chỉ ở bên ngoài.</p>
+  <h2>9. Khung code</h2>
+  <p class="muted">Nền sạch, chữ mono, highlight rõ.</p>
   <app-code-panel [files]="sample" title="Style guide" />
 </section>

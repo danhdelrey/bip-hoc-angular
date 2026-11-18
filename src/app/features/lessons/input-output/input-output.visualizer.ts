@@ -99,7 +99,7 @@ const LANES: { id: Lane; label: string; sub: string; dir: string }[] = [
     .house { border: var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; background: var(--surface); }
     .parent { background: color-mix(in srgb, var(--c-di) 14%, var(--surface)); }
     .child { background: color-mix(in srgb, var(--c-brand) 14%, var(--surface)); }
-    .roof { padding: 8px 14px; font-family: var(--font-display); font-weight: 800; border-bottom: var(--border-thin); background: color-mix(in srgb, var(--surface-2) 70%, transparent); }
+    .roof { padding: 8px 14px; font-family: var(--font-display); font-weight: 600; border-bottom: var(--border-thin); background: color-mix(in srgb, var(--surface-2) 70%, transparent); }
     .rooms { display: grid; grid-template-columns: repeat(3, 1fr); }
     .room { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 12px 14px; min-height: 64px; border-right: var(--border-thin); transition: background-color var(--dur-fast) ease; }
     .room:last-child { border-right: none; }
@@ -120,9 +120,9 @@ const LANES: { id: Lane; label: string; sub: string; dir: string }[] = [
     .lane.is-hl, .lane.active { box-shadow: 0 0 0 4px var(--c-signal); }
     .tag { position: absolute; left: calc(100% + 10px); top: 50%; transform: translateY(-50%); display: grid; padding: 2px 10px; font-family: var(--font-mono); font-weight: 700; font-size: 13px; background: var(--surface); border: var(--border-thin); border-radius: 10px; box-shadow: var(--shadow-sm); white-space: nowrap; }
     .tag small { font-size: 11px; color: var(--text-muted); }
-    .dir { position: absolute; right: calc(100% + 8px); top: 50%; transform: translateY(-50%); font-size: 22px; font-weight: 800; }
+    .dir { position: absolute; right: calc(100% + 8px); top: 50%; transform: translateY(-50%); font-size: 22px; font-weight: 600; }
     .mover { position: absolute; left: 50%; top: calc(8px + var(--p) * (100% - 52px)); transform: translateX(-50%); z-index: 2; transition: top var(--dur) var(--ease-in-out); }
-    .dot { display: grid; place-items: center; width: 34px; height: 34px; font-weight: 800; color: var(--pal-ink); border: var(--border); border-radius: 50%; background: var(--c-data); }
+    .dot { display: grid; place-items: center; width: 34px; height: 34px; font-weight: 600; color: var(--pal-ink); border: var(--border); border-radius: 50%; background: var(--c-data); }
     .bubble .dot { background: color-mix(in srgb, var(--c-event) 85%, white); border-radius: 50% 50% 50% 50% / 55% 55% 45% 45%; box-shadow: inset -5px -5px 0 rgba(255,255,255,.35); }
     .mlabel { position: absolute; left: calc(100% + 6px); top: 6px; padding: 0 6px; font-family: var(--font-mono); font-size: 11.5px; font-weight: 700; background: var(--surface); border: 2px solid var(--line); border-radius: 8px; white-space: nowrap; }
     .mover.land .dot { animation: squash-land 520ms var(--ease-out); }

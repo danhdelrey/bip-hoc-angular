@@ -63,7 +63,7 @@ export function layoutTree<T extends TreeNode>(nodes: readonly T[], o: TreeLayou
 }
 
 /**
- * Cây tổng quát: dây nối vẽ tay (SVG), mỗi node là HTML tự do qua <ng-template let-node>.
+ * Cây tổng quát: dây nối SVG, mỗi node là HTML tự do qua <ng-template let-node>.
  * Dùng cho khu phố component, cây DOM, cây FormGroup, khu phố của thanh tra change detection.
  */
 @Component({

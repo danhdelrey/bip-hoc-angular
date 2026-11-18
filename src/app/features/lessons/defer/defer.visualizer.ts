@@ -81,7 +81,7 @@ const ALL_CLOSED: Frame = { viewport: 'placeholder', interaction: 'placeholder',
     .s-loading { background: color-mix(in srgb, var(--c-signal) 35%, var(--surface)); }
     .s-done { background: color-mix(in srgb, var(--c-data) 30%, var(--surface)); }
     .emoji { font-size: 40px; line-height: 1.1; }
-    .s-done .emoji { font-size: 18px; font-weight: 800; padding-top: 14px; }
+    .s-done .emoji { font-size: 18px; font-weight: 600; padding-top: 14px; }
     .state { font-family: var(--font-mono); font-size: 11px; font-weight: 700; }
     .shake { animation: shake 260ms linear infinite; }
     .pop { animation: deco-pop-in 520ms var(--ease-bounce); }

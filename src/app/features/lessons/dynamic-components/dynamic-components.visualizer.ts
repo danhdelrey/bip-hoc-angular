@@ -84,7 +84,7 @@ interface Frame {
     :host { display: block; }
     .top { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 18px 22px 6px; }
     .kinds { display: inline-flex; gap: 6px; }
-    .kind { padding: 6px 12px; font-weight: 800; background: var(--surface); border: var(--border-thin); border-radius: 12px; cursor: pointer; }
+    .kind { padding: 6px 12px; font-weight: 600; background: var(--surface); border: var(--border-thin); border-radius: 12px; cursor: pointer; }
     .kind.on { background: var(--c-signal); color: var(--on-accent); }
     .site { position: relative; margin: 10px 22px 0; padding: 70px 14px 14px; min-height: 260px; background: repeating-linear-gradient(45deg, color-mix(in srgb, #a16207 14%, var(--surface)) 0 16px, color-mix(in srgb, #a16207 8%, var(--surface)) 16px 32px); border: var(--border); border-radius: var(--radius); }
     .site.is-hl { box-shadow: 0 0 0 4px var(--c-signal); }

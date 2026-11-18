@@ -131,7 +131,7 @@ function measure(act: Act, on: Set<Cure>): Report {
     .gauge.good { background: var(--c-data); color: var(--on-accent); }
     .gauge.bad { background: var(--c-error); color: var(--on-accent); }
     .bar { position: relative; display: flex; height: 44px; border: var(--border); border-radius: 12px; overflow: hidden; background: var(--surface); }
-    .seg { display: grid; place-items: center; min-width: 0; overflow: hidden; font-size: 11px; font-weight: 800; color: var(--pal-ink); white-space: nowrap; transition: flex var(--dur-slow) var(--ease-out); }
+    .seg { display: grid; place-items: center; min-width: 0; overflow: hidden; font-size: 11px; font-weight: 600; color: var(--pal-ink); white-space: nowrap; transition: flex var(--dur-slow) var(--ease-out); }
     .seg.is-hl { outline: 3px solid var(--c-signal-strong); outline-offset: -3px; }
     .s-filter { background: var(--c-signal); }
     .s-cd { background: var(--c-di); }
@@ -139,7 +139,7 @@ function measure(act: Act, on: Set<Cure>): Report {
     .s-layout { background: var(--c-brand); }
     .s-free { background: transparent; }
     .budget { position: absolute; left: calc(16 / 60 * 100%); top: -2px; bottom: -2px; border-left: 3px dashed var(--c-error-strong); }
-    .budget::after { content: '16ms'; position: absolute; left: 4px; top: 2px; font-size: 10px; font-weight: 800; color: var(--c-error-strong); }
+    .budget::after { content: '16ms'; position: absolute; left: 4px; top: 2px; font-size: 10px; font-weight: 600; color: var(--c-error-strong); }
     .stats { margin: 0; padding-left: 18px; font-size: var(--fs-sm); }
     .net { display: grid; gap: 10px; }
     .nrow { display: grid; grid-template-columns: 90px 1fr 70px; gap: 8px; align-items: center; font-weight: 700; font-size: var(--fs-sm); padding: 4px; border-radius: 8px; }

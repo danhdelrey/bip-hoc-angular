@@ -8,24 +8,25 @@
   display: flex; align-items: center; gap: 16px;
   height: var(--header-h);
   padding: 0 18px;
-  background: color-mix(in srgb, var(--bg) 88%, transparent);
-  backdrop-filter: blur(6px);
+  background: color-mix(in srgb, var(--surface) 85%, transparent);
+  backdrop-filter: blur(8px);
   border-bottom: var(--border);
 }
 .brand { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
 .brand app-mascot { margin-top: 6px; }
-.brand-text { font-family: var(--font-display); font-size: var(--fs-xl); font-weight: 800; white-space: nowrap; }
-.brand-text b { color: var(--c-di-strong); }
+.brand-text { font-family: var(--font-display); font-size: var(--fs-lg); font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.brand-text b { color: var(--c-primary-text); font-weight: 700; }
 .nav { display: flex; gap: 6px; margin-left: 12px; }
 .nav a {
-  padding: 6px 14px;
-  font-weight: 800;
+  padding: 6px 12px;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--text-muted);
   text-decoration: none;
-  border: 2.5px solid transparent;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-sm);
 }
-.nav a:hover { border-color: var(--line); }
-.nav a.on { background: var(--surface); border-color: var(--line); box-shadow: var(--shadow-sm); }
+.nav a:hover { color: var(--text); background: var(--surface-sunken); }
+.nav a.on { color: var(--text); background: var(--surface-sunken); }
 .actions { display: flex; gap: 10px; margin-left: auto; }
 .menu { display: none; }
 
@@ -34,13 +35,13 @@
   position: sticky; top: var(--header-h);
   height: calc(100vh - var(--header-h));
   overflow-y: auto;
-  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  background: var(--surface);
   border-right: var(--border);
   scrollbar-width: thin;
 }
 .main { min-width: 0; outline: none; }
 
-.modal-scrim, .scrim { position: fixed; inset: 0; z-index: 80; background: rgba(20, 18, 45, 0.45); }
+.modal-scrim, .scrim { position: fixed; inset: 0; z-index: 80; background: rgba(15, 23, 42, 0.4); }
 .modal {
   position: fixed; z-index: 90;
   left: 50%; top: 50%;
@@ -51,9 +52,9 @@
   padding: 22px 24px;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .modal { animation: modal-in 420ms var(--ease-bounce); }
+  .modal { animation: modal-in 220ms var(--ease-out); }
 }
-@keyframes modal-in { from { transform: translate(-50%, -46%) scale(0.85); opacity: 0; } }
+@keyframes modal-in { from { transform: translate(-50%, -48%); opacity: 0; } }
 .modal-head { display: flex; justify-content: space-between; align-items: center; }
 .modal-head h2 { display: flex; gap: 10px; align-items: center; margin: 0; }
 .badge-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 18px; margin-top: 18px; }

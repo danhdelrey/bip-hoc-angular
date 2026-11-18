@@ -105,17 +105,17 @@ const MAX = 2600;
     .price { margin: 2px 0 6px; color: #b45309; font-weight: 700; }
     .buy { display: inline-flex; gap: 4px; align-items: center; padding: 4px 12px; border: 0; border-radius: 8px; background: #1a56db; color: #fff; font: inherit; font-weight: 700; }
     .buy.dead { background: #64748b; }
-    .tag { display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 6px; font-size: 12px; font-weight: 800; }
+    .tag { display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 6px; font-size: 12px; font-weight: 600; }
     .tag.q { background: #fef3c7; color: #92400e; }
     .tag.lost { background: #fee2e2; color: #991b1b; }
     .reviews { margin-top: 10px; padding: 6px 10px; border: 1px dashed #94a3b8; border-radius: 8px; font-size: 13px; }
     .reviews.dead { color: #64748b; }
-    .err { position: absolute; left: 8px; right: 8px; bottom: 8px; padding: 6px 10px; background: #fee2e2; color: #991b1b; border: 2px solid #b91c1c; border-radius: 8px; font-weight: 800; font-size: 13px; }
+    .err { position: absolute; left: 8px; right: 8px; bottom: 8px; padding: 6px 10px; background: #fee2e2; color: #991b1b; border: 2px solid #b91c1c; border-radius: 8px; font-weight: 600; font-size: 13px; }
     .track { position: relative; height: 38px; margin-top: 14px; border: var(--border); border-radius: 10px; background: var(--surface); }
     .js { position: absolute; left: 0; top: 0; bottom: 0; background: var(--c-di); opacity: 0.55; border-radius: 8px 0 0 8px; transition: width var(--dur-slow) var(--ease-out); }
     .js.is-hl { opacity: 0.9; }
     .cursor { position: absolute; top: -6px; bottom: -6px; width: 3px; background: var(--pal-ink); transition: left var(--dur-slow) var(--ease-out); }
-    .mark { position: absolute; top: -22px; transform: translateX(-50%); padding: 0 6px; font-size: 11px; font-weight: 800; border: var(--border-thin); border-radius: 6px; white-space: nowrap; }
+    .mark { position: absolute; top: -22px; transform: translateX(-50%); padding: 0 6px; font-size: 11px; font-weight: 600; border: var(--border-thin); border-radius: 6px; white-space: nowrap; }
     .mark.fcp { background: var(--c-data); color: var(--on-accent); }
     .mark.tti { top: 40px; background: var(--c-event); color: var(--pal-ink); }
     .sec { position: absolute; bottom: 2px; font-size: 10px; color: var(--text-muted); transform: translateX(-50%); }

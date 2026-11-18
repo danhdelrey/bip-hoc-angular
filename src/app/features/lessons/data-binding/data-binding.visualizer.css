@@ -118,7 +118,7 @@
   white-space: nowrap;
   z-index: 1;
 }
-.dir-ic { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); font-weight: 800; font-size: 18px; color: var(--text); }
+.dir-ic { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); font-weight: 600; font-size: 18px; color: var(--text); }
 
 /* ---------- Bi mặt cười (chuyển động GIẢI THÍCH — không tắt khi reduced-motion) ---------- */
 .marble {

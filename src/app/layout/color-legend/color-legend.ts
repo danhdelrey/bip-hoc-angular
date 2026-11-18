@@ -30,7 +30,7 @@ export const SEMANTICS = [
   styles: `
     /* Desktop: neo ở góc dưới-trái, nằm gọn trong chân sidebar => không che nội dung */
     :host { position: fixed; left: 0; bottom: 0; z-index: 50; width: var(--sidebar-w); padding: 10px 12px; display: flex; flex-direction: column-reverse; gap: 8px; background: var(--bg); border-top: var(--border); border-right: var(--border); }
-    .toggle { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; min-height: 36px; font-weight: 800; font-size: var(--fs-sm); background: var(--surface); border: var(--border-thin); border-radius: var(--radius-pill); box-shadow: var(--shadow-sm); cursor: pointer; }
+    .toggle { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; min-height: 36px; font-weight: 600; font-size: var(--fs-sm); background: var(--surface); border: var(--border-thin); border-radius: var(--radius-pill); box-shadow: var(--shadow-sm); cursor: pointer; }
     .list { display: flex; flex-wrap: wrap; gap: 5px; margin: 0; padding: 0; list-style: none; }
     .chip { font-size: 12px; }
     /* Mobile/tablet: sidebar ẩn -> chú giải nổi ở góc dưới-phải */

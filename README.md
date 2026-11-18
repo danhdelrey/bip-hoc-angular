@@ -1,10 +1,10 @@
 # Bíp Học Angular 🤖
 
-Website học Angular **trực quan, tương tác, phong cách hoạt hình**. Người học *nhìn thấy* cơ chế bên trong Angular chạy qua các visualizer có step-player (▶ ⏸ ⏭ + tốc độ), thay vì chỉ đọc chữ.
+Website học Angular **trực quan, tương tác, phong cách đơn giản hiện đại** (vẫn có linh vật Bíp). Người học *nhìn thấy* cơ chế bên trong Angular chạy qua các visualizer có step-player (▶ ⏸ ⏭ + tốc độ), thay vì chỉ đọc chữ.
 
 - Angular **22** (standalone, signals, `@if/@for`, zoneless mặc định, `inject()`, `@Service()`)
 - Chỉ frontend, mọi dữ liệu/HTTP đều mock
-- Animation: CSS + SVG, nét vẽ tay bằng **rough.js**; highlight code bằng **Shiki** (lazy-load)
+- Giao diện: font **Be Vietnam Pro**, viền 1px, bóng mềm, sơ đồ SVG nét sạch (rough.js với roughness 0); highlight code bằng **Shiki** (lazy-load)
 - **Tailwind CSS v4** chỉ được dùng bên trong bài 15 (site chính dùng design tokens riêng)
 - Bài nâng cao dùng thêm **@angular/aria** (tabs headless) và **@ngrx/signals** (SignalStore)
 - Mỗi bài mở đầu bằng **định nghĩa chuyên ngành**; ẩn dụ chỉ xuất hiện ở khung "Hình dung" ngay trên visualizer, kèm bảng ánh xạ hình ảnh → thuật ngữ
@@ -60,8 +60,8 @@ Router dùng **hash routing** (`/#/bai/signals`) để chạy được trên m�
 src/
 ├─ styles/
 │  ├─ theme.css        ← FILE TOKENS DUY NHẤT: màu, viền, bóng, bo góc, font, easing (sáng + tối)
-│  ├─ base.css         ← reset, nền chấm bi/doodle, lớp tiện ích .toon .btn .chip, keyframes
-│  └─ code.css         ← khung code "sạch" (không hoạt hình hoá)
+│  ├─ base.css         ← reset, typography, lớp tiện ích .toon (card) .btn .chip, keyframes
+│  └─ code.css         ← khung code
 ├─ app/
 │  ├─ core/            ← service toàn app: progress, theme, motion, sound, feedback (toast/confetti), safe-storage
 │  ├─ layout/          ← shell, sidebar bản đồ màn chơi (level-map), chú giải màu, toasts
@@ -83,12 +83,12 @@ src/
 |---|---|
 | `mascot` | Linh vật Bíp (SVG), input `mood`: `happy · thinking · surprised · sad · celebrate · wave` |
 | `speech-bubble` / `mascot-says` | Bong bóng thoại, Bíp + bong bóng |
-| `rough` (`appRough`, `appArrow`) | Hình và mũi tên vẽ tay (rough.js, seed cố định, có cache) |
+| `rough` (`appRough`, `appArrow`) | Hình và mũi tên cho sơ đồ (rough.js nét sạch, seed cố định, có cache) |
 | `step-player` + `step-timeline` | Bộ phát từng bước dùng chung; mỗi bước mang một *frame* đầy đủ nên tua lui/tới rất rẻ |
 | `code-panel` | Tab nhiều file, Shiki, copy, **Mở trên StackBlitz**, highlight dòng theo anchor |
 | `anchor` (`LessonContext` + `appAnchor`) | Hover code ↔ visualizer hai chiều; báo hoàn thành thử thách |
 | `lesson-layout` | Khung 7 phần thống nhất cho mọi bài |
-| `tree-diagram` | Cây tổng quát (bố cục tự động, dây nối vẽ tay, node là template tuỳ ý) — khu phố component, cây FormGroup, thanh tra change detection |
+| `tree-diagram` | Cây tổng quát (bố cục tự động, dây nối SVG, node là template tuỳ ý) — khu phố component, cây FormGroup, thanh tra change detection |
 | `marble-diagram` | Băng chuyền marble cho RxJS, có đầu đọc thời gian |
 | `quiz`, `badge`, `confetti`, `browser-frame`, `icon` | Như tên gọi |
 
@@ -115,8 +115,9 @@ src/
 
 Mọi giá trị nằm trong `src/styles/theme.css`:
 - **Màu ngữ nghĩa** `--c-data / --c-event / --c-di / --c-signal / --c-error`, cùng biến thể `-strong` dùng khi màu là chữ.
-- **Viền, bóng, bo góc** `--border-w`, `--shadow-offset`, `--radius*`.
-- **Font, easing** `--font-*`, `--ease-bounce`…
+- **Màu chính** `--c-primary` (nền nút, tiến độ) và `--c-primary-text` (khi là chữ).
+- **Viền, bóng, bo góc** `--line`, `--border-w`, `--shadow*`, `--radius*`.
+- **Font, easing** `--font-*`, `--ease-out`…
 - Khối `:root[data-theme='dark']` cho chế độ tối.
 
 Sửa xong thì chạy `npm run check:contrast`. Nếu thêm màu mới, thêm cặp tương ứng vào `scripts/check-contrast.mjs`.

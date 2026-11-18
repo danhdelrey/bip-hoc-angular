@@ -96,11 +96,11 @@ function fakeFetch(id: number, abortSignal: AbortSignal, fail: boolean) {
     .demo { display: grid; gap: 8px; margin-top: 12px; padding: 12px; border: var(--border-thin); border-radius: var(--radius-sm); background: var(--surface-2); }
     .row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
     .lbl { font-family: var(--font-mono); font-weight: 700; min-width: 76px; font-size: 13px; }
-    .size { min-width: 40px; min-height: 36px; font-weight: 800; background: var(--surface); border: var(--border-thin); border-radius: 10px; cursor: pointer; }
+    .size { min-width: 40px; min-height: 36px; font-weight: 600; background: var(--surface); border: var(--border-thin); border-radius: 10px; cursor: pointer; }
     .size.on { background: var(--c-signal); color: var(--on-accent); }
     .out { margin: 0; font-size: var(--fs-sm); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
     .fail { font-size: var(--fs-sm); font-weight: 700; }
-    .err { display: inline-flex; gap: 6px; align-items: center; color: var(--c-error-strong); font-weight: 800; }
+    .err { display: inline-flex; gap: 6px; align-items: center; color: var(--c-error-strong); font-weight: 600; }
     .spinner { width: 16px; height: 16px; border: 3px solid var(--line); border-top-color: transparent; border-radius: 50%; animation: spin 700ms linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
     @media (max-width: 900px) { .cols { grid-template-columns: 1fr; } }

@@ -198,7 +198,7 @@ const SUB_Y: Record<string, number> = { A: 122, B: 182, C: 242 };
     .opts label { display: flex; gap: 5px; align-items: center; cursor: pointer; padding: 2px 6px; border-radius: 8px; }
     .opts label.is-hl { background: color-mix(in srgb, var(--c-signal) 30%, transparent); }
     .opbtn { display: grid; padding: 6px 12px; border: var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text); text-align: left; cursor: pointer; box-shadow: var(--shadow-sm); transition: transform var(--dur) var(--ease-bounce); }
-    .opbtn .name { font-family: var(--font-mono); font-weight: 800; font-size: 13px; }
+    .opbtn .name { font-family: var(--font-mono); font-weight: 600; font-size: 13px; }
     .opbtn small { font-size: 11px; color: var(--text-muted); }
     .opbtn.on { background: var(--c-event); color: var(--pal-ink); transform: translateY(-2px); }
     .opbtn.on small { color: var(--pal-ink); }
@@ -214,10 +214,10 @@ const SUB_Y: Record<string, number> = { A: 122, B: 182, C: 242 };
     .m.src circle { fill: var(--c-event); }
     .m.replay circle { fill: var(--c-signal); stroke-dasharray: 4 3; }
     .m.src.is-hl circle { stroke: var(--c-signal-strong); stroke-width: 4; }
-    .m text { font-family: var(--font-display); font-weight: 800; font-size: 12px; fill: var(--pal-ink); }
+    .m text { font-family: var(--font-display); font-weight: 600; font-size: 12px; fill: var(--pal-ink); }
     .m { animation: pop 300ms var(--ease-bounce); transform-box: fill-box; }
     .bar { fill: var(--c-di); stroke: var(--pal-ink); stroke-width: 2; }
-    .barlab { font-size: 11px; font-weight: 800; fill: var(--pal-ink); }
+    .barlab { font-size: 11px; font-weight: 600; fill: var(--pal-ink); }
     .now { stroke: var(--c-signal-strong); stroke-width: 2.5; stroke-dasharray: 6 4; }
     .legend { margin: 2px 22px 10px; font-size: var(--fs-sm); color: var(--text-muted); }
     .sw { display: inline-block; width: 12px; height: 12px; border-radius: 50%; vertical-align: -1px; border: 1.5px solid var(--pal-ink); }

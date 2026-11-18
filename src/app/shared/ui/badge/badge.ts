@@ -11,7 +11,7 @@ const ICON_PATHS: Record<string, string> = {
   rocket: 'M50 28c8 6 10 16 6 26H44c-4-10-2-20 6-26zM44 54l-6 6 2-10M56 54l6 6-2-10M47 60h6l-3 6z',
 };
 
-/** Huy hiệu kiểu cartoon: hình răng cưa + ruy-băng. Khi khoá thì xám và có ổ khoá. */
+/** Huy hiệu: hình răng cưa + ruy-băng. Khi khoá thì xám và có ổ khoá. */
 @Component({
   selector: 'app-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -44,7 +44,7 @@ const ICON_PATHS: Record<string, string> = {
     .lock rect, .lock path { fill: none; stroke: #6b6890; stroke-width: 2.4; stroke-linecap: round; }
     :host(.locked) .burst { fill: #d9d4e8; }
     :host(.locked) .ribbon { fill: #c4bfd6; }
-    .label { font-family: var(--font-display); font-weight: 800; font-size: var(--fs-sm); text-align: center; line-height: 1.2; }
+    .label { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-sm); text-align: center; line-height: 1.2; }
     @media (prefers-reduced-motion: no-preference) {
       :host(:not(.locked)):hover svg { animation: spin 700ms var(--ease-bounce); }
     }

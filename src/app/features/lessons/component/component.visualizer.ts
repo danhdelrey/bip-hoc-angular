@@ -129,7 +129,7 @@ const NONE: Frame = { built: { roof: true, class: true, template: true, styles: 
     .mini { --hc: var(--pal-lemon); display: flex; flex-direction: column; align-items: stretch; padding: 0; background: none; border: none; cursor: pointer; transition: transform var(--dur-fast) var(--ease-bounce); }
     .mini:hover, .mini.on { transform: translateY(-4px) scale(1.05); }
     .mini-roof { height: 20px; background: var(--hc); border: var(--border-thin); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
-    .mini-body { flex: 1; display: grid; place-items: center; font-size: 11.5px; font-weight: 800; background: color-mix(in srgb, var(--hc) 35%, var(--surface)); border: var(--border-thin); border-top: none; border-radius: 0 0 8px 8px; }
+    .mini-body { flex: 1; display: grid; place-items: center; font-size: 11.5px; font-weight: 600; background: color-mix(in srgb, var(--hc) 35%, var(--surface)); border: var(--border-thin); border-top: none; border-radius: 0 0 8px 8px; }
     .mini.on .mini-body { background: var(--c-signal); color: var(--on-accent); }
     .mini.pop { opacity: 0.25; }
     .note { display: flex; gap: 6px; align-items: center; margin: 0; font-weight: 700; color: var(--c-data-strong); }

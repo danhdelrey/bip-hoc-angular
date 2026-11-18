@@ -133,7 +133,7 @@ const EMPTY: Frame = { arr: [], incoming: null, replaced: false, at: null, visit
     .tok { font-family: var(--font-mono); font-size: 11px; padding: 1px 6px; border-radius: 6px; background: var(--c-di); color: var(--on-accent); }
     .box { padding: 14px; border: var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); background: var(--surface); min-width: 0; }
     .arr { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-height: 40px; font-family: var(--font-mono); }
-    .br { font-size: 24px; font-weight: 800; color: var(--c-di-strong); }
+    .br { font-size: 24px; font-weight: 600; color: var(--c-di-strong); }
     .item { padding: 4px 10px; border: var(--border-thin); border-radius: 10px; background: var(--c-di); color: var(--on-accent); font-family: var(--font-body); font-weight: 700; animation: pop var(--dur) var(--ease-bounce); }
     .item.replaced { background: var(--c-event); color: var(--pal-ink); }
     .checkout { display: grid; gap: 4px; margin-top: 12px; padding: 10px; background: #fff; color: #111; border-radius: 10px; border: 1px solid #ccc; }
@@ -146,7 +146,7 @@ const EMPTY: Frame = { arr: [], incoming: null, replaced: false, at: null, visit
     .nhead small { margin-left: 6px; color: var(--text-muted); font-size: 11px; }
     .node.found .nhead small { color: inherit; }
     .prov { display: flex; gap: 6px; align-items: center; font-size: var(--fs-sm); font-family: var(--font-mono); margin-top: 4px; cursor: pointer; }
-    .ball { position: absolute; right: -12px; top: -12px; padding: 3px 9px; border: var(--border-thin); border-radius: var(--radius-pill); background: var(--c-di); color: var(--on-accent); font-size: 11px; font-weight: 800; animation: pop var(--dur) var(--ease-bounce); }
+    .ball { position: absolute; right: -12px; top: -12px; padding: 3px 9px; border: var(--border-thin); border-radius: var(--radius-pill); background: var(--c-di); color: var(--on-accent); font-size: 11px; font-weight: 600; animation: pop var(--dur) var(--ease-bounce); }
     .up { color: var(--c-di-strong); font-size: 12px; }
     .side { display: grid; gap: 10px; align-content: start; justify-items: start; min-width: 0; }
     .side .call, .side .result { justify-self: stretch; }
@@ -154,7 +154,7 @@ const EMPTY: Frame = { arr: [], incoming: null, replaced: false, at: null, visit
     .call.is-hl { outline: 3px solid var(--c-signal-strong); }
     .mods { display: flex; flex-wrap: wrap; gap: 6px 14px; font-weight: 700; font-size: var(--fs-sm); }
     .mods label { display: flex; gap: 5px; align-items: center; cursor: pointer; }
-    .result { padding: 10px 12px; border: var(--border); border-radius: var(--radius); font-weight: 800; animation: pop var(--dur) var(--ease-bounce); }
+    .result { padding: 10px 12px; border: var(--border); border-radius: var(--radius); font-weight: 600; animation: pop var(--dur) var(--ease-bounce); }
     .result.ok { background: var(--c-data); color: var(--on-accent); }
     .result.err { background: var(--c-error); color: var(--on-accent); }
     .muted { color: var(--text-muted); font-family: var(--font-body); }

@@ -9,20 +9,22 @@ const ratio = (a, b) => {
   const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m);
   return (x + 0.05) / (y + 0.05);
 };
-const ink = '#1e1b3a';
-const accents = { mint: '#3ddc97', orange: '#ff9f43', lavender: '#a78bfa', lemon: '#ffd43b', red: '#ff5c5c', sky: '#4cc9f0', coral: '#ff8fab' };
+const ink = '#0f172a';
+const accents = { mint: '#34d399', orange: '#fb923c', lavender: '#a78bfa', lemon: '#facc15', red: '#f87171', sky: '#38bdf8', coral: '#f472b6' };
 const themes = {
   light: {
-    text: '#1e1b3a', muted: '#4a4570',
-    bgs: { bg: '#fff8e7', surface: '#ffffff', 'surface-2': '#fff1cc', sunken: '#f5ecd6' },
-    strong: { data: '#0b6e45', event: '#9a4a00', di: '#5b34c9', signal: '#7a5c00', error: '#b3261e' },
-    code: { bg: '#ffffff', gutter: '#6b6890', comment: '#6e7781', keyword: '#cf222e', string: '#0a3069' },
+    text: '#0f172a', muted: '#475569',
+    bgs: { bg: '#f6f7f9', surface: '#ffffff', 'surface-2': '#f1f5f9', sunken: '#eef1f5' },
+    strong: { data: '#0b6e45', event: '#9a4a00', di: '#5b34c9', signal: '#7a5c00', error: '#b3261e', primary: '#4338ca' },
+    code: { bg: '#ffffff', gutter: '#64748b', comment: '#6e7781', keyword: '#cf222e', string: '#0a3069' },
+    button: ['#ffffff', '#4f46e5'],
   },
   dark: {
-    text: '#f5f0e1', muted: '#c9c3e6',
-    bgs: { bg: '#17183a', surface: '#23255a', 'surface-2': '#2f3270', sunken: '#121331' },
-    strong: { data: '#5df0b0', event: '#ffb871', di: '#c4b1ff', signal: '#ffe066', error: '#ff8a8a' },
-    code: { bg: '#0f1030', gutter: '#9a96c4', comment: '#8b949e', keyword: '#ff7b72', string: '#a5d6ff' },
+    text: '#e5e9f0', muted: '#a3adbd',
+    bgs: { bg: '#0b1120', surface: '#151d2e', 'surface-2': '#1f2a3d', sunken: '#0a0f1c' },
+    strong: { data: '#5df0b0', event: '#ffb871', di: '#c4b1ff', signal: '#ffe066', error: '#ff8a8a', primary: '#a5b4fc' },
+    code: { bg: '#0d1424', gutter: '#8a94a6', comment: '#8b949e', keyword: '#ff7b72', string: '#a5d6ff' },
+    button: ['#ffffff', '#5b5ef0'],
   },
 };
 let fail = 0;
@@ -40,6 +42,7 @@ for (const [name, t] of Object.entries(themes)) {
     for (const [sn, c] of Object.entries(t.strong)) if (bn !== 'sunken') check(`${sn}-strong on ${bn}`, c, bg);
   }
   for (const [k, c] of Object.entries(t.code)) if (k !== 'bg') check(`code ${k} on code-bg`, c, t.code.bg);
+  check('chữ trắng trên nút chính', t.button[0], t.button[1]);
 }
 console.log('\n== chữ mực trên nền màu nhấn (cả 2 theme) ==');
 for (const [n, c] of Object.entries(accents)) check(`ink on ${n}`, ink, c);

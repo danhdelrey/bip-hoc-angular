@@ -125,7 +125,7 @@ function lum(gray: number): number {
     .shop .focus { outline: 4px solid var(--c-signal-strong); outline-offset: 3px; border-radius: 8px; }
     .shop .bad { box-shadow: 0 0 0 2px var(--c-error) inset; }
     .pimg { position: relative; display: grid; place-items: center; height: 90px; background: #fde68a; border-radius: 10px; }
-    .warn { position: absolute; top: 4px; left: 6px; font-size: 11px; font-weight: 800; color: #b91c1c; background: #fff; padding: 0 5px; border-radius: 5px; }
+    .warn { position: absolute; top: 4px; left: 6px; font-size: 11px; font-weight: 600; color: #b91c1c; background: #fff; padding: 0 5px; border-radius: 5px; }
     .row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
     .heart { font-size: 22px; color: #e11d48; padding: 0 6px; border-radius: 8px; }
     .tabs { display: flex; gap: 6px; padding: 4px; border-radius: 8px; }
@@ -136,7 +136,7 @@ function lum(gray: number): number {
     .cart { padding: 4px 10px; background: #1a56db; color: #fff; border-radius: 8px; font-weight: 700; font-size: 13px; }
     .toast { padding: 4px 8px; background: #dcfce7; border-radius: 8px; font-size: 13px; font-weight: 700; }
     .reader { background: var(--pal-ink); color: #f8fafc; border: var(--border); border-radius: var(--radius); padding: 12px 14px; min-width: 0; }
-    .rhead { display: flex; align-items: center; gap: 6px; margin: 0 0 8px; font-weight: 800; color: var(--c-signal); }
+    .rhead { display: flex; align-items: center; gap: 6px; margin: 0 0 8px; font-weight: 600; color: var(--c-signal); }
     .lines { margin: 0; padding-left: 20px; display: grid; gap: 6px; font-family: var(--font-mono); font-size: 13px; }
     .lines li.ok .mark { color: #4ade80; }
     .lines li.bad { color: #fecaca; }
@@ -150,7 +150,7 @@ function lum(gray: number): number {
     .contrast { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; padding: 8px 12px; border: var(--border-thin); border-radius: var(--radius); }
     .sample { padding: 4px 10px; background: #fff; border-radius: 8px; font-weight: 600; border: 1px solid #ddd; }
     .slider { display: flex; gap: 8px; align-items: center; font-weight: 700; font-size: var(--fs-sm); }
-    .ratio { font-weight: 800; padding: 2px 8px; border-radius: 8px; color: var(--on-accent); }
+    .ratio { font-weight: 600; padding: 2px 8px; border-radius: 8px; color: var(--on-accent); }
     .ratio.ok { background: var(--c-data-strong); }
     .ratio.bad { background: var(--c-error-strong); }
     @media (max-width: 760px) { .stage { grid-template-columns: 1fr; } }
