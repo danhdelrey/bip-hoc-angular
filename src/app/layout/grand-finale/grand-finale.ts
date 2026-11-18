@@ -20,7 +20,7 @@ import { CORE_LESSONS } from '../../content/lessons.registry';
           <app-mascot mood="celebrate" [size]="90" />
         </div>
         <h2 id="finale-title">Bạn đã chinh phục cả bản đồ Angular!</h2>
-        <p>{{ total }}/{{ total }} bài. Từ component, binding, DI, signals tới &#64;defer và Tailwind, bạn đã thấy cách từng cơ chế của Angular hoạt động. Huy hiệu <strong>Bậc thầy Angular</strong> là của bạn! Còn 4 đảo phụ nâng cao đang chờ bên kia cầu.</p>
+        <p>{{ total }}/{{ total }} bài. Từ component, binding, DI, signals tới &#64;defer và Tailwind, bạn đã thấy cách từng cơ chế của Angular hoạt động. Huy hiệu <strong>Bậc thầy Angular</strong> là của bạn! Còn 5 đảo phụ nâng cao đang chờ bên kia cầu.</p>
         <div class="actions">
           <a class="btn btn-primary" routerLink="/" (click)="close()">Về bản đồ</a>
           <button #closeBtn type="button" class="btn" (click)="close()">Đóng</button>

@@ -4,13 +4,12 @@ import { ProgressStore } from '../../core/progress/progress-store';
 import { ADVANCED_LESSONS, CORE_LESSONS, LESSONS } from '../../content/lessons.registry';
 import { Icon } from '../../shared/ui/icon/icon';
 import { MascotSays } from '../../shared/ui/speech-bubble/speech-bubble';
-import { ConceptMap } from './concept-map';
 
-/** Trang chủ: lời chào của Bíp, bản đồ khái niệm dạng đảo và danh sách bài. */
+/** Trang chủ: lời chào của Bíp và danh sách bài (lộ trình chính + nhánh nâng cao). */
 @Component({
   selector: 'app-home',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon, MascotSays, ConceptMap],
+  imports: [RouterLink, Icon, MascotSays],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -19,16 +18,16 @@ export class Home {
   protected readonly lessons = LESSONS;
   protected readonly sections = [
     { title: 'Lộ trình chính', icon: 'star', list: CORE_LESSONS, note: '' },
-    { title: 'Đảo phụ nâng cao', icon: 'bridge', list: ADVANCED_LESSONS, note: 'Từ bài cuối của mỗi đảo chính có một đường rẽ nhánh (biển "Nâng cao") qua cầu sang đảo phụ với 2 bài đào sâu hơn. Đường sáng lên khi bạn học xong đảo chính, nhưng muốn ghé trước cũng được.' },
+    { title: 'Nhánh nâng cao', icon: 'bridge', list: ADVANCED_LESSONS, note: 'Mỗi nhánh rẽ ra ngay sau bài nền tảng của nó: Nền Móng+ sau Lifecycle (4), Template+ sau Control flow (5), Dịch Vụ+ sau DI (7), Phản Ứng+ sau RxJS (9), Hiệu Năng+ sau @defer (14). Nhánh sáng lên khi bạn học xong các bài tiên quyết, nhưng muốn ghé trước cũng được.' },
   ];
   protected readonly next = computed(() => LESSONS.find((l) => !this.progress.completed().has(l.slug)));
   protected readonly firstVisit = !this.progress.greeted();
   protected readonly greeting = computed(() =>
     this.firstVisit
-      ? 'Xin chào! Mình là Bíp, robot hướng dẫn của bạn. Cùng mình đi khắp bản đồ Angular, mở nắp từng khái niệm ra xem bánh răng bên trong nhé!'
+      ? 'Xin chào! Mình là Bíp, robot hướng dẫn của bạn. Cùng mình đi hết lộ trình Angular, mở nắp từng khái niệm ra xem bánh răng bên trong nhé!'
       : this.progress.completedCount()
         ? `Chào mừng trở lại! Bạn đã xong ${this.progress.completedCount()} bài rồi đó. Đi tiếp nào!`
-        : 'Chào mừng trở lại! Chọn một trạm trên bản đồ để bắt đầu nhé.',
+        : 'Chào mừng trở lại! Chọn một bài ở lộ trình bên trái hoặc danh sách bên dưới để học tiếp nhé.',
   );
 
   constructor() {

@@ -30,7 +30,7 @@ interface BranchDraw {
 
 /**
  * Bản đồ màn chơi ở sidebar: đường chính đi qua 15 bài theo thứ tự,
- * sau bài cuối của mỗi đảo có một nhánh rẽ phải sang hai bài nâng cao.
+ * ngay sau bài nền tảng của mỗi đảo phụ có một nhánh rẽ phải sang các bài nâng cao.
  */
 function layout() {
   const points: Point[] = [];

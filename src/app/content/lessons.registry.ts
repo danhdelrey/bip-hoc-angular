@@ -24,18 +24,19 @@ export const LESSONS: readonly LessonMeta[] = [
   // ---------- Đảo phụ nâng cao (mỗi đảo chính có một đảo phụ nối bằng cầu) ----------
   { slug: 'content-projection', number: 16, title: 'Content projection', tagline: 'Nhận nội dung từ component cha', icon: 'form', available: true, tier: 'advanced', island: 'Nền Móng+' },
   { slug: 'dynamic-components', number: 17, title: 'Component động', tagline: 'Tạo component lúc chạy', icon: 'house', available: true, tier: 'advanced', island: 'Nền Móng+' },
-  { slug: 'performance', number: 18, title: 'Hiệu năng render', tagline: 'Đo và tối ưu render', icon: 'magnifier', available: true, tier: 'advanced', island: 'Template+' },
-  { slug: 'accessibility', number: 19, title: 'Accessibility & Angular Aria', tagline: 'Dùng được với mọi người', icon: 'star', available: true, tier: 'advanced', island: 'Template+' },
-  { slug: 'di-advanced', number: 20, title: 'DI nâng cao', tagline: 'Token, multi provider, tuỳ chọn tìm kiếm', icon: 'di', available: true, tier: 'advanced', island: 'Dịch Vụ+' },
-  { slug: 'ssr-hydration', number: 21, title: 'SSR & Hydration', tagline: 'Render ở server, kích hoạt ở trình duyệt', icon: 'bolt', available: true, tier: 'advanced', island: 'Dịch Vụ+' },
-  { slug: 'rxjs-subjects', number: 22, title: 'Subject & multicast', tagline: 'Subject, BehaviorSubject, ReplaySubject, share', icon: 'bell', available: true, tier: 'advanced', island: 'Phản Ứng+' },
-  { slug: 'rxjs-flattening', number: 23, title: 'RxJS flattening', tagline: 'mergeMap, concatMap, switchMap, exhaustMap', icon: 'marble', available: true, tier: 'advanced', island: 'Phản Ứng+' },
-  { slug: 'signal-store', number: 24, title: 'State lớn với SignalStore', tagline: 'Quản lý state theo tính năng', icon: 'building', available: true, tier: 'advanced', island: 'Phản Ứng+' },
+  { slug: 'accessibility', number: 18, title: 'Accessibility & Angular Aria', tagline: 'Dùng được với mọi người', icon: 'star', available: true, tier: 'advanced', island: 'Template+' },
+  { slug: 'di-advanced', number: 19, title: 'DI nâng cao', tagline: 'Token, multi provider, tuỳ chọn tìm kiếm', icon: 'di', available: true, tier: 'advanced', island: 'Dịch Vụ+' },
+  { slug: 'rxjs-subjects', number: 20, title: 'Subject & multicast', tagline: 'Subject, BehaviorSubject, ReplaySubject, share', icon: 'bell', available: true, tier: 'advanced', island: 'Phản Ứng+' },
+  { slug: 'rxjs-flattening', number: 21, title: 'RxJS flattening', tagline: 'mergeMap, concatMap, switchMap, exhaustMap', icon: 'marble', available: true, tier: 'advanced', island: 'Phản Ứng+' },
+  { slug: 'signal-store', number: 22, title: 'State lớn với SignalStore', tagline: 'Quản lý state theo tính năng', icon: 'building', available: true, tier: 'advanced', island: 'Phản Ứng+' },
+  { slug: 'performance', number: 23, title: 'Hiệu năng render', tagline: 'Đo và tối ưu render', icon: 'magnifier', available: true, tier: 'advanced', island: 'Hiệu Năng+' },
+  { slug: 'ssr-hydration', number: 24, title: 'SSR & Hydration', tagline: 'Render ở server, kích hoạt ở trình duyệt', icon: 'bolt', available: true, tier: 'advanced', island: 'Hiệu Năng+' },
 ];
 
 /**
- * Đường rẽ nhánh sang đảo phụ: rẽ ra sau bài cuối cùng của đảo chính (`after`),
- * và "mở" khi đã học xong mọi bài của đảo chính (`requires`).
+ * Đường rẽ nhánh sang đảo phụ: rẽ ra ngay sau bài nền tảng mà các bài nâng cao xây trên đó (`after`),
+ * và "mở" khi đã học xong các bài tiên quyết (`requires`).
+ * Thứ tự trong mảng = thứ tự xuất hiện trên lộ trình.
  */
 export interface IslandBranch {
   island: string;
@@ -44,10 +45,11 @@ export interface IslandBranch {
   lessons: string[];
 }
 export const ISLAND_BRANCHES: IslandBranch[] = [
-  { island: 'Nền Móng+', after: 'lifecycle', requires: ['component', 'data-binding', 'input-output', 'lifecycle'], lessons: ['content-projection', 'dynamic-components'] },
-  { island: 'Phản Ứng+', after: 'forms', requires: ['signals', 'rxjs', 'change-detection', 'forms'], lessons: ['rxjs-subjects', 'rxjs-flattening', 'signal-store'] },
-  { island: 'Dịch Vụ+', after: 'http', requires: ['dependency-injection', 'routing', 'http'], lessons: ['di-advanced', 'ssr-hydration'] },
-  { island: 'Template+', after: 'tailwind', requires: ['control-flow', 'pipes', 'defer', 'tailwind'], lessons: ['performance', 'accessibility'] },
+  { island: 'Nền Móng+', after: 'lifecycle', requires: ['component', 'input-output', 'lifecycle'], lessons: ['content-projection', 'dynamic-components'] },
+  { island: 'Template+', after: 'control-flow', requires: ['data-binding', 'control-flow'], lessons: ['accessibility'] },
+  { island: 'Dịch Vụ+', after: 'dependency-injection', requires: ['dependency-injection'], lessons: ['di-advanced'] },
+  { island: 'Phản Ứng+', after: 'rxjs', requires: ['dependency-injection', 'signals', 'rxjs'], lessons: ['rxjs-subjects', 'rxjs-flattening', 'signal-store'] },
+  { island: 'Hiệu Năng+', after: 'defer', requires: ['control-flow', 'change-detection', 'http', 'defer'], lessons: ['performance', 'ssr-hydration'] },
 ];
 
 export const CORE_LESSONS = LESSONS.filter((l) => (l.tier ?? 'core') === 'core');

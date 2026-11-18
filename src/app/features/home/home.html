@@ -2,7 +2,7 @@
   <div class="hero-text">
     <p class="eyebrow">Học Angular bằng mắt</p>
     <h1>Đừng chỉ đọc Angular.<br /><span class="hl">Hãy nhìn nó chạy!</span></h1>
-    <p class="lead">{{ lessons.length }} địa điểm trên bản đồ, mỗi nơi là một visualizer bạn bấm, kéo, tua chậm được. Code mẫu là Angular 22 hiện đại: standalone, signals, zoneless.</p>
+    <p class="lead">{{ lessons.length }} bài học, mỗi bài có một visualizer bạn bấm, kéo, tua chậm được. Code mẫu là Angular 22 hiện đại: standalone, signals, zoneless.</p>
     <div class="cta">
       @if (next(); as n) {
         <a class="btn btn-primary big" [routerLink]="['/bai', n.slug]">{{ progress.completedCount() ? 'Học tiếp' : 'Bắt đầu' }}: {{ n.title }} <app-icon name="arrowRight" /></a>
@@ -12,12 +12,6 @@
     </div>
   </div>
   <app-mascot-says [mood]="firstVisit ? 'wave' : 'happy'" [size]="120" class="greet">{{ greeting() }}</app-mascot-says>
-</section>
-
-<section class="path">
-  <h2><app-icon name="map" [size]="26" /> Bản đồ khái niệm</h2>
-  <p class="muted">Mỗi hòn đảo là một nhóm khái niệm, đường biển nối những bài liên quan. Mỗi đảo chính có một đường rẽ nhánh qua cầu gỗ sang đảo phụ nâng cao. Ghim vàng nhún nhảy là trạm nên học tiếp theo.</p>
-  <app-concept-map />
 </section>
 
 @for (sec of sections; track sec.title) {

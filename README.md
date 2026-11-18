@@ -10,16 +10,17 @@ Website học Angular **trực quan, tương tác, phong cách hoạt hình**. N
 - Mỗi bài mở đầu bằng **định nghĩa chuyên ngành**; ẩn dụ chỉ xuất hiện ở khung "Hình dung" ngay trên visualizer, kèm bảng ánh xạ hình ảnh → thuật ngữ
 - Tiến độ + huy hiệu lưu `localStorage` (bọc try/catch); sáng/tối; tôn trọng `prefers-reduced-motion`
 
-> **Trạng thái: 24 bài** — 15 bài lộ trình chính + 9 bài trên 4 **đảo phụ nâng cao** (mỗi bài đủ 7 phần), trang chủ bản đồ khái niệm hình đảo có đường rẽ nhánh sang đảo phụ, style guide, huy hiệu và màn ăn mừng khi xong lộ trình.
+> **Trạng thái: 24 bài** — 15 bài lộ trình chính + 9 bài trên 5 **đảo phụ nâng cao** (mỗi bài đủ 7 phần), lộ trình ở sidebar có nhánh rẽ sang bài nâng cao, style guide, huy hiệu và màn ăn mừng khi xong lộ trình.
 
-| Đảo phụ | Bài |
+| Đảo phụ (rẽ sau bài) | Bài |
 | --- | --- |
-| Nền Móng+ | 16 Content projection · 17 Component động |
-| Template+ | 18 Hiệu năng render · 19 Accessibility & Angular Aria |
-| Dịch Vụ+ | 20 DI nâng cao · 21 SSR & Hydration |
-| Phản Ứng+ | 22 Subject & multicast · 23 RxJS flattening & race condition · 24 State lớn với SignalStore |
+| Nền Móng+ (sau 4 Lifecycle) | 16 Content projection · 17 Component động |
+| Template+ (sau 5 Control flow) | 18 Accessibility & Angular Aria |
+| Dịch Vụ+ (sau 7 Dependency Injection) | 19 DI nâng cao |
+| Phản Ứng+ (sau 9 RxJS) | 20 Subject & multicast · 21 RxJS flattening & race condition · 22 State lớn với SignalStore |
+| Hiệu Năng+ (sau 14 @defer) | 23 Hiệu năng render · 24 SSR & Hydration |
 
-Bài nâng cao có chip "Nâng cao" ở đầu trang. Trên bản đồ sidebar, đường chính đi qua 15 bài; sau bài cuối của mỗi đảo có nhánh rẽ phải sang các bài nâng cao của đảo phụ (cấu hình ở `ISLAND_BRANCHES` trong `lessons.registry.ts`). Màn ăn mừng lớn vẫn chỉ tính 15 bài chính; đảo phụ có huy hiệu riêng ("Người qua cầu", "Huyền thoại đảo phụ").
+Bài nâng cao có chip "Nâng cao" ở đầu trang. Trên bản đồ sidebar, đường chính đi qua 15 bài; mỗi đảo phụ rẽ nhánh ngay sau bài nền tảng của nó (xem cột "rẽ sau bài" ở bảng trên) (cấu hình ở `ISLAND_BRANCHES` trong `lessons.registry.ts`). Màn ăn mừng lớn vẫn chỉ tính 15 bài chính; đảo phụ có huy hiệu riêng ("Người qua cầu", "Huyền thoại đảo phụ").
 >
 > Bản chạy thật: https://danhdelrey.github.io/bip-hoc-angular/
 
@@ -67,7 +68,7 @@ src/
 │  ├─ shared/ui/       ← component dùng chung (xem bên dưới)
 │  ├─ content/         ← lesson.model.ts, lessons.registry.ts (lộ trình 14 bài), badges.ts
 │  └─ features/
-│     ├─ home/ (concept-map.ts) style-guide/ coming-soon/ not-found/
+│     ├─ home/ style-guide/ coming-soon/ not-found/
 │     └─ lessons/<tên-bài>/
 │        ├─ <bài>.page.ts         ← lắp 7 phần bằng <app-lesson-layout>
 │        ├─ <bài>.visualizer.*    ← visualizer + logic sinh các bước
@@ -95,7 +96,7 @@ src/
 
 ## Thêm một bài học mới
 
-1. Thêm một dòng vào `content/lessons.registry.ts` (và toạ độ ghim trong `features/home/concept-map.ts`). Bài nâng cao thì đặt `tier: 'advanced'` và `island: '<tên đảo phụ>'`.
+1. Thêm một dòng vào `content/lessons.registry.ts`. Bài nâng cao thì đặt `tier: 'advanced'` và `island: '<tên đảo phụ>'`.
 2. Tạo `features/lessons/<slug>/`:
    - `<slug>.content.ts`: một object `LessonContent` (`definition` chuyên ngành, `intro`, `analogy` = câu hình dung + bảng ánh xạ hình ảnh → thuật ngữ hiển thị ngay trên visualizer, code + `anchors`, 1–3 `challenges`, 2–4 `pitfalls`, 3 câu `quiz`).
    - `<slug>.visualizer.ts`: dùng `createTimeline(initialFrame, { onEnter })`. Mỗi thao tác của người học sinh ra mảng `Step<Frame>` rồi gọi `tl.load(steps)`. Gắn `appAnchor="id"` lên phần tử cần đồng bộ với code. Khi người học làm xong thử thách thì gọi `ctx.completeChallenge(id)`.
