@@ -76,3 +76,9 @@
     animation: flash-ring 1.6s ease-out infinite;
   }
 }
+
+.sec-title { display: flex; align-items: center; gap: 6px; margin: 14px 0 4px; font-family: var(--font-display); font-weight: 800; font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
+.sec-title.adv { margin-top: 26px; color: var(--c-di-strong); }
+.map.adv .road-fill { stroke: color-mix(in srgb, var(--c-di) 30%, var(--surface)); }
+.station.adv .dot { border-style: dashed; }
+.station.adv:not(.done):not(.here) .dot { background: color-mix(in srgb, var(--c-di) 25%, var(--surface)); }

@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 import { Feedback } from '../../core/feedback/feedback';
 import { Badge } from '../../shared/ui/badge/badge';
 import { Mascot } from '../../shared/ui/mascot/mascot';
-import { LESSONS } from '../../content/lessons.registry';
+import { CORE_LESSONS } from '../../content/lessons.registry';
 
 /** Màn ăn mừng lớn khi hoàn thành cả lộ trình. */
 @Component({
@@ -20,7 +20,7 @@ import { LESSONS } from '../../content/lessons.registry';
           <app-mascot mood="celebrate" [size]="90" />
         </div>
         <h2 id="finale-title">Bạn đã chinh phục cả bản đồ Angular!</h2>
-        <p>{{ total }}/{{ total }} bài. Từ ngôi nhà component tới hộp quà &#64;defer và Tailwind, bạn đã nhìn thấy mọi bánh răng bên trong. Huy hiệu <strong>Bậc thầy Angular</strong> là của bạn!</p>
+        <p>{{ total }}/{{ total }} bài. Từ ngôi nhà component tới hộp quà &#64;defer và Tailwind, bạn đã nhìn thấy mọi bánh răng bên trong. Huy hiệu <strong>Bậc thầy Angular</strong> là của bạn! Còn 4 đảo phụ nâng cao đang chờ bên kia cầu.</p>
         <div class="actions">
           <a class="btn btn-primary" routerLink="/" (click)="close()">Về bản đồ</a>
           <button #closeBtn type="button" class="btn" (click)="close()">Đóng</button>
@@ -42,7 +42,7 @@ import { LESSONS } from '../../content/lessons.registry';
 })
 export class GrandFinale {
   protected readonly feedback = inject(Feedback);
-  protected readonly total = LESSONS.length;
+  protected readonly total = CORE_LESSONS.length;
   private readonly closeBtn = viewChild<ElementRef<HTMLButtonElement>>('closeBtn');
 
   constructor() {

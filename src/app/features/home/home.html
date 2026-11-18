@@ -17,19 +17,21 @@
 
 <section class="path">
   <h2><app-icon name="map" [size]="26" /> Bản đồ khái niệm</h2>
-  <p class="muted">Mỗi hòn đảo là một nhóm khái niệm, đường biển nối những bài liên quan. Ghim vàng nhún nhảy là trạm nên học tiếp theo.</p>
+  <p class="muted">Mỗi hòn đảo là một nhóm khái niệm, đường biển nối những bài liên quan. Bốn đảo phụ nhỏ (nối bằng cầu gỗ) là phần nâng cao. Ghim vàng nhún nhảy là trạm nên học tiếp theo.</p>
   <app-concept-map />
 </section>
 
+@for (sec of sections; track sec.title) {
 <section class="path">
-  <h2><app-icon name="star" [size]="26" /> Danh sách {{ lessons.length }} bài</h2>
+  <h2><app-icon [name]="sec.icon" [size]="26" /> {{ sec.title }} <span class="count">{{ sec.list.length }} bài</span></h2>
+  @if (sec.note) { <p class="muted">{{ sec.note }}</p> }
   <ol class="grid">
-    @for (l of lessons; track l.slug) {
+    @for (l of sec.list; track l.slug) {
       @let done = progress.isDone(l.slug);
       <li>
         <a class="card toon deco-tilt" [class.done]="done" [routerLink]="['/bai', l.slug]">
           <span class="ic"><app-icon [name]="l.icon" [size]="28" /></span>
-          <span class="no">Bài {{ l.number }}</span>
+          <span class="no">Bài {{ l.number }}@if (l.island) { · {{ l.island }} }</span>
           <strong>{{ l.title }}</strong>
           <span class="tag">{{ l.tagline }}</span>
           @if (done) {
@@ -42,3 +44,4 @@
     }
   </ol>
 </section>
+}

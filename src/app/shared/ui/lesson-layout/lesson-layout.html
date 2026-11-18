@@ -8,6 +8,9 @@
       <p class="eyebrow">Bài {{ m.number }} · {{ m.tagline }}</p>
       <h1>{{ m.title }}</h1>
     </div>
+    @if (m.tier === 'advanced') {
+      <span class="chip chip-di adv-chip"><app-icon name="bridge" [size]="16" /> Nâng cao · {{ m.island }}</span>
+    }
     @if (done()) {
       <span class="chip chip-data done-chip"><app-icon name="check" [size]="16" /> Đã hiểu</span>
     }

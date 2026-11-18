@@ -46,7 +46,7 @@ export class Feedback {
       setTimeout(() => {
         const b = badgeById(id);
         this.toast(`Mở khoá huy hiệu "${b.title}"!`, 'celebrate', id, 5200);
-        this.celebrate(id === 'all-done' ? 'big' : 'small');
+        this.celebrate(id === 'all-done' || id === 'advanced-done' ? 'big' : 'small');
         if (id === 'all-done') setTimeout(() => this.finale.set(true), 900);
       }, 600 + i * 900),
     );

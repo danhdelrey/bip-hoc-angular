@@ -1,5 +1,5 @@
 import { Service, computed, signal } from '@angular/core';
-import { LESSONS } from '../../content/lessons.registry';
+import { ADVANCED_LESSONS, CORE_LESSONS, LESSONS } from '../../content/lessons.registry';
 import type { BadgeId } from '../../content/badges';
 import { safeStorage } from '../storage/safe-storage';
 
@@ -41,11 +41,15 @@ export class ProgressStore {
   completeLesson(slug: string): BadgeId[] {
     if (this.isDone(slug)) return [];
     this.patch({ completed: [...this.state().completed, slug] });
-    const n = this.state().completed.length;
+    const done = new Set(this.state().completed);
+    const n = done.size;
     const earned: BadgeId[] = [];
     if (n >= 1) earned.push('first-lesson');
     if (n >= 5) earned.push('five-lessons');
-    if (n >= LESSONS.length) earned.push('all-done');
+    if (CORE_LESSONS.every((l) => done.has(l.slug))) earned.push('all-done');
+    const adv = ADVANCED_LESSONS.filter((l) => done.has(l.slug)).length;
+    if (adv >= 1) earned.push('island-hopper');
+    if (adv >= ADVANCED_LESSONS.length) earned.push('advanced-done');
     return this.grant(earned);
   }
 

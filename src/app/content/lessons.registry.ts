@@ -20,7 +20,20 @@ export const LESSONS: readonly LessonMeta[] = [
   { slug: 'http', number: 13, title: 'HTTP & Interceptors', tagline: 'Phong bì có chân', icon: 'envelope', available: true },
   { slug: 'defer', number: 14, title: '@defer', tagline: 'Hộp quà bất ngờ', icon: 'gift', available: true },
   { slug: 'tailwind', number: 15, title: 'Tailwind CSS', tagline: 'Hộp LEGO class', icon: 'palette', available: true },
+
+  // ---------- Đảo phụ nâng cao (mỗi đảo chính có một đảo phụ nối bằng cầu) ----------
+  { slug: 'content-projection', number: 16, title: 'Content projection', tagline: 'Khung tranh nhiều ô', icon: 'form', available: true, tier: 'advanced', island: 'Nền Móng+' },
+  { slug: 'dynamic-components', number: 17, title: 'Component động', tagline: 'Nhà lắp ghép', icon: 'house', available: true, tier: 'advanced', island: 'Nền Móng+' },
+  { slug: 'performance', number: 18, title: 'Hiệu năng render', tagline: 'Bác sĩ hiệu năng', icon: 'magnifier', available: true, tier: 'advanced', island: 'Template+' },
+  { slug: 'accessibility', number: 19, title: 'Accessibility & Angular Aria', tagline: 'Ai cũng dùng được', icon: 'star', available: true, tier: 'advanced', island: 'Template+' },
+  { slug: 'di-advanced', number: 20, title: 'DI nâng cao', tagline: 'Quầy đặc biệt', icon: 'di', available: true, tier: 'advanced', island: 'Dịch Vụ+' },
+  { slug: 'ssr-hydration', number: 21, title: 'SSR & Hydration', tagline: 'Nhà lắp sẵn, cắm điện sau', icon: 'bolt', available: true, tier: 'advanced', island: 'Dịch Vụ+' },
+  { slug: 'rxjs-flattening', number: 22, title: 'RxJS flattening', tagline: 'Bốn anh em *Map', icon: 'marble', available: true, tier: 'advanced', island: 'Phản Ứng+' },
+  { slug: 'signal-store', number: 23, title: 'State lớn với SignalStore', tagline: 'Kho tổng', icon: 'building', available: true, tier: 'advanced', island: 'Phản Ứng+' },
 ];
+
+export const CORE_LESSONS = LESSONS.filter((l) => (l.tier ?? 'core') === 'core');
+export const ADVANCED_LESSONS = LESSONS.filter((l) => l.tier === 'advanced');
 
 export const lessonBySlug = (slug: string) => LESSONS.find((l) => l.slug === slug);
 

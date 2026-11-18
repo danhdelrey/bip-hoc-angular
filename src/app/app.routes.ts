@@ -31,6 +31,16 @@ export const routes: Routes = [
   { path: 'bai/tailwind', title: t('Tailwind CSS'), loadComponent: () => import('./features/lessons/tailwind/tailwind.page').then((m) => m.TailwindPage) },
   { path: 'bai/defer', title: t('@defer'), loadComponent: () => import('./features/lessons/defer/defer.page').then((m) => m.DeferPage) },
 
+  // ---------- Đảo phụ nâng cao ----------
+  { path: 'bai/content-projection', title: t('Content projection'), loadComponent: () => import('./features/lessons/content-projection/content-projection.page').then((m) => m.ContentProjectionPage) },
+  { path: 'bai/dynamic-components', title: t('Component động'), loadComponent: () => import('./features/lessons/dynamic-components/dynamic-components.page').then((m) => m.DynamicComponentsPage) },
+  { path: 'bai/performance', title: t('Hiệu năng render'), loadComponent: () => import('./features/lessons/performance/performance.page').then((m) => m.PerformancePage) },
+  { path: 'bai/accessibility', title: t('Accessibility & Angular Aria'), loadComponent: () => import('./features/lessons/accessibility/accessibility.page').then((m) => m.AccessibilityPage) },
+  { path: 'bai/di-advanced', title: t('DI nâng cao'), loadComponent: () => import('./features/lessons/di-advanced/di-advanced.page').then((m) => m.DiAdvancedPage) },
+  { path: 'bai/ssr-hydration', title: t('SSR & Hydration'), loadComponent: () => import('./features/lessons/ssr-hydration/ssr-hydration.page').then((m) => m.SsrHydrationPage) },
+  { path: 'bai/rxjs-flattening', title: t('RxJS flattening'), loadComponent: () => import('./features/lessons/rxjs-flattening/rxjs-flattening.page').then((m) => m.RxjsFlatteningPage) },
+  { path: 'bai/signal-store', title: t('SignalStore'), loadComponent: () => import('./features/lessons/signal-store/signal-store.page').then((m) => m.SignalStorePage) },
+
   { path: 'bai/:slug', title: t('Sắp có'), loadComponent: () => import('./features/coming-soon/coming-soon').then((m) => m.ComingSoon) },
   { path: '**', title: t('Lạc đường'), loadComponent: () => import('./features/not-found/not-found').then((m) => m.NotFound) },
 ];

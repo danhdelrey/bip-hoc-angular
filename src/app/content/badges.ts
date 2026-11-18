@@ -1,4 +1,4 @@
-export type BadgeId = 'first-lesson' | 'five-lessons' | 'perfect-quiz' | 'challenger' | 'all-done';
+export type BadgeId = 'first-lesson' | 'five-lessons' | 'perfect-quiz' | 'challenger' | 'all-done' | 'island-hopper' | 'advanced-done';
 
 export interface BadgeDef {
   id: BadgeId;
@@ -6,7 +6,7 @@ export interface BadgeDef {
   description: string;
   /** màu nền huy hiệu (token) */
   color: string;
-  icon: 'footprint' | 'compass' | 'star' | 'bolt' | 'crown';
+  icon: 'footprint' | 'compass' | 'star' | 'bolt' | 'crown' | 'bridge' | 'rocket';
 }
 
 export const BADGES: readonly BadgeDef[] = [
@@ -14,7 +14,9 @@ export const BADGES: readonly BadgeDef[] = [
   { id: 'five-lessons', title: 'Nhà thám hiểm', description: 'Hoàn thành 5 bài học', color: 'var(--c-brand)', icon: 'compass' },
   { id: 'perfect-quiz', title: 'Thần đồng quiz', description: 'Đúng 100% một bài quiz', color: 'var(--c-signal)', icon: 'star' },
   { id: 'challenger', title: 'Chiến binh thử thách', description: 'Hoàn thành mọi thử thách của một bài', color: 'var(--c-event)', icon: 'bolt' },
-  { id: 'all-done', title: 'Bậc thầy Angular', description: 'Hoàn thành toàn bộ lộ trình', color: 'var(--c-di)', icon: 'crown' },
+  { id: 'all-done', title: 'Bậc thầy Angular', description: 'Hoàn thành toàn bộ lộ trình chính', color: 'var(--c-di)', icon: 'crown' },
+  { id: 'island-hopper', title: 'Người qua cầu', description: 'Hoàn thành bài nâng cao đầu tiên', color: 'var(--c-accent)', icon: 'bridge' },
+  { id: 'advanced-done', title: 'Huyền thoại đảo phụ', description: 'Hoàn thành cả 8 bài nâng cao', color: 'var(--pal-lemon)', icon: 'rocket' },
 ];
 
 export const badgeById = (id: BadgeId) => BADGES.find((b) => b.id === id)!;

@@ -58,4 +58,8 @@ export interface LessonMeta {
   tagline: string;
   icon: string;
   available: boolean;
+  /** core = lộ trình chính; advanced = bài trên đảo phụ nâng cao */
+  tier?: 'core' | 'advanced';
+  /** tên đảo phụ (chỉ với bài nâng cao) */
+  island?: string;
 }

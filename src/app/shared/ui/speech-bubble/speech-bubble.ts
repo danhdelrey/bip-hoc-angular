@@ -11,6 +11,7 @@ import { Mascot, type MascotMood } from '../mascot/mascot';
     :host { display: block; position: relative; min-width: 0; }
     .bubble {
       position: relative;
+      overflow-wrap: anywhere;
       padding: 14px 18px;
       background: var(--surface);
       border: var(--border);

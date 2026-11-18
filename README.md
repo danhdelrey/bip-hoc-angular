@@ -6,9 +6,19 @@ Website học Angular **trực quan, tương tác, phong cách hoạt hình**. N
 - Chỉ frontend, mọi dữ liệu/HTTP đều mock
 - Animation: CSS + SVG, nét vẽ tay bằng **rough.js**; highlight code bằng **Shiki** (lazy-load)
 - **Tailwind CSS v4** chỉ được dùng bên trong bài 15 (site chính dùng design tokens riêng)
+- Bài nâng cao dùng thêm **@angular/aria** (tabs headless) và **@ngrx/signals** (SignalStore)
 - Tiến độ + huy hiệu lưu `localStorage` (bọc try/catch); sáng/tối; tôn trọng `prefers-reduced-motion`
 
-> **Trạng thái: hoàn thành cả 15 bài** (mỗi bài đủ 7 phần), trang chủ bản đồ khái niệm hình đảo, trang Angular vs React, style guide, huy hiệu và màn ăn mừng khi xong lộ trình.
+> **Trạng thái: 23 bài** — 15 bài lộ trình chính + 8 bài trên 4 **đảo phụ nâng cao** (mỗi bài đủ 7 phần), trang chủ bản đồ khái niệm hình đảo có cầu nối sang đảo phụ, trang Angular vs React, style guide, huy hiệu và màn ăn mừng khi xong lộ trình.
+
+| Đảo phụ | Bài |
+| --- | --- |
+| Nền Móng+ | 16 Content projection · 17 Component động |
+| Template+ | 18 Hiệu năng render · 19 Accessibility & Angular Aria |
+| Dịch Vụ+ | 20 DI nâng cao · 21 SSR & Hydration |
+| Phản Ứng+ | 22 RxJS flattening & race condition · 23 State lớn với SignalStore |
+
+Bài nâng cao có chip "Nâng cao" ở đầu trang và một khu riêng trên bản đồ sidebar. Màn ăn mừng lớn vẫn chỉ tính 15 bài chính; đảo phụ có huy hiệu riêng ("Người qua cầu", "Huyền thoại đảo phụ").
 >
 > Bản chạy thật: https://danhdelrey.github.io/bip-hoc-angular/
 
@@ -84,7 +94,7 @@ src/
 
 ## Thêm một bài học mới
 
-1. Thêm một dòng vào `content/lessons.registry.ts` (và toạ độ ghim trong `features/home/concept-map.ts`).
+1. Thêm một dòng vào `content/lessons.registry.ts` (và toạ độ ghim trong `features/home/concept-map.ts`). Bài nâng cao thì đặt `tier: 'advanced'` và `island: '<tên đảo phụ>'`.
 2. Tạo `features/lessons/<slug>/`:
    - `<slug>.content.ts`: một object `LessonContent` (ẩn dụ, intro, code + `anchors`, 1–3 `challenges`, 2–4 `pitfalls`, 3 câu `quiz`).
    - `<slug>.visualizer.ts`: dùng `createTimeline(initialFrame, { onEnter })`. Mỗi thao tác của người học sinh ra mảng `Step<Frame>` rồi gọi `tl.load(steps)`. Gắn `appAnchor="id"` lên phần tử cần đồng bộ với code. Khi người học làm xong thử thách thì gọi `ctx.completeChallenge(id)`.
@@ -122,6 +132,9 @@ Bíp nằm trong `shared/ui/mascot/mascot.ts` (SVG) và `mascot.css` (màu + chu
 - **Bài Change detection**: app chạy zoneless thật; chế độ Eager/OnPush + zone.js trong visualizer là mô phỏng theo quy tắc của Angular 22.
 - **Bài Forms**: visualizer dùng Reactive forms thật, kết quả live dùng Signal forms (stable từ Angular 22).
 - **Bài Tailwind**: PostCSS được bật qua `.postcssrc.json`, nhưng Tailwind chỉ được nạp trong `features/lessons/tailwind/tailwind.css`: không preflight, theme nằm trong `@layer theme` (token của site luôn thắng nếu trùng tên biến), chỉ quét class từ visualizer và thư mục `demo/` của bài (`source(none)` + `@source`). Muốn cả site dùng Tailwind thì thêm `@import "tailwindcss";` vào `src/styles.css`.
+
+- **Bài SSR & Hydration**: GitHub Pages không có server nên visualizer là mô phỏng; demo live chạy ở trình duyệt và minh hoạ `afterNextRender` / `isPlatformBrowser`.
+- **Bài Hiệu năng**: số ms trong visualizer là mô hình minh hoạ; con số trong demo live (danh sách 5.000 dòng) được đo thật bằng `afterNextRender`.
 
 ## Chưa làm / có thể làm tiếp
 

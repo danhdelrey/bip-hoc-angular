@@ -7,6 +7,8 @@ const ICON_PATHS: Record<string, string> = {
   star: 'M50 30l5.6 11.5 12.6 1.7-9.2 8.8 2.3 12.5L50 58.6l-11.3 5.9 2.3-12.5-9.2-8.8 12.6-1.7z',
   bolt: 'M53 28 38 50h10l-3 20 16-24H51z',
   crown: 'M33 60h34l3-24-11 9-9-14-9 14-11-9z',
+  bridge: 'M28 56h44M30 56V46q20-18 40 0v10M38 56V42M50 56V36M62 56V42',
+  rocket: 'M50 28c8 6 10 16 6 26H44c-4-10-2-20 6-26zM44 54l-6 6 2-10M56 54l6 6-2-10M47 60h6l-3 6z',
 };
 
 /** Huy hiệu kiểu cartoon: hình răng cưa + ruy-băng. Khi khoá thì xám và có ổ khoá. */

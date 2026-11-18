@@ -6,41 +6,39 @@
   </div>
 </div>
 
-<nav class="map" aria-label="Danh sách bài học">
-  <svg class="road" [attr.viewBox]="'0 0 244 ' + height" [attr.height]="height" aria-hidden="true">
-    <path class="road-edge" [attr.d]="road" />
-    <path class="road-fill" [attr.d]="road" />
-    <path class="road-dash" [attr.d]="road" />
-  </svg>
-
-  <ol class="stations" [style.height.px]="height">
-    @for (p of points; track p.lesson.slug) {
-      @let done = progress.isDone(p.lesson.slug);
-      @let here = p.lesson.slug === currentSlug();
-      <li [style.top.px]="p.y" [style.left.px]="p.x">
-        @if (p.lesson.available) {
-          <a class="station" [class.done]="done" [class.here]="here"
+@for (sec of sections; track sec.id) {
+  <p class="sec-title" [class.adv]="sec.id === 'advanced'">
+    <app-icon [name]="sec.id === 'advanced' ? 'bridge' : 'map'" [size]="15" /> {{ sec.title }}
+  </p>
+  <nav class="map" [class.adv]="sec.id === 'advanced'" [attr.aria-label]="sec.title">
+    <svg class="road" [attr.viewBox]="'0 0 244 ' + sec.height" [attr.height]="sec.height" aria-hidden="true">
+      <path class="road-edge" [attr.d]="sec.road" />
+      <path class="road-fill" [attr.d]="sec.road" />
+      <path class="road-dash" [attr.d]="sec.road" />
+    </svg>
+    <ol class="stations" [style.height.px]="sec.height">
+      @for (p of sec.points; track p.lesson.slug) {
+        @let done = progress.isDone(p.lesson.slug);
+        @let here = p.lesson.slug === currentSlug();
+        <li [style.top.px]="p.y" [style.left.px]="p.x">
+          <a class="station" [class.done]="done" [class.here]="here" [class.adv]="sec.id === 'advanced'"
              [routerLink]="['/bai', p.lesson.slug]" (click)="navigate.emit()"
              [attr.aria-current]="here ? 'page' : null"
              [attr.aria-label]="'Bài ' + p.lesson.number + ': ' + p.lesson.title + (done ? ' (đã xong)' : '')">
             <span class="dot">
               @if (done) { <app-icon name="check" [size]="18" /> } @else { {{ p.lesson.number }} }
             </span>
-            <span class="label" [class.left]="p.labelLeft">{{ p.lesson.title }}</span>
+            <span class="label">{{ p.lesson.title }}</span>
           </a>
-        } @else {
-          <a class="station soon" [class.here]="here" [routerLink]="['/bai', p.lesson.slug]" (click)="navigate.emit()"
-             [attr.aria-label]="'Bài ' + p.lesson.number + ': ' + p.lesson.title + ' (sắp có)'">
-            <span class="dot"><app-icon name="lock" [size]="15" /></span>
-            <span class="label" [class.left]="p.labelLeft">{{ p.lesson.title }} <em>sắp có</em></span>
-          </a>
+        </li>
+      }
+      @if (current(); as c) {
+        @if (c.section === sec.id) {
+          <li class="me" [style.top.px]="c.y - 52" [style.left.px]="c.x + 6" aria-hidden="true">
+            <app-mascot mood="happy" [size]="38" />
+          </li>
         }
-      </li>
-    }
-    @if (current(); as c) {
-      <li class="me" [style.top.px]="c.y - 52" [style.left.px]="c.x + 6" aria-hidden="true">
-        <app-mascot mood="happy" [size]="38" />
-      </li>
-    }
-  </ol>
-</nav>
+      }
+    </ol>
+  </nav>
+}
