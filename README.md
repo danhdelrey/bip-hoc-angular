@@ -9,7 +9,7 @@ Website học Angular **trực quan, tương tác, phong cách hoạt hình**. N
 - Bài nâng cao dùng thêm **@angular/aria** (tabs headless) và **@ngrx/signals** (SignalStore)
 - Tiến độ + huy hiệu lưu `localStorage` (bọc try/catch); sáng/tối; tôn trọng `prefers-reduced-motion`
 
-> **Trạng thái: 23 bài** — 15 bài lộ trình chính + 8 bài trên 4 **đảo phụ nâng cao** (mỗi bài đủ 7 phần), trang chủ bản đồ khái niệm hình đảo có cầu nối sang đảo phụ, trang Angular vs React, style guide, huy hiệu và màn ăn mừng khi xong lộ trình.
+> **Trạng thái: 23 bài** — 15 bài lộ trình chính + 8 bài trên 4 **đảo phụ nâng cao** (mỗi bài đủ 7 phần), trang chủ bản đồ khái niệm hình đảo có đường rẽ nhánh sang đảo phụ, style guide, huy hiệu và màn ăn mừng khi xong lộ trình.
 
 | Đảo phụ | Bài |
 | --- | --- |
@@ -66,7 +66,7 @@ src/
 │  ├─ shared/ui/       ← component dùng chung (xem bên dưới)
 │  ├─ content/         ← lesson.model.ts, lessons.registry.ts (lộ trình 14 bài), badges.ts
 │  └─ features/
-│     ├─ home/ (concept-map.ts) angular-vs-react/ style-guide/ coming-soon/ not-found/
+│     ├─ home/ (concept-map.ts) style-guide/ coming-soon/ not-found/
 │     └─ lessons/<tên-bài>/
 │        ├─ <bài>.page.ts         ← lắp 7 phần bằng <app-lesson-layout>
 │        ├─ <bài>.visualizer.*    ← visualizer + logic sinh các bước

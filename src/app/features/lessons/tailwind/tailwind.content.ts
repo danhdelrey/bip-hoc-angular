@@ -99,7 +99,7 @@ bootstrapApplication(PricingCard).catch((err) => console.error(err));
   ],
   quiz: [
     { question: 'Với Tailwind v4 trong Angular, bạn cần thêm gì vào src/styles.css?', options: ['@tailwind base; @tailwind utilities;', '@import "tailwindcss";', 'Không cần gì, chỉ cần tailwind.config.js', '<link> tới CDN Tailwind'], correct: 1, explain: 'v4 chỉ cần @import "tailwindcss" cùng plugin @tailwindcss/postcss trong .postcssrc.json (hoặc chạy ng add tailwindcss).' },
-    { question: 'Vì sao class="{{ \'text-\' + size }}" có thể không hoạt động?', options: ['Angular cấm nối chuỗi', 'Tailwind không thấy tên class đầy đủ trong mã nguồn nên không sinh CSS', 'Thiếu dấu chấm phẩy', 'Tailwind chỉ chạy trong React'], correct: 1, explain: 'Tailwind quét mã nguồn để tìm tên class; tên ghép lúc chạy thì nó không đoán được.' },
+    { question: 'Vì sao class="{{ \'text-\' + size }}" có thể không hoạt động?', options: ['Angular cấm nối chuỗi', 'Tailwind không thấy tên class đầy đủ trong mã nguồn nên không sinh CSS', 'Thiếu dấu chấm phẩy', 'Tailwind không hỗ trợ Angular'], correct: 1, explain: 'Tailwind quét mã nguồn để tìm tên class; tên ghép lúc chạy thì nó không đoán được.' },
     { question: 'class="hover:bg-sky-200" nghĩa là gì?', options: ['Luôn có nền sky-200', 'Nền sky-200 chỉ khi rê chuột lên phần tử', 'Nền sky-200 trên màn hình lớn', 'Lỗi cú pháp'], correct: 1, explain: 'hover: là một biến thể (variant): utility phía sau chỉ áp dụng khi phần tử đang được hover.' },
   ],
   doneMessage: 'Bạn đã ghép LEGO class thành thạo! Tailwind và Angular là một cặp ăn ý.',

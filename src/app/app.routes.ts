@@ -6,7 +6,6 @@ const t = (s: string) => `${s} · Bíp Học Angular`;
 export const routes: Routes = [
   { path: '', title: 'Bíp Học Angular', loadComponent: () => import('./features/home/home').then((m) => m.Home) },
   { path: 'style-guide', title: t('Style guide'), loadComponent: () => import('./features/style-guide/style-guide').then((m) => m.StyleGuide) },
-  { path: 'angular-vs-react', title: t('Angular vs React'), loadComponent: () => import('./features/angular-vs-react/angular-vs-react').then((m) => m.AngularVsReact) },
 
   { path: 'bai/component', title: t('Component'), loadComponent: () => import('./features/lessons/component/component.page').then((m) => m.ComponentPage) },
   { path: 'bai/data-binding', title: t('Data binding'), loadComponent: () => import('./features/lessons/data-binding/data-binding.page').then((m) => m.DataBindingPage) },

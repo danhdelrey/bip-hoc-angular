@@ -9,7 +9,6 @@
       } @else {
         <span class="chip chip-data big-chip"><app-icon name="trophy" /> Bạn đã hoàn thành cả lộ trình!</span>
       }
-      <a class="btn" routerLink="/angular-vs-react"><app-icon name="code" /> Đã biết React?</a>
     </div>
   </div>
   <app-mascot-says [mood]="firstVisit ? 'wave' : 'happy'" [size]="120" class="greet">{{ greeting() }}</app-mascot-says>
@@ -17,7 +16,7 @@
 
 <section class="path">
   <h2><app-icon name="map" [size]="26" /> Bản đồ khái niệm</h2>
-  <p class="muted">Mỗi hòn đảo là một nhóm khái niệm, đường biển nối những bài liên quan. Bốn đảo phụ nhỏ (nối bằng cầu gỗ) là phần nâng cao. Ghim vàng nhún nhảy là trạm nên học tiếp theo.</p>
+  <p class="muted">Mỗi hòn đảo là một nhóm khái niệm, đường biển nối những bài liên quan. Mỗi đảo chính có một đường rẽ nhánh qua cầu gỗ sang đảo phụ nâng cao. Ghim vàng nhún nhảy là trạm nên học tiếp theo.</p>
   <app-concept-map />
 </section>
 

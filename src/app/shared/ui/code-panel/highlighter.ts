@@ -22,7 +22,6 @@ function load(): Promise<HighlighterCore> {
         import('@shikijs/langs/angular-html'),
         import('@shikijs/langs/typescript'),
         import('@shikijs/langs/css'),
-        import('@shikijs/langs/tsx'),
       ],
       engine: createJavaScriptRegexEngine(),
     });
