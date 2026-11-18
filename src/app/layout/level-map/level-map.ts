@@ -9,7 +9,7 @@ const STEP_Y = 78;
 const TOP = 46;
 const XS = [30, 66, 98, 66];
 
-/** Thanh tiến độ dạng bản đồ màn chơi: con đường uốn lượn với 14 trạm dừng. */
+/** Thanh tiến độ dạng bản đồ màn chơi: con đường uốn lượn với các trạm dừng (mỗi bài một trạm). */
 @Component({
   selector: 'app-level-map',
   changeDetection: ChangeDetectionStrategy.OnPush,

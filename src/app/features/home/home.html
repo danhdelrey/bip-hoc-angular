@@ -2,7 +2,7 @@
   <div class="hero-text">
     <p class="eyebrow">Học Angular bằng mắt</p>
     <h1>Đừng chỉ đọc Angular.<br /><span class="hl">Hãy nhìn nó chạy!</span></h1>
-    <p class="lead">14 địa điểm trên bản đồ, mỗi nơi là một visualizer bạn bấm, kéo, tua chậm được. Code mẫu là Angular 22 hiện đại: standalone, signals, zoneless.</p>
+    <p class="lead">{{ lessons.length }} địa điểm trên bản đồ, mỗi nơi là một visualizer bạn bấm, kéo, tua chậm được. Code mẫu là Angular 22 hiện đại: standalone, signals, zoneless.</p>
     <div class="cta">
       @if (next(); as n) {
         <a class="btn btn-primary big" [routerLink]="['/bai', n.slug]">{{ progress.completedCount() ? 'Học tiếp' : 'Bắt đầu' }}: {{ n.title }} <app-icon name="arrowRight" /></a>
@@ -22,7 +22,7 @@
 </section>
 
 <section class="path">
-  <h2><app-icon name="star" [size]="26" /> Danh sách 14 bài</h2>
+  <h2><app-icon name="star" [size]="26" /> Danh sách {{ lessons.length }} bài</h2>
   <ol class="grid">
     @for (l of lessons; track l.slug) {
       @let done = progress.isDone(l.slug);

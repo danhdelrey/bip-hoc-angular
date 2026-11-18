@@ -1,0 +1,17 @@
+/*
+ * Tailwind CSS v4 — CHỈ dùng trong bài học này.
+ * Site chính có design tokens riêng nên ở đây:
+ *  - không nạp preflight (reset) để khỏi làm vỡ style chung,
+ *  - theme nằm trong @layer theme → token của site luôn thắng nếu trùng tên biến,
+ *  - chỉ quét class trong visualizer + thư mục demo (source(none) + @source).
+ * Trong một app thật, bạn chỉ cần: @import "tailwindcss";
+ */
+@layer theme;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' source(none);
+
+@source './tailwind.visualizer.ts';
+@source './demo';
+
+/* Cho phép bật dark mode bằng class .twl-dark (mặc định v4 theo prefers-color-scheme) */
+@custom-variant dark (&:where(.twl-dark, .twl-dark *));

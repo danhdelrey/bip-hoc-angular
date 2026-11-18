@@ -1,7 +1,7 @@
 import type { LessonMeta } from './lesson.model';
 
 /**
- * Lộ trình 14 bài — sidebar, trang chủ và router đều đọc từ đây.
+ * Lộ trình 15 bài — sidebar, trang chủ và router đều đọc từ đây.
  * Thêm bài mới: thêm một dòng ở đây + một route trong app.routes.ts.
  */
 export const LESSONS: readonly LessonMeta[] = [
@@ -19,6 +19,7 @@ export const LESSONS: readonly LessonMeta[] = [
   { slug: 'forms', number: 12, title: 'Forms', tagline: 'Cây trạng thái biết cười', icon: 'form', available: true },
   { slug: 'http', number: 13, title: 'HTTP & Interceptors', tagline: 'Phong bì có chân', icon: 'envelope', available: true },
   { slug: 'defer', number: 14, title: '@defer', tagline: 'Hộp quà bất ngờ', icon: 'gift', available: true },
+  { slug: 'tailwind', number: 15, title: 'Tailwind CSS', tagline: 'Hộp LEGO class', icon: 'palette', available: true },
 ];
 
 export const lessonBySlug = (slug: string) => LESSONS.find((l) => l.slug === slug);

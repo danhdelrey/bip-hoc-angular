@@ -27,6 +27,8 @@ export const routes: Routes = [
   { path: 'bai/forms', title: t('Forms'), loadComponent: () => import('./features/lessons/forms/forms.page').then((m) => m.FormsPage) },
   // Bài HTTP: HttpClient + interceptors được provide ở cấp route (environment injector riêng)
   { path: 'bai/http', title: t('HTTP & Interceptors'), loadChildren: () => import('./features/lessons/http/http.routes').then((m) => m.HTTP_LESSON_ROUTES) },
+  // Bài Tailwind: Tailwind v4 chỉ được nạp trong phạm vi bài này (xem features/lessons/tailwind/tailwind.css)
+  { path: 'bai/tailwind', title: t('Tailwind CSS'), loadComponent: () => import('./features/lessons/tailwind/tailwind.page').then((m) => m.TailwindPage) },
   { path: 'bai/defer', title: t('@defer'), loadComponent: () => import('./features/lessons/defer/defer.page').then((m) => m.DeferPage) },
 
   { path: 'bai/:slug', title: t('Sắp có'), loadComponent: () => import('./features/coming-soon/coming-soon').then((m) => m.ComingSoon) },

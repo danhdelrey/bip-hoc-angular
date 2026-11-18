@@ -23,6 +23,7 @@ const PINS: Record<string, [number, number]> = {
   'control-flow': [150, 470],
   pipes: [290, 440],
   defer: [365, 525],
+  tailwind: [225, 545],
   'dependency-injection': [615, 165],
   http: [825, 128],
   routing: [790, 235],
@@ -49,6 +50,7 @@ const ROUTES: [string, string][] = [
   ['signals', 'forms'],
   ['rxjs', 'http'],
   ['routing', 'defer'],
+  ['control-flow', 'tailwind'],
 ];
 
 /** Bản đồ khái niệm kiểu bản đồ thế giới trong game: mỗi bài là một địa điểm trên đảo. */

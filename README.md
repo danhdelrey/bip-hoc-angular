@@ -5,9 +5,10 @@ Website học Angular **trực quan, tương tác, phong cách hoạt hình**. N
 - Angular **22** (standalone, signals, `@if/@for`, zoneless mặc định, `inject()`, `@Service()`)
 - Chỉ frontend, mọi dữ liệu/HTTP đều mock
 - Animation: CSS + SVG, nét vẽ tay bằng **rough.js**; highlight code bằng **Shiki** (lazy-load)
+- **Tailwind CSS v4** chỉ được dùng bên trong bài 15 (site chính dùng design tokens riêng)
 - Tiến độ + huy hiệu lưu `localStorage` (bọc try/catch); sáng/tối; tôn trọng `prefers-reduced-motion`
 
-> **Trạng thái: hoàn thành cả 14 bài** (mỗi bài đủ 7 phần), trang chủ bản đồ khái niệm hình đảo, trang Angular vs React, style guide, huy hiệu và màn ăn mừng khi xong lộ trình.
+> **Trạng thái: hoàn thành cả 15 bài** (mỗi bài đủ 7 phần), trang chủ bản đồ khái niệm hình đảo, trang Angular vs React, style guide, huy hiệu và màn ăn mừng khi xong lộ trình.
 >
 > Bản chạy thật: https://danhdelrey.github.io/bip-hoc-angular/
 
@@ -120,6 +121,7 @@ Bíp nằm trong `shared/ui/mascot/mascot.ts` (SVG) và `mascot.css` (màu + chu
 - **Bài HTTP** provide `HttpClient` + interceptor ở cấp route; server là interceptor giả lập nên không có request mạng nào.
 - **Bài Change detection**: app chạy zoneless thật; chế độ Eager/OnPush + zone.js trong visualizer là mô phỏng theo quy tắc của Angular 22.
 - **Bài Forms**: visualizer dùng Reactive forms thật, kết quả live dùng Signal forms (stable từ Angular 22).
+- **Bài Tailwind**: PostCSS được bật qua `.postcssrc.json`, nhưng Tailwind chỉ được nạp trong `features/lessons/tailwind/tailwind.css`: không preflight, theme nằm trong `@layer theme` (token của site luôn thắng nếu trùng tên biến), chỉ quét class từ visualizer và thư mục `demo/` của bài (`source(none)` + `@source`). Muốn cả site dùng Tailwind thì thêm `@import "tailwindcss";` vào `src/styles.css`.
 
 ## Chưa làm / có thể làm tiếp
 
