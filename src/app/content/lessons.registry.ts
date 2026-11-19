@@ -29,8 +29,11 @@ export const LESSONS: readonly LessonMeta[] = [
   { slug: 'rxjs-subjects', number: 20, title: 'Subject & multicast', tagline: 'Subject, BehaviorSubject, ReplaySubject, share', icon: 'bell', available: true, tier: 'advanced', island: 'Phản Ứng+' },
   { slug: 'rxjs-flattening', number: 21, title: 'RxJS flattening', tagline: 'mergeMap, concatMap, switchMap, exhaustMap', icon: 'marble', available: true, tier: 'advanced', island: 'Phản Ứng+' },
   { slug: 'signal-store', number: 22, title: 'State lớn với SignalStore', tagline: 'Quản lý state theo tính năng', icon: 'building', available: true, tier: 'advanced', island: 'Phản Ứng+' },
-  { slug: 'performance', number: 23, title: 'Hiệu năng render', tagline: 'Đo và tối ưu render', icon: 'magnifier', available: true, tier: 'advanced', island: 'Hiệu Năng+' },
-  { slug: 'ssr-hydration', number: 24, title: 'SSR & Hydration', tagline: 'Render ở server, kích hoạt ở trình duyệt', icon: 'bolt', available: true, tier: 'advanced', island: 'Hiệu Năng+' },
+  { slug: 'routing-advanced', number: 23, title: 'Routing nâng cao', tagline: 'Params, resolver, canDeactivate, route lồng nhau', icon: 'link', available: true, tier: 'advanced', island: 'Điều Hướng+' },
+  { slug: 'reactive-forms', number: 24, title: 'Reactive Forms', tagline: 'FormGroup, FormArray, validator chéo và bất đồng bộ', icon: 'form', available: true, tier: 'advanced', island: 'Biểu Mẫu+' },
+  { slug: 'testing', number: 25, title: 'Testing với TestBed', tagline: 'Test component, service và HTTP', icon: 'flask', available: true, tier: 'advanced', island: 'Kiểm Thử+' },
+  { slug: 'performance', number: 26, title: 'Hiệu năng render', tagline: 'Đo và tối ưu render', icon: 'magnifier', available: true, tier: 'advanced', island: 'Hiệu Năng+' },
+  { slug: 'ssr-hydration', number: 27, title: 'SSR & Hydration', tagline: 'Render ở server, kích hoạt ở trình duyệt', icon: 'bolt', available: true, tier: 'advanced', island: 'Hiệu Năng+' },
 ];
 
 /**
@@ -49,6 +52,9 @@ export const ISLAND_BRANCHES: IslandBranch[] = [
   { island: 'Template+', after: 'control-flow', requires: ['data-binding', 'control-flow'], lessons: ['accessibility'] },
   { island: 'Dịch Vụ+', after: 'dependency-injection', requires: ['dependency-injection'], lessons: ['di-advanced'] },
   { island: 'Phản Ứng+', after: 'rxjs', requires: ['dependency-injection', 'signals', 'rxjs'], lessons: ['rxjs-subjects', 'rxjs-flattening', 'signal-store'] },
+  { island: 'Điều Hướng+', after: 'routing', requires: ['routing'], lessons: ['routing-advanced'] },
+  { island: 'Biểu Mẫu+', after: 'forms', requires: ['forms'], lessons: ['reactive-forms'] },
+  { island: 'Kiểm Thử+', after: 'http', requires: ['component', 'dependency-injection', 'http'], lessons: ['testing'] },
   { island: 'Hiệu Năng+', after: 'defer', requires: ['control-flow', 'change-detection', 'http', 'defer'], lessons: ['performance', 'ssr-hydration'] },
 ];
 

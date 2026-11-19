@@ -33,6 +33,9 @@ export const routes: Routes = [
   // ---------- Đảo phụ nâng cao ----------
   { path: 'bai/content-projection', title: t('Content projection'), loadComponent: () => import('./features/lessons/content-projection/content-projection.page').then((m) => m.ContentProjectionPage) },
   { path: 'bai/dynamic-components', title: t('Component động'), loadComponent: () => import('./features/lessons/dynamic-components/dynamic-components.page').then((m) => m.DynamicComponentsPage) },
+  { path: 'bai/routing-advanced', title: t('Routing nâng cao'), loadChildren: () => import('./features/lessons/routing-advanced/routing-advanced.routes').then((m) => m.ROUTING_ADVANCED_ROUTES) },
+  { path: 'bai/reactive-forms', title: t('Reactive Forms'), loadComponent: () => import('./features/lessons/reactive-forms/reactive-forms.page').then((m) => m.ReactiveFormsPage) },
+  { path: 'bai/testing', title: t('Testing với TestBed'), loadComponent: () => import('./features/lessons/testing/testing.page').then((m) => m.TestingPage) },
   { path: 'bai/performance', title: t('Hiệu năng render'), loadComponent: () => import('./features/lessons/performance/performance.page').then((m) => m.PerformancePage) },
   { path: 'bai/accessibility', title: t('Accessibility & Angular Aria'), loadComponent: () => import('./features/lessons/accessibility/accessibility.page').then((m) => m.AccessibilityPage) },
   { path: 'bai/di-advanced', title: t('DI nâng cao'), loadComponent: () => import('./features/lessons/di-advanced/di-advanced.page').then((m) => m.DiAdvancedPage) },

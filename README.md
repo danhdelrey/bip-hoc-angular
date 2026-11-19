@@ -10,15 +10,18 @@ Website học Angular **trực quan, tương tác, phong cách đơn giản hi�
 - Mỗi bài mở đầu bằng **định nghĩa chuyên ngành**; ẩn dụ chỉ xuất hiện ở khung "Hình dung" ngay trên visualizer, kèm bảng ánh xạ hình ảnh → thuật ngữ
 - Tiến độ + huy hiệu lưu `localStorage` (bọc try/catch); sáng/tối; tôn trọng `prefers-reduced-motion`
 
-> **Trạng thái: 24 bài** — 15 bài lộ trình chính + 9 bài trên 5 **đảo phụ nâng cao** (mỗi bài đủ 7 phần), lộ trình ở sidebar có nhánh rẽ sang bài nâng cao, style guide, huy hiệu và màn ăn mừng khi xong lộ trình.
+> **Trạng thái: 27 bài** — 15 bài lộ trình chính + 12 bài trên 8 **nhánh nâng cao** (mỗi bài đủ 7 phần), lộ trình ở sidebar có nhánh rẽ sang bài nâng cao, style guide, huy hiệu và màn ăn mừng khi xong lộ trình.
 
-| Đảo phụ (rẽ sau bài) | Bài |
+| Nhánh (rẽ sau bài) | Bài |
 | --- | --- |
 | Nền Móng+ (sau 4 Lifecycle) | 16 Content projection · 17 Component động |
 | Template+ (sau 5 Control flow) | 18 Accessibility & Angular Aria |
 | Dịch Vụ+ (sau 7 Dependency Injection) | 19 DI nâng cao |
 | Phản Ứng+ (sau 9 RxJS) | 20 Subject & multicast · 21 RxJS flattening & race condition · 22 State lớn với SignalStore |
-| Hiệu Năng+ (sau 14 @defer) | 23 Hiệu năng render · 24 SSR & Hydration |
+| Điều Hướng+ (sau 11 Routing) | 23 Routing nâng cao |
+| Biểu Mẫu+ (sau 12 Forms) | 24 Reactive Forms |
+| Kiểm Thử+ (sau 13 HTTP) | 25 Testing với TestBed |
+| Hiệu Năng+ (sau 14 @defer) | 26 Hiệu năng render · 27 SSR & Hydration |
 
 Bài nâng cao có chip "Nâng cao" ở đầu trang. Trên bản đồ sidebar, đường chính đi qua 15 bài; mỗi đảo phụ rẽ nhánh ngay sau bài nền tảng của nó (xem cột "rẽ sau bài" ở bảng trên) (cấu hình ở `ISLAND_BRANCHES` trong `lessons.registry.ts`). Màn ăn mừng lớn vẫn chỉ tính 15 bài chính; đảo phụ có huy hiệu riêng ("Người qua cầu", "Huyền thoại đảo phụ").
 >
@@ -137,6 +140,7 @@ Bíp nằm trong `shared/ui/mascot/mascot.ts` (SVG) và `mascot.css` (màu + chu
 - **Bài Tailwind**: PostCSS được bật qua `.postcssrc.json`, nhưng Tailwind chỉ được nạp trong `features/lessons/tailwind/tailwind.css`: không preflight, theme nằm trong `@layer theme` (token của site luôn thắng nếu trùng tên biến), chỉ quét class từ visualizer và thư mục `demo/` của bài (`source(none)` + `@source`). Muốn cả site dùng Tailwind thì thêm `@import "tailwindcss";` vào `src/styles.css`.
 
 - **Bài SSR & Hydration**: GitHub Pages không có server nên visualizer là mô phỏng; demo live chạy ở trình duyệt và minh hoạ `afterNextRender` / `isPlatformBrowser`.
+- **Bài Testing**: các file spec chạy THẬT bằng TestBed trong trình duyệt, qua một bộ chạy mini (`testing/demo/vitest-lite.ts`) có API giống Vitest. File spec của bài đặt tên `*.lesson-spec.ts` để `ng test` của chính site không nhặt nhầm.
 - **Bài Hiệu năng**: số ms trong visualizer là mô hình minh hoạ; con số trong demo live (danh sách 5.000 dòng) được đo thật bằng `afterNextRender`.
 
 ## Chưa làm / có thể làm tiếp

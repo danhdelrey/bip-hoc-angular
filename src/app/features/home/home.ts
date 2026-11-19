@@ -18,7 +18,7 @@ export class Home {
   protected readonly lessons = LESSONS;
   protected readonly sections = [
     { title: 'Lộ trình chính', icon: 'star', list: CORE_LESSONS, note: '' },
-    { title: 'Nhánh nâng cao', icon: 'bridge', list: ADVANCED_LESSONS, note: 'Mỗi nhánh rẽ ra ngay sau bài nền tảng của nó: Nền Móng+ sau Lifecycle (4), Template+ sau Control flow (5), Dịch Vụ+ sau DI (7), Phản Ứng+ sau RxJS (9), Hiệu Năng+ sau @defer (14). Nhánh sáng lên khi bạn học xong các bài tiên quyết, nhưng muốn ghé trước cũng được.' },
+    { title: 'Nhánh nâng cao', icon: 'bridge', list: ADVANCED_LESSONS, note: 'Mỗi nhánh rẽ ra ngay sau bài nền tảng của nó (xem lộ trình ở sidebar). Nhánh sáng lên khi bạn học xong các bài tiên quyết, nhưng muốn ghé trước cũng được.' },
   ];
   protected readonly next = computed(() => LESSONS.find((l) => !this.progress.completed().has(l.slug)));
   protected readonly firstVisit = !this.progress.greeted();

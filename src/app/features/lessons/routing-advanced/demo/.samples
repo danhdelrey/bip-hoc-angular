@@ -1,0 +1,6 @@
+catalog.routes.ts
+route-fns.ts
+product-detail.ts
+product-edit.ts
+catalog-list.ts
+product-api.ts
