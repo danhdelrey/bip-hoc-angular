@@ -1,0 +1,1 @@
+import{c as de,f as m,h as x,i as T,l as ft,m as ut,n as J,o as ar,p as se,u as ht}from"./main-PLPDKBOT.js";import"./chunk-CjKuaJoU.js";import"./chunk-tn7znALI.js";function c(){return{provideHttpClient:ut,withInterceptors:ht,withFetch:ft,HttpClient:de,HttpErrorResponse:x,HttpHeaders:T,HttpParams:m,HttpContext:J,HttpContextToken:se,httpResource:ar}}export{c as httpExtras};

@@ -1,0 +1,1 @@
+import{Li as qc,R as Fw,V as Gc,c as AE}from"./chunk-tn7znALI.js";var r=class a{static ɵfac=function(e){return new(e||a)};static ɵcmp=AE({type:a,selectors:[[`app-report-stop`]],decls:4,vars:0,template:function(e,s){e&1&&(qc(0,`h3`),Fw(1,`📊 Báo cáo (lazy)`),Gc(),qc(2,`p`),Fw(3,`Toa hàng này vừa được kéo tới!`),Gc())},encapsulation:2})};export{r as ReportStop};

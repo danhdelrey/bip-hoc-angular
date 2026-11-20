@@ -1,0 +1,1 @@
+import{a as ut,i as ht,r as dt}from"./chunk-CUiERv4o.js";import"./chunk-VFZL1fXx.js";import"./chunk-B02ANHUY.js";import"./chunk-CjKuaJoU.js";import"./chunk-tn7znALI.js";function e(){return{CdkVirtualScrollViewport:ht,CdkFixedSizeVirtualScroll:dt,CdkVirtualForOf:ut}}export{e as perfExtras};

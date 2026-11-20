@@ -1,0 +1,1 @@
+import{t as E}from"./chunk-01dJepQV.js";var i=(t=``)=>({ok:!0,msg:t});var s=t=>({ok:!1,msg:t});var o=(t,n)=>JSON.stringify(t)===JSON.stringify(n);var c=t=>E(t);var g=t=>(t??``).replace(/\s+/g,` `).trim();export{s as a,o as i,g as n,i as r,c as t};

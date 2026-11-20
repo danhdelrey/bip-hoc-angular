@@ -1,0 +1,1 @@
+import{E as pn}from"./chunk-B02ANHUY.js";import"./chunk-CjKuaJoU.js";import{Bt as Nx,Lr as gW,fr as dE,oa as uE,si as ke}from"./chunk-tn7znALI.js";function u(){return{NgComponentOutlet:pn,createComponent:gW,inputBinding:uE,outputBinding:dE,twoWayBinding:Nx,EnvironmentInjector:ke}}export{u as dynamicExtras};

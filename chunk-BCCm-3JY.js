@@ -1,0 +1,1 @@
+import{a as tt,i as st,n as it,r as re,t as et}from"./chunk-Bg0X5iC8.js";import"./chunk-64JU_-WY.js";import"./chunk-VFZL1fXx.js";import"./chunk-D-ZVesmq.js";import"./chunk-B02ANHUY.js";import"./main-PLPDKBOT.js";import"./chunk-CjKuaJoU.js";import"./chunk-tn7znALI.js";function e(){return{Tab:it,TabContent:re,TabList:tt,TabPanel:st,Tabs:et}}export{e as a11yExtras};
