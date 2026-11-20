@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { lessonBySlug } from '../../../content/lessons.registry';
+import { PracticeCta } from '../../../shared/lab/practice-cta';
 import { LessonContext } from '../../../shared/ui/anchor/lesson-context';
 import { LessonLayout } from '../../../shared/ui/lesson-layout/lesson-layout';
 import { FastList } from './demo/fast-list';
@@ -9,12 +10,13 @@ import { PerformanceVisualizer } from './performance.visualizer';
 @Component({
   selector: 'app-performance-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LessonLayout, PerformanceVisualizer, FastList],
+  imports: [LessonLayout, PerformanceVisualizer, FastList, PracticeCta],
   providers: [LessonContext],
   template: `
     <app-lesson-layout [meta]="meta" [content]="content" liveUrl="localhost:4200/san-pham">
       <app-performance-visualizer slot="visualizer" />
       <div slot="live" class="live-plain"><app-fast-list /></div>
+      <app-practice-cta slot="practice" slug="performance" />
     </app-lesson-layout>
   `,
   styles: `

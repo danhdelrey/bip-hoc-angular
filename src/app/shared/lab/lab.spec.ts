@@ -15,6 +15,11 @@ import { LAB as ACCESSIBILITY_LAB } from '../../features/lessons/accessibility/a
 import { LAB as DI_ADVANCED_LAB } from '../../features/lessons/di-advanced/di-advanced.lab';
 import { LAB as RXJS_SUBJECTS_LAB } from '../../features/lessons/rxjs-subjects/rxjs-subjects.lab';
 import { LAB as RXJS_FLATTENING_LAB } from '../../features/lessons/rxjs-flattening/rxjs-flattening.lab';
+import { LAB as SIGNAL_STORE_LAB } from '../../features/lessons/signal-store/signal-store.lab';
+import { LAB as ROUTING_ADVANCED_LAB } from '../../features/lessons/routing-advanced/routing-advanced.lab';
+import { LAB as REACTIVE_FORMS_LAB } from '../../features/lessons/reactive-forms/reactive-forms.lab';
+import { LAB as TESTING_LAB } from '../../features/lessons/testing/testing.lab';
+import { LAB as PERFORMANCE_LAB } from '../../features/lessons/performance/performance.lab';
 import { LAB as COMPONENT_LAB } from '../../features/lessons/component/component.lab';
 import { LAB as DATA_BINDING_LAB } from '../../features/lessons/data-binding/data-binding.lab';
 import { LAB as INPUT_OUTPUT_LAB } from '../../features/lessons/input-output/input-output.lab';
@@ -30,6 +35,11 @@ const LABS: Record<string, LabModule> = {
   'data-binding': DATA_BINDING_LAB,
   'input-output': INPUT_OUTPUT_LAB,
   rxjs: RXJS_LAB,
+  'performance': PERFORMANCE_LAB,
+  'testing': TESTING_LAB,
+  'reactive-forms': REACTIVE_FORMS_LAB,
+  'routing-advanced': ROUTING_ADVANCED_LAB,
+  'signal-store': SIGNAL_STORE_LAB,
   'rxjs-flattening': RXJS_FLATTENING_LAB,
   'rxjs-subjects': RXJS_SUBJECTS_LAB,
   'di-advanced': DI_ADVANCED_LAB,
@@ -85,6 +95,7 @@ describe('Code Lab — tiện ích runtime', () => {
     const m = explainNg('Error: defer on trigger with no target name must have a placeholder block');
     expect(m).toContain('@placeholder');
     expect(explainNg(m)).toBe(m);
+    expect(explainNg("TypeError: Cannot read properties of undefined (reading 'onDestroy')")).toContain('imports');
   });
 
   it('candidates chỉ nhận tên class viết đủ, không nhận chuỗi ghép', () => {
