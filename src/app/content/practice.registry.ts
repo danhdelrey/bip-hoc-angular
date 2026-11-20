@@ -28,6 +28,12 @@ export const PRACTICES: readonly PracticeMeta[] = [
   { slug: 'http', count: 6, storageKey: 'bip-lab.http', load: () => import('../features/lessons/http/http.lab').then((m) => m.LAB) },
   { slug: 'defer', count: 5, storageKey: 'bip-lab.defer', load: () => import('../features/lessons/defer/defer.lab').then((m) => m.LAB) },
   { slug: 'tailwind', count: 5, storageKey: 'bip-lab.tailwind', load: () => import('../features/lessons/tailwind/tailwind.lab').then((m) => m.LAB) },
+  { slug: 'content-projection', count: 6, storageKey: 'bip-lab.content-projection', load: () => import('../features/lessons/content-projection/content-projection.lab').then((m) => m.LAB) },
+  { slug: 'dynamic-components', count: 6, storageKey: 'bip-lab.dynamic-components', load: () => import('../features/lessons/dynamic-components/dynamic-components.lab').then((m) => m.LAB) },
+  { slug: 'accessibility', count: 6, storageKey: 'bip-lab.accessibility', load: () => import('../features/lessons/accessibility/accessibility.lab').then((m) => m.LAB) },
+  { slug: 'di-advanced', count: 6, storageKey: 'bip-lab.di-advanced', load: () => import('../features/lessons/di-advanced/di-advanced.lab').then((m) => m.LAB) },
+  { slug: 'rxjs-subjects', count: 5, storageKey: 'bip-lab.rxjs-subjects', load: () => import('../features/lessons/rxjs-subjects/rxjs-subjects.lab').then((m) => m.LAB) },
+  { slug: 'rxjs-flattening', count: 6, storageKey: 'bip-lab.rxjs-flattening', load: () => import('../features/lessons/rxjs-flattening/rxjs-flattening.lab').then((m) => m.LAB) },
   // giữ khoá cũ để không mất tiến độ của lab RxJS đã phát hành
   { slug: 'rxjs', count: 20, storageKey: 'bip-rxjs-lab', load: () => import('../features/lessons/rxjs/rxjs.lab').then((m) => m.LAB) },
 ];

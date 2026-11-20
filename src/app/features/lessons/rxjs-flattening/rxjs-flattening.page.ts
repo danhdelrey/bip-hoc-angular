@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { lessonBySlug } from '../../../content/lessons.registry';
+import { PracticeCta } from '../../../shared/lab/practice-cta';
 import { LessonContext } from '../../../shared/ui/anchor/lesson-context';
 import { LessonLayout } from '../../../shared/ui/lesson-layout/lesson-layout';
 import { RaceSearch } from './demo/race-search';
@@ -9,12 +10,13 @@ import { RxjsFlatteningVisualizer } from './rxjs-flattening.visualizer';
 @Component({
   selector: 'app-rxjs-flattening-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LessonLayout, RxjsFlatteningVisualizer, RaceSearch],
+  imports: [LessonLayout, RxjsFlatteningVisualizer, RaceSearch, PracticeCta],
   providers: [LessonContext],
   template: `
     <app-lesson-layout [meta]="meta" [content]="content" liveUrl="localhost:4200/tim-kiem">
       <app-rxjs-flattening-visualizer slot="visualizer" />
       <div slot="live" class="live-plain"><app-race-search /></div>
+      <app-practice-cta slot="practice" slug="rxjs-flattening" />
     </app-lesson-layout>
   `,
   styles: `

@@ -9,6 +9,12 @@ import { LAB as FORMS_LAB } from '../../features/lessons/forms/forms.lab';
 import { LAB as HTTP_LAB } from '../../features/lessons/http/http.lab';
 import { LAB as DEFER_LAB } from '../../features/lessons/defer/defer.lab';
 import { LAB as TAILWIND_LAB } from '../../features/lessons/tailwind/tailwind.lab';
+import { LAB as CONTENT_PROJECTION_LAB } from '../../features/lessons/content-projection/content-projection.lab';
+import { LAB as DYNAMIC_COMPONENTS_LAB } from '../../features/lessons/dynamic-components/dynamic-components.lab';
+import { LAB as ACCESSIBILITY_LAB } from '../../features/lessons/accessibility/accessibility.lab';
+import { LAB as DI_ADVANCED_LAB } from '../../features/lessons/di-advanced/di-advanced.lab';
+import { LAB as RXJS_SUBJECTS_LAB } from '../../features/lessons/rxjs-subjects/rxjs-subjects.lab';
+import { LAB as RXJS_FLATTENING_LAB } from '../../features/lessons/rxjs-flattening/rxjs-flattening.lab';
 import { LAB as COMPONENT_LAB } from '../../features/lessons/component/component.lab';
 import { LAB as DATA_BINDING_LAB } from '../../features/lessons/data-binding/data-binding.lab';
 import { LAB as INPUT_OUTPUT_LAB } from '../../features/lessons/input-output/input-output.lab';
@@ -24,6 +30,12 @@ const LABS: Record<string, LabModule> = {
   'data-binding': DATA_BINDING_LAB,
   'input-output': INPUT_OUTPUT_LAB,
   rxjs: RXJS_LAB,
+  'rxjs-flattening': RXJS_FLATTENING_LAB,
+  'rxjs-subjects': RXJS_SUBJECTS_LAB,
+  'di-advanced': DI_ADVANCED_LAB,
+  'accessibility': ACCESSIBILITY_LAB,
+  'dynamic-components': DYNAMIC_COMPONENTS_LAB,
+  'content-projection': CONTENT_PROJECTION_LAB,
   'tailwind': TAILWIND_LAB,
   'defer': DEFER_LAB,
   'http': HTTP_LAB,

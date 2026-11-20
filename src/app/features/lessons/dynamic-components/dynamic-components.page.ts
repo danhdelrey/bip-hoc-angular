@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { lessonBySlug } from '../../../content/lessons.registry';
+import { PracticeCta } from '../../../shared/lab/practice-cta';
 import { LessonContext } from '../../../shared/ui/anchor/lesson-context';
 import { LessonLayout } from '../../../shared/ui/lesson-layout/lesson-layout';
 import { Dashboard } from './demo/dashboard';
@@ -9,12 +10,13 @@ import { DynamicComponentsVisualizer } from './dynamic-components.visualizer';
 @Component({
   selector: 'app-dynamic-components-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LessonLayout, DynamicComponentsVisualizer, Dashboard],
+  imports: [LessonLayout, DynamicComponentsVisualizer, Dashboard, PracticeCta],
   providers: [LessonContext],
   template: `
     <app-lesson-layout [meta]="meta" [content]="content" liveUrl="localhost:4200/dashboard">
       <app-dynamic-components-visualizer slot="visualizer" />
       <div slot="live" class="live-plain"><app-dashboard /></div>
+      <app-practice-cta slot="practice" slug="dynamic-components" />
     </app-lesson-layout>
   `,
   styles: `
