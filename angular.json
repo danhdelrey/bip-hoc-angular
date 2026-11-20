@@ -22,10 +22,20 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "rxjs.umd.min.js",
+                "input": "node_modules/rxjs/dist/bundles",
+                "output": "labs"
               }
             ],
             "styles": [
               "src/styles.css"
+            ],
+            "allowedCommonJsDependencies": [
+              "ts-interface-checker",
+              "lines-and-columns",
+              "@jridgewell/resolve-uri"
             ]
           },
           "configurations": {

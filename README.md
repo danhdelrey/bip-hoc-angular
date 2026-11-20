@@ -90,7 +90,7 @@ src/
 | `step-player` + `step-timeline` | Bộ phát từng bước dùng chung; mỗi bước mang một *frame* đầy đủ nên tua lui/tới rất rẻ |
 | `code-panel` | Tab nhiều file, Shiki, copy, **Mở trên StackBlitz**, highlight dòng theo anchor |
 | `anchor` (`LessonContext` + `appAnchor`) | Hover code ↔ visualizer hai chiều; báo hoàn thành thử thách |
-| `lesson-layout` | Khung 7 phần thống nhất cho mọi bài |
+| `lesson-layout` | Khung 7 phần thống nhất cho mọi bài (slot tuỳ chọn: `advanced`, `practice`) |
 | `tree-diagram` | Cây tổng quát (bố cục tự động, dây nối SVG, node là template tuỳ ý) — khu phố component, cây FormGroup, thanh tra change detection |
 | `marble-diagram` | Băng chuyền marble cho RxJS, có đầu đọc thời gian |
 | `quiz`, `badge`, `confetti`, `browser-frame`, `icon` | Như tên gọi |
@@ -141,6 +141,7 @@ Bíp nằm trong `shared/ui/mascot/mascot.ts` (SVG) và `mascot.css` (màu + chu
 
 - **Bài SSR & Hydration**: GitHub Pages không có server nên visualizer là mô phỏng; demo live chạy ở trình duyệt và minh hoạ `afterNextRender` / `isPlatformBrowser`.
 - **Bài Testing**: các file spec chạy THẬT bằng TestBed trong trình duyệt, qua một bộ chạy mini (`testing/demo/vitest-lite.ts`) có API giống Vitest. File spec của bài đặt tên `*.lesson-spec.ts` để `ng test` của chính site không nhặt nhầm.
+- **RxJS + Signal Lab** (bài 9, `features/lessons/rxjs/lab/`): 20 bài luyện code chấm tự động, gắn vào trang qua slot `practice` của `lesson-layout` và được tải trễ bằng `@defer (on viewport)`. Signal, effect, toSignal, rxResource… là API **thật** của Angular: mỗi lần chạy có một `EnvironmentInjector` riêng, nên Dừng = destroy injector. RxJS chạy trong một iframe ẩn (bản UMD được copy vào `/labs` qua `angular.json` → `assets`) để Dừng huỷ được mọi timer mà không đụng tới app. Code người học được biên dịch bằng `Function` của chính iframe (object literal cùng realm với RxJS, cần cho `forkJoin({...})`). TypeScript được bỏ type bằng `sucrase` (lazy-load). Thêm bài: thêm một phần tử vào `lab-exercises.ts` gồm `starter`, `solution`, `check()` (và `simulate()` nếu cần giả lập gõ phím, bấm nút hay destroy).
 - **Bài Hiệu năng**: số ms trong visualizer là mô hình minh hoạ; con số trong demo live (danh sách 5.000 dòng) được đo thật bằng `afterNextRender`.
 
 ## Chưa làm / có thể làm tiếp
