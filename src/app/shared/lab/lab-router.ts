@@ -12,5 +12,9 @@ export function routerExtras(): Record<string, unknown> {
     Router: r.Router,
     ActivatedRoute: r.ActivatedRoute,
     RedirectCommand: r.RedirectCommand,
+    NavigationStart: r.NavigationStart,
+    NavigationEnd: r.NavigationEnd,
+    NavigationCancel: r.NavigationCancel,
+    NavigationError: r.NavigationError,
   };
 }

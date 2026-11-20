@@ -190,6 +190,8 @@ const NG_HINTS: Record<string, string> = {
 /** Lỗi biên dịch template không có mã NG: nhận theo nội dung. */
 const TEXT_HINTS: [RegExp, string][] = [
   [/must have a placeholder block/, 'trigger on viewport / on interaction / on hover không chỉ định phần tử cần một khối @placeholder (đúng một phần tử gốc) để theo dõi.'],
+  // bản production bỏ kiểm tra NG0302 (không tìm thấy pipe), nên lỗi lộ ra ở bước đọc pipeDef.onDestroy
+  [/reading 'onDestroy'/, 'thường do template dùng một pipe (| json, | async, | date…) chưa có trong imports của component.'],
 ];
 
 export function explainNg(msg: string): string {
@@ -1072,6 +1074,9 @@ export async function startRun(code: string, opts: StartOptions): Promise<LabRun
     console: { log, info: log, debug: log, table: log, warn: (...a: unknown[]) => log('⚠', ...a), error: (...a: unknown[]) => log('✖', ...a) },
   });
   for (const [k, v] of Object.entries(opts.extras ?? {})) if (!k.startsWith('__')) g[k] = v;
+  // extras.__globals(g): globals cần dùng chính các helper của lần chạy (log, ui, timer của iframe…), ví dụ bộ chạy test
+  const extraGlobals = opts.extras?.['__globals'];
+  if (typeof extraGlobals === 'function') Object.assign(g, (extraGlobals as (g: Record<string, unknown>) => Record<string, unknown>)(g));
   const names = Object.keys(g);
   const vals = names.map((n) => g[n]);
 

@@ -34,6 +34,11 @@ export const PRACTICES: readonly PracticeMeta[] = [
   { slug: 'di-advanced', count: 6, storageKey: 'bip-lab.di-advanced', load: () => import('../features/lessons/di-advanced/di-advanced.lab').then((m) => m.LAB) },
   { slug: 'rxjs-subjects', count: 5, storageKey: 'bip-lab.rxjs-subjects', load: () => import('../features/lessons/rxjs-subjects/rxjs-subjects.lab').then((m) => m.LAB) },
   { slug: 'rxjs-flattening', count: 6, storageKey: 'bip-lab.rxjs-flattening', load: () => import('../features/lessons/rxjs-flattening/rxjs-flattening.lab').then((m) => m.LAB) },
+  { slug: 'signal-store', count: 6, storageKey: 'bip-lab.signal-store', load: () => import('../features/lessons/signal-store/signal-store.lab').then((m) => m.LAB) },
+  { slug: 'routing-advanced', count: 6, storageKey: 'bip-lab.routing-advanced', load: () => import('../features/lessons/routing-advanced/routing-advanced.lab').then((m) => m.LAB) },
+  { slug: 'reactive-forms', count: 6, storageKey: 'bip-lab.reactive-forms', load: () => import('../features/lessons/reactive-forms/reactive-forms.lab').then((m) => m.LAB) },
+  { slug: 'testing', count: 5, storageKey: 'bip-lab.testing', load: () => import('../features/lessons/testing/testing.lab').then((m) => m.LAB) },
+  { slug: 'performance', count: 5, storageKey: 'bip-lab.performance', load: () => import('../features/lessons/performance/performance.lab').then((m) => m.LAB) },
   // giữ khoá cũ để không mất tiến độ của lab RxJS đã phát hành
   { slug: 'rxjs', count: 20, storageKey: 'bip-rxjs-lab', load: () => import('../features/lessons/rxjs/rxjs.lab').then((m) => m.LAB) },
 ];

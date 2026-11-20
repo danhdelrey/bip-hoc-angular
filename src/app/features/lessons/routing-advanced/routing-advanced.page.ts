@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { lessonBySlug } from '../../../content/lessons.registry';
+import { PracticeCta } from '../../../shared/lab/practice-cta';
 import { LessonContext } from '../../../shared/ui/anchor/lesson-context';
 import { LessonLayout } from '../../../shared/ui/lesson-layout/lesson-layout';
 import { CatalogShell } from './demo/catalog-shell';
@@ -9,12 +10,13 @@ import { RoutingAdvancedVisualizer } from './routing-advanced.visualizer';
 @Component({
   selector: 'app-routing-advanced-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LessonLayout, RoutingAdvancedVisualizer, CatalogShell],
+  imports: [LessonLayout, RoutingAdvancedVisualizer, CatalogShell, PracticeCta],
   providers: [LessonContext],
   template: `
     <app-lesson-layout [meta]="meta" [content]="content" liveUrl="localhost:4200/cua-hang">
       <app-routing-advanced-visualizer slot="visualizer" />
       <div slot="live" class="live-plain"><app-catalog-shell /></div>
+      <app-practice-cta slot="practice" slug="routing-advanced" />
     </app-lesson-layout>
   `,
   styles: `

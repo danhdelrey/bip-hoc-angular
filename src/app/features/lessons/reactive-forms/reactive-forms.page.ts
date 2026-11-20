@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { lessonBySlug } from '../../../content/lessons.registry';
+import { PracticeCta } from '../../../shared/lab/practice-cta';
 import { LessonContext } from '../../../shared/ui/anchor/lesson-context';
 import { LessonLayout } from '../../../shared/ui/lesson-layout/lesson-layout';
 import { OrderForm } from './demo/order-form';
@@ -9,12 +10,13 @@ import { ReactiveFormsVisualizer } from './reactive-forms.visualizer';
 @Component({
   selector: 'app-reactive-forms-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LessonLayout, ReactiveFormsVisualizer, OrderForm],
+  imports: [LessonLayout, ReactiveFormsVisualizer, OrderForm, PracticeCta],
   providers: [LessonContext],
   template: `
     <app-lesson-layout [meta]="meta" [content]="content" liveUrl="localhost:4200/dat-hang">
       <app-reactive-forms-visualizer slot="visualizer" />
       <div slot="live" class="live-plain"><app-order-form /></div>
+      <app-practice-cta slot="practice" slug="reactive-forms" />
     </app-lesson-layout>
   `,
   styles: `
