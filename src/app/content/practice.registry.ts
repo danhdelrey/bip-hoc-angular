@@ -1,0 +1,29 @@
+import type { LabModule } from '../shared/lab/lab-model';
+
+/**
+ * Các module luyện tập (Code Lab). Mỗi module là một trang riêng (#/luyen-tap/<slug>)
+ * rẽ nhánh từ bài học cùng slug trên lộ trình ở sidebar.
+ * Thêm module: viết features/lessons/<slug>/<slug>.lab.ts rồi thêm một dòng ở đây
+ * (`count` = số bài có chấm, được unit test đối chiếu với file .lab.ts).
+ */
+export interface PracticeMeta {
+  slug: string;
+  count: number;
+  storageKey: string;
+  load: () => Promise<LabModule>;
+}
+
+export const PRACTICES: readonly PracticeMeta[] = [
+  { slug: 'component', count: 6, storageKey: 'bip-lab.component', load: () => import('../features/lessons/component/component.lab').then((m) => m.LAB) },
+  { slug: 'data-binding', count: 7, storageKey: 'bip-lab.data-binding', load: () => import('../features/lessons/data-binding/data-binding.lab').then((m) => m.LAB) },
+  { slug: 'input-output', count: 7, storageKey: 'bip-lab.input-output', load: () => import('../features/lessons/input-output/input-output.lab').then((m) => m.LAB) },
+  { slug: 'lifecycle', count: 6, storageKey: 'bip-lab.lifecycle', load: () => import('../features/lessons/lifecycle/lifecycle.lab').then((m) => m.LAB) },
+  { slug: 'control-flow', count: 7, storageKey: 'bip-lab.control-flow', load: () => import('../features/lessons/control-flow/control-flow.lab').then((m) => m.LAB) },
+  { slug: 'pipes', count: 6, storageKey: 'bip-lab.pipes', load: () => import('../features/lessons/pipes/pipes.lab').then((m) => m.LAB) },
+  { slug: 'dependency-injection', count: 6, storageKey: 'bip-lab.dependency-injection', load: () => import('../features/lessons/dependency-injection/dependency-injection.lab').then((m) => m.LAB) },
+  { slug: 'signals', count: 6, storageKey: 'bip-lab.signals', load: () => import('../features/lessons/signals/signals.lab').then((m) => m.LAB) },
+  // giữ khoá cũ để không mất tiến độ của lab RxJS đã phát hành
+  { slug: 'rxjs', count: 20, storageKey: 'bip-rxjs-lab', load: () => import('../features/lessons/rxjs/rxjs.lab').then((m) => m.LAB) },
+];
+
+export const practiceBySlug = (slug: string | null | undefined) => PRACTICES.find((p) => p.slug === slug);

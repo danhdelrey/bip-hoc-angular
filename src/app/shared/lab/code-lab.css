@@ -5,7 +5,7 @@ app-code-lab { display: block; margin: 0 0 44px; }
 .rxlab-loading { min-height: 200px; display: grid; place-items: center; color: var(--text-muted); margin: 0; }
 .rxlab-head { display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 12px; }
 .rxlab-head-text { flex: 1; min-width: 260px; }
-.rxlab-title { display: flex; align-items: center; gap: 10px; font-size: var(--fs-xl); margin: 0 0 4px; }
+.rxlab-title { display: flex; align-items: center; gap: 10px; font-size: var(--fs-2xl); margin: 0 0 6px; }
 .rxlab-sub { margin: 0; color: var(--text-muted); max-width: 75ch; }
 .rxlab-progress { display: flex; align-items: center; gap: 10px; font-size: var(--fs-sm); font-weight: 600; color: var(--text-muted); white-space: nowrap; }
 .rxlab-bar { display: block; width: 120px; height: 8px; border-radius: var(--radius-pill); background: var(--surface-sunken); overflow: hidden; }

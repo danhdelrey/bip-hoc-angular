@@ -12,6 +12,9 @@
     @for (b of branchState(); track b.island) {
       <path class="line-branch" [class.open]="b.open" [attr.d]="b.road" />
     }
+    @for (pp of map.practices; track pp.slug) {
+      <path class="line-prac" [attr.d]="pp.road" />
+    }
   </svg>
   <ol class="stations" [style.height.px]="map.height">
     @for (b of branchState(); track b.island) {
@@ -31,6 +34,19 @@
             @if (done) { <app-icon name="check" [size]="13" /> } @else { {{ p.lesson.number }} }
           </span>
           <span class="label">{{ p.lesson.title }}</span>
+        </a>
+      </li>
+    }
+    @for (pp of map.practices; track pp.slug) {
+      @let pdone = practiceProgress.done(pp.slug);
+      @let phere = pp.slug === currentPractice();
+      <li [style.top.px]="pp.y" [style.left.px]="pp.x">
+        <a class="station prac" [class.done]="pdone >= pp.count" [class.here]="phere"
+           [routerLink]="['/luyen-tap', pp.slug]" (click)="navigate.emit()"
+           [attr.aria-current]="phere ? 'page' : null"
+           [attr.aria-label]="'Luyện tập ' + pp.title + ': đã làm ' + pdone + ' trên ' + pp.count + ' bài'">
+          <span class="dot"><app-icon [name]="pdone >= pp.count ? 'check' : 'flask'" [size]="12" /></span>
+          <span class="label">Luyện tập · {{ pdone }}/{{ pp.count }}</span>
         </a>
       </li>
     }

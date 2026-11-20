@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { lessonBySlug } from '../../../content/lessons.registry';
+import { PracticeCta } from '../../../shared/lab/practice-cta';
 import { LessonContext } from '../../../shared/ui/anchor/lesson-context';
 import { LessonLayout } from '../../../shared/ui/lesson-layout/lesson-layout';
 import { LifeHost } from './demo/life-host';
@@ -9,12 +10,13 @@ import { LifecycleVisualizer } from './lifecycle.visualizer';
 @Component({
   selector: 'app-lifecycle-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LessonLayout, LifecycleVisualizer, LifeHost],
+  imports: [LessonLayout, LifecycleVisualizer, LifeHost, PracticeCta],
   providers: [LessonContext],
   template: `
     <app-lesson-layout [meta]="meta" [content]="content">
       <app-lifecycle-visualizer slot="visualizer" />
       <div slot="live" class="live-plain"><app-life-host /></div>
+      <app-practice-cta slot="practice" slug="lifecycle" />
     </app-lesson-layout>
   `,
   styles: `

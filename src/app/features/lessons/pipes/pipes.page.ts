@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { lessonBySlug } from '../../../content/lessons.registry';
+import { PracticeCta } from '../../../shared/lab/practice-cta';
 import { LessonContext } from '../../../shared/ui/anchor/lesson-context';
 import { LessonLayout } from '../../../shared/ui/lesson-layout/lesson-layout';
 import { PipeDemo } from './demo/pipe-demo';
@@ -9,12 +10,13 @@ import { PipesVisualizer } from './pipes.visualizer';
 @Component({
   selector: 'app-pipes-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LessonLayout, PipesVisualizer, PipeDemo],
+  imports: [LessonLayout, PipesVisualizer, PipeDemo, PracticeCta],
   providers: [LessonContext],
   template: `
     <app-lesson-layout [meta]="meta" [content]="content">
       <app-pipes-visualizer slot="visualizer" />
       <div slot="live" class="live-plain"><app-pipe-demo /></div>
+      <app-practice-cta slot="practice" slug="pipes" />
     </app-lesson-layout>
   `,
   styles: `

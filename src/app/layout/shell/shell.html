@@ -31,7 +31,7 @@
 
 <div class="frame">
   <aside id="sidebar" class="sidebar" [class.open]="drawerOpen()" aria-label="Bản đồ bài học">
-    <app-level-map [currentSlug]="currentSlug()" (navigate)="drawerOpen.set(false)" />
+    <app-level-map [currentSlug]="currentSlug()" [currentPractice]="currentPractice()" (navigate)="drawerOpen.set(false)" />
   </aside>
   @if (drawerOpen()) {
     <div class="scrim" (click)="drawerOpen.set(false)" aria-hidden="true"></div>

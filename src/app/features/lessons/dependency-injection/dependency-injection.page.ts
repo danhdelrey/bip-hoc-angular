@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { lessonBySlug } from '../../../content/lessons.registry';
+import { PracticeCta } from '../../../shared/lab/practice-cta';
 import { LessonContext } from '../../../shared/ui/anchor/lesson-context';
 import { LessonLayout } from '../../../shared/ui/lesson-layout/lesson-layout';
 import { DEPENDENCY_INJECTION } from './dependency-injection.content';
@@ -10,13 +11,14 @@ import { DiTokenPanel } from './token-panel';
 @Component({
   selector: 'app-dependency-injection-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LessonLayout, DiVisualizer, ShopPage, DiTokenPanel],
+  imports: [LessonLayout, DiVisualizer, ShopPage, DiTokenPanel, PracticeCta],
   providers: [LessonContext],
   template: `
     <app-lesson-layout [meta]="meta" [content]="content" liveUrl="localhost:4200/cua-hang">
       <app-di-visualizer slot="visualizer" />
       <div slot="live" class="live-plain"><app-shop-page /></div>
       <app-di-token-panel slot="advanced" />
+      <app-practice-cta slot="practice" slug="dependency-injection" />
     </app-lesson-layout>
   `,
   styles: `
