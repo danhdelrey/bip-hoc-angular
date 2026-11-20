@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { lessonBySlug } from '../../../content/lessons.registry';
+import { PracticeCta } from '../../../shared/lab/practice-cta';
 import { LessonContext } from '../../../shared/ui/anchor/lesson-context';
 import { LessonLayout } from '../../../shared/ui/lesson-layout/lesson-layout';
 import { CONTENT_PROJECTION } from './content-projection.content';
@@ -9,12 +10,13 @@ import { ProjectionDemo } from './demo/projection-demo';
 @Component({
   selector: 'app-content-projection-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LessonLayout, ContentProjectionVisualizer, ProjectionDemo],
+  imports: [LessonLayout, ContentProjectionVisualizer, ProjectionDemo, PracticeCta],
   providers: [LessonContext],
   template: `
     <app-lesson-layout [meta]="meta" [content]="content">
       <app-content-projection-visualizer slot="visualizer" />
       <div slot="live" class="live-plain"><app-projection-demo /></div>
+      <app-practice-cta slot="practice" slug="content-projection" />
     </app-lesson-layout>
   `,
   styles: `

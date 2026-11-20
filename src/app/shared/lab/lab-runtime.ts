@@ -1130,7 +1130,7 @@ export function checkApi(run: LabRun): CheckApi {
     lanes: () => [...new Set(run.events.map((e) => e.label))],
     http: (prefix) => run.http.filter((h) => !prefix || h.path.startsWith(prefix)),
     errors: run.errors,
-    errMsg: () => run.errors.map((e) => (e as Error)?.message ?? String(e))[0] ?? '',
+    errMsg: () => explainNg(run.errors.map((e) => (e as Error)?.message ?? String(e))[0] ?? ''),
     destroyedAt: run.destroyedAt,
     text: (sel) => {
       const el = sel ? run.preview?.querySelector(sel) : run.preview;
