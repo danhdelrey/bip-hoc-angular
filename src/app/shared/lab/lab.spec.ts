@@ -3,6 +3,12 @@ import { LAB as CONTROL_FLOW_LAB } from '../../features/lessons/control-flow/con
 import { LAB as PIPES_LAB } from '../../features/lessons/pipes/pipes.lab';
 import { LAB as DEPENDENCY_INJECTION_LAB } from '../../features/lessons/dependency-injection/dependency-injection.lab';
 import { LAB as SIGNALS_LAB } from '../../features/lessons/signals/signals.lab';
+import { LAB as CHANGE_DETECTION_LAB } from '../../features/lessons/change-detection/change-detection.lab';
+import { LAB as ROUTING_LAB } from '../../features/lessons/routing/routing.lab';
+import { LAB as FORMS_LAB } from '../../features/lessons/forms/forms.lab';
+import { LAB as HTTP_LAB } from '../../features/lessons/http/http.lab';
+import { LAB as DEFER_LAB } from '../../features/lessons/defer/defer.lab';
+import { LAB as TAILWIND_LAB } from '../../features/lessons/tailwind/tailwind.lab';
 import { LAB as COMPONENT_LAB } from '../../features/lessons/component/component.lab';
 import { LAB as DATA_BINDING_LAB } from '../../features/lessons/data-binding/data-binding.lab';
 import { LAB as INPUT_OUTPUT_LAB } from '../../features/lessons/input-output/input-output.lab';
@@ -10,13 +16,20 @@ import { LAB as RXJS_LAB } from '../../features/lessons/rxjs/rxjs.lab';
 import { highlight } from './lab-editor';
 import { PRACTICES } from '../../content/practice.registry';
 import type { LabModule } from './lab-model';
-import { TS_RE, fmt, stripModules, transformDecorators } from './lab-runtime';
+import { TS_RE, explainNg, fmt, stripModules, transformDecorators } from './lab-runtime';
+import { candidates } from './lab-tailwind';
 
 const LABS: Record<string, LabModule> = {
   component: COMPONENT_LAB,
   'data-binding': DATA_BINDING_LAB,
   'input-output': INPUT_OUTPUT_LAB,
   rxjs: RXJS_LAB,
+  'tailwind': TAILWIND_LAB,
+  'defer': DEFER_LAB,
+  'http': HTTP_LAB,
+  'forms': FORMS_LAB,
+  'routing': ROUTING_LAB,
+  'change-detection': CHANGE_DETECTION_LAB,
   'lifecycle': LIFECYCLE_LAB,
   'control-flow': CONTROL_FLOW_LAB,
   'pipes': PIPES_LAB,
@@ -56,6 +69,19 @@ describe('practice.registry', () => {
 });
 
 describe('Code Lab — tiện ích runtime', () => {
+  it('explainNg thêm giải thích tiếng Việt cho lỗi @defer thiếu @placeholder', () => {
+    const m = explainNg('Error: defer on trigger with no target name must have a placeholder block');
+    expect(m).toContain('@placeholder');
+    expect(explainNg(m)).toBe(m);
+  });
+
+  it('candidates chỉ nhận tên class viết đủ, không nhận chuỗi ghép', () => {
+    const c = candidates(`<p [class]="'text-' + color() + '-600'" class="p-4 disabled:opacity-50"></p>`);
+    expect(c).toContain('p-4');
+    expect(c).toContain('disabled:opacity-50');
+    expect(c.some((x) => x.includes('green'))).toBe(false);
+  });
+
   it('stripModules bỏ import/export nhưng giữ số dòng', () => {
     const src = "import { signal } from '@angular/core';\nimport {\n  map,\n} from 'rxjs';\nexport const a = 1;";
     const out = stripModules(src);

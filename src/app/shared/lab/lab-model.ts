@@ -39,7 +39,10 @@ export interface LabModule {
   exercises: LabExercise[];
   /** Cheat sheet "tình huống → dùng gì" riêng của bài (HTML được phép trong cả hai cột) */
   cheatsheet?: [string, string][];
-  /** Globals bổ sung cho bài (vd. FormsModule) — tải lười cùng bài luyện */
+  /**
+   * Globals bổ sung cho bài (vd. FormsModule) — tải lười cùng bài luyện.
+   * Khoá bắt đầu bằng "__" không thành global: `__prepare(code, preview)` chạy trước mỗi lần chạy (vd. sinh CSS Tailwind).
+   */
   extras?: () => Promise<Record<string, unknown>>;
 }
 

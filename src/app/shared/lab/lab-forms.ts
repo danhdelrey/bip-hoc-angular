@@ -1,4 +1,5 @@
 import * as f from '@angular/forms';
+import * as sf from '@angular/forms/signals';
 import { labModule } from './lab-runtime';
 
 /**
@@ -26,6 +27,47 @@ export function formsExtras(): Record<string, unknown> {
     FormBuilder: f.FormBuilder,
     NonNullableFormBuilder: f.NonNullableFormBuilder,
     Validators: f.Validators,
+    ...signalFormsExtras(),
   };
   return cache;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Fn = (...a: any[]) => any;
+/**
+ * Signal Forms nhận dạng option kiểu hàm bằng `instanceof Function` (realm của trang). Hàm do người học viết thuộc
+ * realm iframe, nên bọc lại mọi đối số là hàm (và thuộc tính hàm của object option) bằng hàm của trang.
+ */
+const wrapFn = (v: unknown): unknown => (typeof v === 'function' ? (...a: unknown[]) => (v as Fn)(...a) : v);
+const wrapArg = (v: unknown): unknown => {
+  if (typeof v === 'function') return wrapFn(v);
+  if (v && typeof v === 'object' && !Array.isArray(v) && Object.getPrototypeOf(v)?.constructor?.name === 'Object')
+    return Object.fromEntries(Object.entries(v).map(([k, x]) => [k, wrapFn(x)]));
+  return v;
+};
+const wrapRule = (fn: Fn): Fn => (path: unknown, ...rest: unknown[]) => fn(path, ...rest.map(wrapArg));
+
+function signalFormsExtras(): Record<string, unknown> {
+  return {
+    form: (model: unknown, schema?: unknown, opts?: unknown) =>
+      schema === undefined ? sf.form(model as never) : sf.form(model as never, wrapFn(schema) as never, opts as never),
+    FormField: sf.FormField,
+    FormRoot: sf.FormRoot,
+    submit: (f2: unknown, action: unknown) => sf.submit(f2 as never, wrapArg(action) as never),
+    required: wrapRule(sf.required),
+    email: wrapRule(sf.email),
+    min: wrapRule(sf.min),
+    max: wrapRule(sf.max),
+    minLength: wrapRule(sf.minLength),
+    maxLength: wrapRule(sf.maxLength),
+    pattern: wrapRule(sf.pattern),
+    validate: wrapRule(sf.validate),
+    disabled: wrapRule(sf.disabled),
+    hidden: wrapRule(sf.hidden),
+    readonly: wrapRule(sf.readonly),
+    debounce: wrapRule(sf.debounce as Fn),
+    apply: sf.apply,
+    applyEach: sf.applyEach,
+    schema: (fn: unknown) => sf.schema(wrapFn(fn) as never),
+  };
 }

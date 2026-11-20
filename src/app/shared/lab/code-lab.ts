@@ -103,6 +103,11 @@ export class CodeLab {
       return { name: it.name, kind: it.kind, v };
     });
   });
+  /** thanh địa chỉ của khung preview: route hiện tại nếu bài có Router */
+  protected readonly address = computed(() => {
+    const url = this.run()?.url();
+    return url ? 'localhost:4200' + url : 'localhost:4200/lab';
+  });
   protected readonly errorLine = computed(() => {
     this.rev();
     return this.run()?.errorLine ?? null;
@@ -137,6 +142,7 @@ export class CodeLab {
       clearInterval(tick);
       clearTimeout(this.saveTimer);
       this.run()?.stop();
+      document.getElementById('code-lab-tailwind')?.remove(); // CSS Tailwind của bài luyện Tailwind (nếu có)
     });
 
     // tải nội dung bài luyện
@@ -223,7 +229,8 @@ export class CodeLab {
     if (!preview) return null;
     this.stopAndClear();
     const seq = this.runSeq;
-    const run = await startRun(this.code(), { parent: this.parent, preview, extras: this.extras });
+    const prepare = this.extras['__prepare'] as ((code: string, el: HTMLElement) => Promise<void>) | undefined;
+    const run = await startRun(this.code(), { parent: this.parent, preview, extras: this.extras, prepare });
     if (seq !== this.runSeq) {
       run.stop();
       return null;

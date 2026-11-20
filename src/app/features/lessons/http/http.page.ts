@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { lessonBySlug } from '../../../content/lessons.registry';
+import { PracticeCta } from '../../../shared/lab/practice-cta';
 import { LessonContext } from '../../../shared/ui/anchor/lesson-context';
 import { LessonLayout } from '../../../shared/ui/lesson-layout/lesson-layout';
 import { HttpLog } from './demo/http-log';
@@ -11,7 +12,7 @@ import { HttpVisualizer } from './http.visualizer';
 @Component({
   selector: 'app-http-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LessonLayout, HttpVisualizer, ProfileLoader],
+  imports: [LessonLayout, HttpVisualizer, ProfileLoader, PracticeCta],
   providers: [LessonContext],
   template: `
     <app-lesson-layout [meta]="meta" [content]="content" liveUrl="localhost:4200/ho-so">
@@ -27,6 +28,7 @@ import { HttpVisualizer } from './http.visualizer';
           @for (l of log.lines(); track $index) { <li>{{ l }}</li> }
         </ol>
       </div>
+      <app-practice-cta slot="practice" slug="http" />
     </app-lesson-layout>
   `,
   styles: `

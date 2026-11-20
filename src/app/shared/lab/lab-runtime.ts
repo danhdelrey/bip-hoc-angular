@@ -24,6 +24,7 @@ import {
 import {
   ApplicationRef,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   type ComponentRef,
   type CreateSignalOptions,
@@ -73,6 +74,10 @@ import {
   viewChildren,
 } from '@angular/core';
 import { rxResource, takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { provideLocationMocks } from '@angular/common/testing';
+import { HttpBackend, HttpErrorResponse, HttpEventType, HttpHeaders, type HttpRequest, HttpResponse } from '@angular/common/http';
+import { createApplication } from '@angular/platform-browser';
+import { NavigationEnd, Router } from '@angular/router';
 
 /**
  * Runtime của Code Lab (dùng chung cho mọi bài học).
@@ -182,9 +187,16 @@ const NG_HINTS: Record<string, string> = {
   NG0953: 'output đã bị huỷ (component đã destroy)',
   NG2100: 'pipe nhận sai kiểu dữ liệu (InvalidPipeArgument); kiểm tra thứ tự các pipe',
 };
+/** Lỗi biên dịch template không có mã NG: nhận theo nội dung. */
+const TEXT_HINTS: [RegExp, string][] = [
+  [/must have a placeholder block/, 'trigger on viewport / on interaction / on hover không chỉ định phần tử cần một khối @placeholder (đúng một phần tử gốc) để theo dõi.'],
+];
+
 export function explainNg(msg: string): string {
   const code = /NG0\d{3}/.exec(msg)?.[0];
-  return code && NG_HINTS[code] && !msg.includes(NG_HINTS[code]) ? msg + ' — ' + NG_HINTS[code] : msg;
+  if (code && NG_HINTS[code] && !msg.includes(NG_HINTS[code])) return msg + ' — ' + NG_HINTS[code];
+  const t = TEXT_HINTS.find(([re]) => re.test(msg));
+  return t && !msg.includes(t[1]) ? msg + ' — ' + t[1] : msg;
 }
 
 export function errLine(e: unknown): number | null {
@@ -415,7 +427,7 @@ function labCommonModule(): Type<unknown> {
   return commonModule;
 }
 
-export const NEEDS_JIT = new RegExp('@(' + DECORATORS + ')\\s*\\(|\\bmount\\s*\\(');
+export const NEEDS_JIT = new RegExp('@(' + DECORATORS + ')\\s*\\(|\\b(mount|bootstrapApplication)\\s*\\(');
 let jit: Promise<unknown> | null = null;
 /** Nạp JIT compiler của Angular (đăng ký ng.ɵcompilerFacade) — chỉ khi code có component. */
 export function loadJit(): Promise<unknown> {
@@ -465,6 +477,10 @@ export class LabRun {
 
   /** Tăng mỗi khi dữ liệu đổi → UI vẽ lại. Cập nhật trong microtask (không bao giờ trong computed). */
   readonly version = signal(0);
+  /** đường dẫn hiện tại của Router trong ứng dụng của lab (hiện ở thanh địa chỉ khung preview) */
+  readonly url = signal('');
+  /** các ứng dụng tạo bằng bootstrapApplication(), bị huỷ khi destroy */
+  readonly apps: ApplicationRef[] = [];
 
   frame: HTMLIFrameElement | null = null;
   win: Any = null;
@@ -532,6 +548,9 @@ export class LabRun {
     if (this.destroyed) return;
     this.destroyed = true;
     this.destroyedAt = this.now();
+    for (const app of this.apps.splice(0)) {
+      try { app.destroy(); } catch (e) { this.reportError(e); }
+    }
     try {
       this.injector?.destroy();
     } catch (e) {
@@ -562,6 +581,8 @@ export interface StartOptions {
   preview: HTMLElement;
   /** globals bổ sung của bài học (vd. FormsModule) */
   extras?: Record<string, unknown>;
+  /** chạy trước khi biên dịch code (vd. sinh CSS Tailwind cho các class trong code) */
+  prepare?: (code: string, preview: HTMLElement) => Promise<void>;
 }
 
 function createSandbox(run: LabRun, src: string): Any {
@@ -622,6 +643,28 @@ export async function startRun(code: string, opts: StartOptions): Promise<LabRun
   }
 
   run.preview = opts.preview;
+  if (opts.prepare) {
+    try {
+      await opts.prepare(code, opts.preview);
+    } catch (e) {
+      run.line('err', 'Không chuẩn bị được môi trường cho bài (' + (e as Error).message + ').');
+    }
+  }
+  // Link thường (<a href>) trong preview sẽ điều hướng cả trang học: chặn lại và nhắc dùng routerLink
+  opts.preview.onclick = (ev: MouseEvent) => {
+    const a = (ev.target as Element | null)?.closest?.('a[href]');
+    if (a && !ev.defaultPrevented) {
+      ev.preventDefault();
+      run.line('sys', '⛔ Lab chặn chuyển trang thật tới "' + a.getAttribute('href') + '". Trong ứng dụng Angular hãy dùng routerLink.');
+    }
+  };
+  // <form> submit không preventDefault sẽ tải lại cả trang học: chặn lại
+  opts.preview.onsubmit = (ev: SubmitEvent) => {
+    if (!ev.defaultPrevented) {
+      ev.preventDefault();
+      run.line('sys', '⛔ Lab chặn trình duyệt gửi form thật (sẽ tải lại trang). Trong handler (submit) hãy gọi $event.preventDefault().');
+    }
+  };
   const RX = createSandbox(run, src);
   const win = run.win;
   if (NEEDS_JIT.test(code)) {
@@ -726,7 +769,7 @@ export async function startRun(code: string, opts: StartOptions): Promise<LabRun
     // iframe nên phải bọc lại bằng một hàm của trang, nếu không hook bị coi là object rỗng và không bao giờ chạy.
     afterNextRender: (cb: Any, o?: Any) => afterNextRender(typeof cb === 'function' ? (...a: unknown[]) => cb(...a) : cb, o),
     afterRenderEffect: (cb: Any, o?: Any) => afterRenderEffect(typeof cb === 'function' ? (...a: unknown[]) => cb(...a) : cb, o),
-    ElementRef, TemplateRef, ViewContainerRef, Renderer2, ChangeDetectionStrategy, ViewEncapsulation,
+    ElementRef, TemplateRef, ViewContainerRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef, ViewEncapsulation,
     get CommonModule() { return labCommonModule(); },
     NgClass, NgStyle, NgTemplateOutlet, NgIf, NgForOf, NgSwitch, NgSwitchCase, NgSwitchDefault, AsyncPipe, DatePipe, DecimalPipe, CurrencyPipe, PercentPipe,
     UpperCasePipe, LowerCasePipe, TitleCasePipe, JsonPipe, SlicePipe, KeyValuePipe,
@@ -927,17 +970,108 @@ export async function startRun(code: string, opts: StartOptions): Promise<LabRun
     return ref;
   };
 
+  /* ---------- HTTP giả cho HttpClient (ứng dụng tạo bằng bootstrapApplication) ---------- */
+  let todoId = 100;
+  const route = (req: HttpRequest<unknown>): { status: number; body: unknown; delay: number } => {
+    const url = req.urlWithParams.replace(/^https?:\/\/[^/]+/, '');
+    const path = url.split('?')[0];
+    const auth = req.headers.get('Authorization');
+    let m: RegExpExecArray | null;
+    if (req.method === 'GET' && path === '/api/users') return { status: 200, body: [{ id: 1, name: 'An' }, { id: 2, name: 'Bình' }, { id: 3, name: 'Chi' }], delay: 400 };
+    if (req.method === 'GET' && (m = /^\/api\/users\/(\d+)$/.exec(path))) {
+      const id = Number(m[1]);
+      return id === 13 ? { status: 500, body: { message: 'Lỗi máy chủ' }, delay: 300 } : { status: 200, body: { id, name: 'User ' + id, email: 'user' + id + '@demo.dev' }, delay: 300 };
+    }
+    if (req.method === 'GET' && path === '/api/private')
+      return auth === 'Bearer bip-token' ? { status: 200, body: { secret: 'Dữ liệu bí mật' }, delay: 300 } : { status: 401, body: { message: 'Chưa đăng nhập' }, delay: 200 };
+    if (req.method === 'GET' && path === '/api/flaky')
+      return ++run.counters.flaky <= 1 ? { status: 500, body: { message: 'Lỗi tạm thời' }, delay: 250 } : { status: 200, body: { message: 'Dữ liệu đã về' }, delay: 250 };
+    if (req.method === 'POST' && path === '/api/todos') return { status: 201, body: { id: ++todoId, ...(req.body as object) }, delay: 300 };
+    if (req.method === 'GET' && path === '/api/todos') return { status: 200, body: [], delay: 200 };
+    return { status: 404, body: { message: 'Không có API ' + req.method + ' ' + path }, delay: 150 };
+  };
+  const fakeBackend = {
+    handle: (req: HttpRequest<unknown>) =>
+      new RX.Observable((sub: Any) => {
+        const path = req.urlWithParams.replace(/^https?:\/\/[^/]+/, '');
+        const entry: LabHttp = { method: req.method, path, arg: req.body ?? null, t: run.now(), tEnd: null, status: 'pending' };
+        run.http.push(entry);
+        run.line('net', '→ ' + req.method + ' ' + path + (req.headers.keys().length ? '   headers: ' + req.headers.keys().map((k) => k + '=' + req.headers.get(k)).join(', ') : '') + (req.body != null ? '   body: ' + fmt(req.body) : ''));
+        sub.next({ type: HttpEventType.Sent });
+        const res = route(req);
+        const id = setT(() => {
+          entry.tEnd = run.now();
+          if (res.status < 400) {
+            entry.status = 'done';
+            run.line('net-ok', '← ' + res.status + ' ' + path + '   ' + fmt(res.body));
+            sub.next(new HttpResponse({ status: res.status, body: res.body, url: path, headers: new HttpHeaders({ 'content-type': 'application/json' }) }));
+            sub.complete();
+          } else {
+            entry.status = 'error';
+            run.line('net-fail', '✖ ' + res.status + ' ' + path + '   ' + fmt(res.body));
+            sub.error(new HttpErrorResponse({ status: res.status, statusText: res.status === 401 ? 'Unauthorized' : res.status === 404 ? 'Not Found' : 'Server Error', url: path, error: res.body }));
+          }
+        }, res.delay);
+        return () => {
+          win.clearTimeout(id);
+          if (entry.status === 'pending') {
+            entry.status = 'cancelled';
+            entry.tEnd = run.now();
+            run.line('net-cancel', '⊘ huỷ ' + req.method + ' ' + path);
+          }
+        };
+      }),
+  };
+
+  /**
+   * bootstrapApplication(App, { providers }) như trong main.ts: tạo một ứng dụng Angular RIÊNG (root injector riêng)
+   * cho lần chạy, để Router/HttpClient của lab không đụng tới site. Router dùng location giả (không đổi URL thật),
+   * HttpClient nói chuyện với backend giả ở trên.
+   */
+  const bootstrapApp = async (cls: Type<unknown>, config: { providers?: unknown[] } = {}) => {
+    const host = mk('div', 'ng-host');
+    mount(host);
+    const app = await createApplication({
+      providers: [
+        ...((config.providers ?? []) as never[]),
+        provideLocationMocks(),
+        { provide: HttpBackend, useValue: fakeBackend },
+        { provide: ErrorHandler, useValue: { handleError: (e: unknown) => run.reportError(e) } },
+      ],
+    });
+    if (!run.active || run.destroyed) {
+      app.destroy();
+      return null;
+    }
+    run.apps.push(app);
+    const router = app.injector.get(Router, null);
+    if (router) {
+      router.events.subscribe((e) => {
+        if (e instanceof NavigationEnd) {
+          run.url.set(e.urlAfterRedirects);
+          run.line('sys', '🧭 điều hướng tới ' + e.urlAfterRedirects);
+        }
+      });
+    }
+    try {
+      return app.bootstrap(cls, host);
+    } catch (e) {
+      run.reportError(e); // ví dụ thiếu provider (NG0201): báo ra bảng lỗi thay vì Promise bị reject âm thầm
+      return null;
+    }
+  };
+
   /* ---------- globals cho code người học ---------- */
   const g: Record<string, unknown> = {};
   for (const k of Object.keys(RX)) if (/^[A-Za-z_$][\w$]*$/.test(k)) g[k] = RX[k];
   Object.assign(g, ngComponents, ng, {
     rxjs: RX,
-    spy, watch, log, sleep, ui, fakeApi, mount: mountComponent,
+    spy, watch, log, sleep, ui, fakeApi, mount: mountComponent, bootstrapApplication: bootstrapApp,
     setTimeout: win.setTimeout, clearTimeout: win.clearTimeout,
     setInterval: win.setInterval, clearInterval: win.clearInterval,
     console: { log, info: log, debug: log, table: log, warn: (...a: unknown[]) => log('⚠', ...a), error: (...a: unknown[]) => log('✖', ...a) },
   });
-  Object.assign(g, opts.extras ?? {});
+  for (const [k, v] of Object.entries(opts.extras ?? {})) if (!k.startsWith('__')) g[k] = v;
   const names = Object.keys(g);
   const vals = names.map((n) => g[n]);
 
@@ -1012,8 +1146,10 @@ export interface SimCtx {
   at(ms: number, fn: () => void): void;
   /** gõ vào ô nhập thứ `target` (đếm trong preview) hoặc ô khớp selector */
   type(target: number | string, text: string): void;
-  /** bấm nút trong preview có chữ chứa `label` */
+  /** bấm nút hoặc link trong preview có chữ chứa `label` */
   click(label: string): void;
+  /** rời khỏi ô nhập (blur) — các form đánh dấu touched ở bước này */
+  blur(target: number | string): void;
   /** bấm phần tử khớp selector (thứ `index`) */
   clickSel(selector: string, index?: number): void;
   /** chọn giá trị cho <select> khớp selector */
@@ -1046,11 +1182,18 @@ export function simCtx(run: LabRun): SimCtx {
       pulse(inp);
     },
     click(label) {
-      const b = q('button').find((x) => (x.textContent ?? '').includes(label));
+      const b = q('button, a').find((x) => (x.textContent ?? '').includes(label));
       if (!b) { run.line('sim', '🤖 Không tìm thấy nút "' + label + '"'); return; }
       run.line('sim', '🤖 bấm "' + (b.textContent ?? '').trim() + '"');
       b.click();
       pulse(b);
+    },
+    blur(target) {
+      const el = (typeof target === 'number' ? q('input:not([type=checkbox]):not([type=radio]), textarea')[target] : q(target)[0]) as HTMLElement | undefined;
+      if (!el) { run.line('sim', '🤖 Không tìm thấy ' + JSON.stringify(target)); return; }
+      run.line('sim', '🤖 rời khỏi ô nhập');
+      el.dispatchEvent(new FocusEvent('blur'));
+      el.dispatchEvent(new FocusEvent('focusout', { bubbles: true }));
     },
     clickSel(sel, index = 0) {
       const el = q(sel)[index];
