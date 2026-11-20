@@ -8,62 +8,71 @@ import {
   computed,
   effect,
   inject,
+  input,
   signal,
   untracked,
   viewChild,
 } from '@angular/core';
-import { Feedback } from '../../../../core/feedback/feedback';
-import { safeStorage } from '../../../../core/storage/safe-storage';
-import { BrowserFrame } from '../../../../shared/ui/browser-frame/browser-frame';
-import { CodePanel } from '../../../../shared/ui/code-panel/code-panel';
-import { Icon } from '../../../../shared/ui/icon/icon';
-import { Mascot } from '../../../../shared/ui/mascot/mascot';
-import { LAB_EXERCISES, type LabExercise } from './lab-exercises';
+import { Feedback } from '../../core/feedback/feedback';
+import { safeStorage } from '../../core/storage/safe-storage';
+import { BrowserFrame } from '../ui/browser-frame/browser-frame';
+import { CodePanel } from '../ui/code-panel/code-panel';
+import { Icon } from '../ui/icon/icon';
+import { Mascot } from '../ui/mascot/mascot';
 import { LabEditor } from './lab-editor';
+import type { LabExercise, LabModule } from './lab-model';
 import { type LabRun, checkApi, fmt, simCtx, startRun } from './lab-runtime';
 import { LANE_COLORS, LabTimeline } from './lab-timeline';
 
 type Tab = 'console' | 'timeline' | 'signals';
 interface Verdict { kind: 'ok' | 'no' | 'wait'; msg: string; explain?: string }
 
-const KEY = 'bip-rxjs-lab';
 const PREVIEW_EMPTY =
-  '<p class="rxlab-empty">Chưa có giao diện. Dùng <code>ui.input()</code>, <code>ui.button()</code>, <code>ui.text()</code>, <code>ui.list()</code>… để tạo.</p>';
+  '<p class="rxlab-empty">Chưa có giao diện. Dùng <code>mount(Component)</code> hoặc <code>ui.input()</code>, <code>ui.button()</code>, <code>ui.text()</code>… để tạo.</p>';
 
-/** Tên export của RxJS (để tô màu operator trong editor) — cùng bản rxjs 7 với sandbox. */
+/** Tên export của RxJS và API Angular hay dùng (để tô màu trong editor). */
 const RX_NAMES = new Set(
-  'Observable Subject BehaviorSubject ReplaySubject AsyncSubject Subscription of from interval timer range defer EMPTY NEVER throwError fromEvent combineLatest forkJoin merge concat zip race partition iif lastValueFrom firstValueFrom map filter tap switchMap mergeMap concatMap exhaustMap debounceTime throttleTime distinctUntilChanged startWith scan reduce take takeUntil takeWhile skip first last delay retry catchError finalize share shareReplay withLatestFrom pairwise bufferTime toArray auditTime sampleTime timeout pluck mapTo count max min every find isEmpty defaultIfEmpty endWith ignoreElements materialize observeOn subscribeOn asyncScheduler animationFrameScheduler'.split(' '),
+  'Observable Subject BehaviorSubject ReplaySubject AsyncSubject Subscription of from interval timer range defer EMPTY NEVER throwError fromEvent combineLatest forkJoin merge concat zip race partition iif lastValueFrom firstValueFrom map filter tap switchMap mergeMap concatMap exhaustMap debounceTime throttleTime distinctUntilChanged startWith scan reduce take takeUntil takeWhile skip first last delay retry catchError finalize share shareReplay withLatestFrom pairwise bufferTime toArray auditTime sampleTime timeout count max min every find isEmpty defaultIfEmpty endWith ignoreElements asyncScheduler Component Directive Pipe Injectable Service input output model inject viewChild viewChildren contentChild contentChildren mount InjectionToken'.split(' '),
 );
 
 /**
- * RxJS + Signal Lab: viết code thật, chạy ngay trong trang, chấm tự động.
+ * Code Lab: viết code thật, chạy ngay trong trang, chấm tự động.
+ * Dùng chung cho mọi bài học — nội dung bài luyện được tải lười qua `load`.
  * Kết quả gồm giao diện (khung trình duyệt), Console, Timeline (marble) và bảng Signals.
  */
 @Component({
-  selector: 'app-rxjs-lab',
+  selector: 'app-code-lab',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [LabEditor, LabTimeline, BrowserFrame, CodePanel, Icon, Mascot],
-  templateUrl: './rxjs-lab.html',
-  styleUrl: './rxjs-lab.css',
+  templateUrl: './code-lab.html',
+  styleUrl: './code-lab.css',
 })
-export class RxjsLab {
+export class CodeLab {
+  /** Tải nội dung bài luyện (dynamic import) */
+  readonly load = input.required<() => Promise<LabModule>>();
+  /** Khoá lưu tiến độ + code trong localStorage */
+  readonly storageKey = input.required<string>();
+
   private readonly parent = inject(EnvironmentInjector);
   private readonly feedback = inject(Feedback);
-  private readonly preview = viewChild.required<ElementRef<HTMLElement>>('preview');
+  private readonly preview = viewChild<ElementRef<HTMLElement>>('preview');
   private readonly consoleBox = viewChild<ElementRef<HTMLElement>>('consoleBox');
 
-  protected readonly exercises = LAB_EXERCISES;
-  protected readonly graded = LAB_EXERCISES.filter((e) => !e.noCheck);
-  protected readonly groups = [...new Set(LAB_EXERCISES.map((e) => e.group))].map((name) => ({
-    name,
-    items: LAB_EXERCISES.filter((e) => e.group === name),
-  }));
+  protected readonly mod = signal<LabModule | null>(null);
+  protected readonly loadError = signal<string | null>(null);
+  private extras: Record<string, unknown> = {};
+
+  protected readonly exercises = computed(() => this.mod()?.exercises ?? []);
+  protected readonly graded = computed(() => this.exercises().filter((e) => !e.noCheck));
+  protected readonly groups = computed(() =>
+    [...new Set(this.exercises().map((e) => e.group))].map((name) => ({ name, items: this.exercises().filter((e) => e.group === name) })),
+  );
   protected readonly laneColors = LANE_COLORS;
   protected readonly rxNames = RX_NAMES;
 
-  protected readonly current = signal<LabExercise>(this.initial());
-  protected readonly index = computed(() => this.exercises.indexOf(this.current()));
+  protected readonly current = signal<LabExercise | null>(null);
+  protected readonly index = computed(() => (this.current() ? this.exercises().indexOf(this.current()!) : -1));
   protected readonly code = signal('');
   protected readonly run = signal<LabRun | null>(null);
   protected readonly verdict = signal<Verdict | null>(null);
@@ -72,8 +81,8 @@ export class RxjsLab {
   protected readonly showSolution = signal(false);
   protected readonly confirmReset = signal(false);
   protected readonly tab = signal<Tab>('console');
-  protected readonly done = signal(new Set<string>(safeStorage.read<string[]>(KEY + '.done', [])));
-  protected readonly doneCount = computed(() => this.graded.filter((e) => this.done().has(e.id)).length);
+  protected readonly done = signal(new Set<string>());
+  protected readonly doneCount = computed(() => this.graded().filter((e) => this.done().has(e.id)).length);
 
   /** nhịp đồng hồ khi đang chạy (thanh trạng thái, timeline) */
   private readonly clock = signal(0);
@@ -109,7 +118,7 @@ export class RxjsLab {
     if (!run.active) return run.errors.length && !run.destroyed ? { text: 'Lỗi', cls: 'is-err' } : { text: 'Đã dừng', cls: '' };
     const p = run.pending();
     if (p) return { text: 'Đang chạy · ' + (run.now() / 1000).toFixed(1) + 's · ' + p + ' timer/request đang chờ', cls: 'is-run' };
-    if (run.ui.inputs.length || run.ui.buttons.length) return { text: 'Đang chờ thao tác trên giao diện…', cls: 'is-wait' };
+    if (run.interactive()) return { text: 'Đang chờ thao tác trên giao diện…', cls: 'is-wait' };
     return { text: 'Chạy xong (không còn timer nào)', cls: 'is-done' };
   });
 
@@ -117,7 +126,6 @@ export class RxjsLab {
   private runSeq = 0;
 
   constructor() {
-    this.code.set(this.savedCode(this.current()));
     const tick = setInterval(() => {
       if (this.run()?.active) this.clock.update((c) => c + 1);
     }, 250);
@@ -127,12 +135,20 @@ export class RxjsLab {
       this.run()?.stop();
     });
 
+    // tải nội dung bài luyện
+    effect(() => {
+      const load = this.load();
+      const key = this.storageKey();
+      untracked(() => void this.init(load, key));
+    });
+
     // lưu code đang viết (debounce)
     effect(() => {
       const code = this.code();
-      const id = untracked(this.current).id;
+      const ex = untracked(this.current);
+      if (!ex) return;
       clearTimeout(this.saveTimer);
-      this.saveTimer = setTimeout(() => safeStorage.write(KEY + '.code.' + id, code), 400);
+      this.saveTimer = setTimeout(() => safeStorage.write(this.storageKey() + '.code.' + ex.id, code), 400);
     });
 
     // console tự cuộn xuống cuối nếu đang ở cuối
@@ -145,26 +161,36 @@ export class RxjsLab {
     });
   }
 
-  private initial(): LabExercise {
-    const last = safeStorage.read<string>(KEY + '.last', '');
-    return this.exercises.find((e) => e.id === last) ?? this.exercises[1];
+  private async init(load: () => Promise<LabModule>, key: string): Promise<void> {
+    try {
+      const mod = await load();
+      this.extras = mod.extras ? await mod.extras() : {};
+      this.done.set(new Set(safeStorage.read<string[]>(key + '.done', [])));
+      const last = safeStorage.read<string>(key + '.last', '');
+      const first = mod.exercises.find((e) => e.id === last) ?? mod.exercises.find((e) => !e.noCheck) ?? mod.exercises[0];
+      this.mod.set(mod);
+      this.current.set(first);
+      this.code.set(this.savedCode(first));
+    } catch (e) {
+      this.loadError.set((e as Error).message);
+    }
   }
 
   private savedCode(ex: LabExercise): string {
-    return safeStorage.read<string>(KEY + '.code.' + ex.id, '') || ex.starter;
+    return safeStorage.read<string>(this.storageKey() + '.code.' + ex.id, '') || ex.starter;
   }
 
   protected optionLabel(ex: LabExercise): string {
-    const n = this.graded.indexOf(ex);
+    const n = this.graded().indexOf(ex);
     return (this.done().has(ex.id) ? '✓ ' : '') + (n < 0 ? '★ ' : n + 1 + '. ') + ex.title;
   }
 
   protected select(id: string): void {
-    const ex = this.exercises.find((e) => e.id === id);
+    const ex = this.exercises().find((e) => e.id === id);
     if (!ex || ex === this.current()) return;
     this.stopAndClear();
     this.current.set(ex);
-    safeStorage.write(KEY + '.last', ex.id);
+    safeStorage.write(this.storageKey() + '.last', ex.id);
     this.code.set(this.savedCode(ex));
     this.verdict.set(null);
     this.showHint.set(false);
@@ -173,7 +199,7 @@ export class RxjsLab {
   }
 
   protected go(delta: number): void {
-    const ex = this.exercises[this.index() + delta];
+    const ex = this.exercises()[this.index() + delta];
     if (ex) this.select(ex.id);
   }
 
@@ -181,21 +207,24 @@ export class RxjsLab {
     this.runSeq++;
     this.run()?.stop();
     this.run.set(null);
-    const el = this.preview().nativeElement;
+    const el = this.preview()?.nativeElement;
+    if (!el) return;
     el.innerHTML = PREVIEW_EMPTY;
     el.classList.remove('is-stopped');
   }
 
   protected async runCode(): Promise<LabRun | null> {
+    const preview = this.preview()?.nativeElement;
+    if (!preview) return null;
     this.stopAndClear();
     const seq = this.runSeq;
-    const run = await startRun(this.code(), { parent: this.parent, preview: this.preview().nativeElement });
+    const run = await startRun(this.code(), { parent: this.parent, preview, extras: this.extras });
     if (seq !== this.runSeq) {
       run.stop();
       return null;
     }
     this.run.set(run);
-    if (!run.active) this.preview().nativeElement.classList.add('is-stopped');
+    if (!run.active) preview.classList.add('is-stopped');
     return run;
   }
 
@@ -203,7 +232,7 @@ export class RxjsLab {
     const run = this.run();
     if (!run?.active) return;
     run.stop(true);
-    this.preview().nativeElement.classList.add('is-stopped');
+    this.preview()?.nativeElement.classList.add('is-stopped');
   }
 
   protected clearConsole(): void {
@@ -215,7 +244,7 @@ export class RxjsLab {
 
   protected async check(): Promise<void> {
     const ex = this.current();
-    if (ex.noCheck || !ex.check || this.checking()) return;
+    if (!ex || ex.noCheck || !ex.check || this.checking()) return;
     this.checking.set(true);
     this.verdict.set({ kind: 'wait', msg: 'Đang chạy và mô phỏng thao tác (' + ((ex.waitMs ?? 500) / 1000).toFixed(1) + 's)…' });
     try {
@@ -240,11 +269,12 @@ export class RxjsLab {
       if (res.ok) {
         const first = !this.done().has(ex.id);
         this.done.update((s) => new Set(s).add(ex.id));
-        safeStorage.write(KEY + '.done', [...this.done()]);
+        safeStorage.write(this.storageKey() + '.done', [...this.done()]);
         this.verdict.set({ kind: 'ok', msg: res.msg, explain: ex.explain });
         if (first) {
-          const all = this.doneCount() === this.graded.length;
-          this.feedback.toast(all ? 'Bạn đã làm hết ' + this.graded.length + ' bài của RxJS + Signal Lab!' : 'Lab: "' + ex.title + '" đúng rồi!', 'celebrate');
+          const all = this.doneCount() === this.graded().length;
+          const title = this.mod()?.title ?? 'Lab';
+          this.feedback.toast(all ? 'Bạn đã làm hết ' + this.graded().length + ' bài của ' + title + '!' : 'Lab: "' + ex.title + '" đúng rồi!', 'celebrate');
           this.feedback.celebrate(all ? 'big' : 'small');
         }
       } else {
@@ -256,17 +286,19 @@ export class RxjsLab {
   }
 
   protected useSolution(): void {
-    const sol = this.current().solution;
+    const sol = this.current()?.solution;
     if (sol) this.code.set(sol);
   }
 
   protected reset(): void {
+    const ex = this.current();
+    if (!ex) return;
     if (!this.confirmReset()) {
       this.confirmReset.set(true);
       setTimeout(() => this.confirmReset.set(false), 3000);
       return;
     }
     this.confirmReset.set(false);
-    this.code.set(this.current().starter);
+    this.code.set(ex.starter);
   }
 }

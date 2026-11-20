@@ -1,47 +1,13 @@
-import { type CheckApi, type SimCtx, fmt } from './lab-runtime';
+import { type LabExercise, type LabModule, NO, OK, same, show } from '../../../shared/lab/lab-model';
 
-/**
- * Bộ bài tập của RxJS + Signal Lab — bao quát các tình huống hay gặp hằng ngày:
- * state trong service, ô tìm kiếm, gọi HTTP (lỗi, retry, song song, cache, polling),
- * chống bấm liên tục, tải thêm, dọn subscription, store bằng signal.
- *
- * Mỗi bài: starter (chạy được nhưng sai/thiếu), solution, check() chấm dựa trên sự kiện ghi được
- * (spy/watch/fakeApi), và simulate() nếu cần giả lập thao tác người dùng.
- * Chuỗi code KHÔNG dùng backtick hay ${} để giữ nguyên khi đặt trong template literal.
- */
-export interface CheckResult {
-  ok: boolean;
-  msg: string;
-}
-
-export interface LabExercise {
-  id: string;
-  group: string;
-  title: string;
-  level: string;
-  /** 0 = tự do, 1 = dễ, 2 = trung bình, 3 = khó */
-  lv: 0 | 1 | 2 | 3;
-  noCheck?: boolean;
-  /** HTML (đã kiểm soát, không có dữ liệu người dùng) */
-  desc: string;
-  starter: string;
-  solution?: string;
-  hint?: string;
-  explain?: string;
-  /** thời gian chờ (ms) trước khi chấm */
-  waitMs?: number;
-  simulate?(s: SimCtx): void;
-  check?(a: CheckApi, code: string): CheckResult;
-}
-
-const OK = (msg = ''): CheckResult => ({ ok: true, msg });
-const NO = (msg: string): CheckResult => ({ ok: false, msg });
-const same = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
-const show = (v: unknown) => fmt(v);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Any = any;
 
-export const LAB_EXERCISES: LabExercise[] = [
+/**
+ * Bài luyện của bài 9 — RxJS + Signal Lab: bao quát các tình huống hay gặp hằng ngày
+ * (state trong service, ô tìm kiếm, gọi HTTP, chống bấm liên tục, tải thêm, dọn subscription, store bằng signal).
+ */
+const EXERCISES: LabExercise[] = [
 /* ---------------------------------------------------------------- */
 { id: 'san-choi', group: 'Bắt đầu', title: 'Sân chơi tự do', level: 'Tự do', lv: 0, noCheck: true,
   desc: `<p>Viết bất cứ thứ gì để thử. Mọi hàm của RxJS (<code>of</code>, <code>map</code>, <code>switchMap</code>…) và signal (<code>signal</code>, <code>computed</code>, <code>effect</code>, <code>toSignal</code>, <code>rxResource</code>…) đều có sẵn, <b>không cần import</b> (có viết import thì trang cũng tự bỏ qua). Viết JS hay TypeScript đều được.</p>
@@ -930,3 +896,27 @@ store.remove(1);
     return OK();
   } },
 ];
+
+export const LAB: LabModule = {
+  title: 'RxJS + Signal Lab',
+  subtitle:
+    'bài viết code thật, chạy ngay trong trang và được chấm tự động. Bao quát các tình huống hay gặp: state trong service, ô tìm kiếm, gọi HTTP (lỗi, retry, song song, cache, polling), chống bấm liên tục, tải thêm, dọn subscription.',
+  exercises: EXERCISES,
+  cheatsheet: [
+    ['State của component/service', '<code>signal</code> + <code>computed</code> (thay <code>BehaviorSubject</code>)'],
+    ['Giá trị suy ra từ nhiều state', '<code>computed</code> (không glitch như <code>combineLatest</code>)'],
+    ['State phụ thuộc nhưng sửa được', '<code>linkedSignal</code>'],
+    ['Đồng bộ ra ngoài (localStorage, log, thư viện DOM)', '<code>effect</code>; không dùng effect để copy signal sang signal'],
+    ['Tải dữ liệu theo tham số', '<code>rxResource</code> / <code>httpResource</code>, hoặc <code>toObservable → switchMap → toSignal</code>'],
+    ['Ô tìm kiếm', '<code>debounceTime</code> + <code>distinctUntilChanged</code> + <code>switchMap</code>'],
+    ['Nút Lưu, Submit, Đăng nhập', '<code>exhaustMap</code>'],
+    ['Hàng đợi theo thứ tự / nhiều việc song song', '<code>concatMap</code> / <code>mergeMap</code>, <code>forkJoin</code>'],
+    ['Lỗi mạng tạm thời', '<code>retry({ count, delay })</code>'],
+    ['Một request lỗi không làm chết stream', '<code>catchError</code> <b>bên trong</b> <code>switchMap</code>'],
+    ['Cache kết quả dùng chung', '<code>shareReplay(1)</code>'],
+    ['Polling đến khi xong', '<code>timer(0, ms)</code> + <code>switchMap</code> + <code>takeWhile(…, true)</code>'],
+    ['Tích luỹ (tải thêm, giỏ hàng)', '<code>scan</code> hoặc <code>signal.update</code>'],
+    ['Subscribe thủ công trong component', '<code>takeUntilDestroyed()</code>, hoặc dùng <code>toSignal</code> cho khỏi subscribe'],
+    ['Tắt loading dù thành công/lỗi/huỷ', '<code>finalize</code>'],
+  ],
+};

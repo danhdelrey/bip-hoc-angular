@@ -5,14 +5,14 @@ import { CodePanel } from '../../../shared/ui/code-panel/code-panel';
 import { Icon } from '../../../shared/ui/icon/icon';
 import { LessonLayout } from '../../../shared/ui/lesson-layout/lesson-layout';
 import { FruitSearch } from './demo/fruit-search';
-import { RxjsLab } from './lab/rxjs-lab';
+import { LessonLab } from '../../../shared/lab/lesson-lab';
 import { RXJS, RXJS_INTEROP, RXJS_SIGNAL_TABLE } from './rxjs.content';
 import { RxjsVisualizer } from './rxjs.visualizer';
 
 @Component({
   selector: 'app-rxjs-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LessonLayout, RxjsVisualizer, FruitSearch, CodePanel, Icon, RxjsLab],
+  imports: [LessonLayout, RxjsVisualizer, FruitSearch, CodePanel, Icon, LessonLab],
   providers: [LessonContext],
   template: `
     <app-lesson-layout [meta]="meta" [content]="content" liveUrl="localhost:4200/tim-kiem">
@@ -29,20 +29,13 @@ import { RxjsVisualizer } from './rxjs.visualizer';
         <h3>Cầu nối: toSignal / toObservable</h3>
         <app-code-panel [files]="[{ name: 'interop.ts', lang: 'typescript', code: interop }]" [compact]="true" />
       </section>
-      <div slot="practice">
-        @defer (on viewport) {
-          <app-rxjs-lab />
-        } @placeholder {
-          <div class="lab-ph toon" aria-hidden="true">Đang chuẩn bị RxJS + Signal Lab…</div>
-        }
-      </div>
+      <app-lesson-lab slot="practice" labId="rxjs" storageKey="bip-rxjs-lab" [load]="lab" />
     </app-lesson-layout>
   `,
   styles: `
     .live-plain { font-family: system-ui, sans-serif; }
     .live-plain ::ng-deep input { padding: 6px 10px; font: inherit; border: 1px solid #888; border-radius: 6px; background: #fff; color: #111; }
     .live-plain ::ng-deep p { margin: 8px 0 4px; }
-    .lab-ph { min-height: 320px; display: grid; place-items: center; margin: 0 0 44px; color: var(--text-muted); }
     .adv { display: block; margin: 0 0 44px; padding: 20px 22px 22px; }
     h2 { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: var(--fs-lg); }
     h3 { font-size: var(--fs-md); margin-top: 16px; }
@@ -61,4 +54,5 @@ export class RxjsPage {
   protected readonly content = RXJS;
   protected readonly table = RXJS_SIGNAL_TABLE;
   protected readonly interop = RXJS_INTEROP;
+  protected readonly lab = () => import('./rxjs.lab').then((m) => m.LAB);
 }
