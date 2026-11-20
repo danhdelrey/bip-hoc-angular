@@ -1,7 +1,8 @@
-/* RxJS + Signal Lab — ViewEncapsulation.None, mọi selector bắt đầu bằng .rxlab
+/* Code Lab — ViewEncapsulation.None, mọi selector bắt đầu bằng .rxlab
    (nội dung đề bài [innerHTML] và giao diện preview được tạo động, không mang attribute của Angular) */
 
-app-rxjs-lab { display: block; margin: 0 0 44px; }
+app-code-lab { display: block; margin: 0 0 44px; }
+.rxlab-loading { min-height: 200px; display: grid; place-items: center; color: var(--text-muted); margin: 0; }
 .rxlab-head { display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 12px; }
 .rxlab-head-text { flex: 1; min-width: 260px; }
 .rxlab-title { display: flex; align-items: center; gap: 10px; font-size: var(--fs-xl); margin: 0 0 4px; }
@@ -78,6 +79,10 @@ app-rxjs-lab { display: block; margin: 0 0 44px; }
 .rxlab-preview .ui-list li:last-child { border-bottom: 0; }
 .rxlab-preview .ui-list li.muted { color: var(--text-muted); font-style: italic; }
 .rxlab-preview .ui-check { display: flex; align-items: center; gap: 8px; margin: 0 0 10px; }
+/* component người học: style mặc định nhẹ cho phần tử form/nút trong khung preview */
+.rxlab-preview .ng-host { display: block; }
+:where(.rxlab-preview .ng-host) button { font: inherit; padding: 4px 12px; border: var(--border); border-radius: var(--radius-sm); background: var(--surface-2); color: var(--text); cursor: pointer; }
+:where(.rxlab-preview .ng-host) :is(input:not([type=checkbox]):not([type=radio]), select, textarea) { font: inherit; padding: 4px 8px; border: var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); }
 
 .rxlab-out { flex: 1; display: flex; flex-direction: column; min-height: 280px; overflow: hidden; }
 .rxlab-tabs { display: flex; align-items: center; gap: 2px; padding: 6px 8px; border-bottom: var(--border-thin); background: var(--surface-2); }

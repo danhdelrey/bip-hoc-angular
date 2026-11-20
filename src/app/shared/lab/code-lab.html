@@ -1,16 +1,19 @@
-@let ex = current();
+@if (loadError(); as err) {
+  <p class="rxlab-loading toon">Không tải được bài luyện ({{ err }}). Tải lại trang để thử lại.</p>
+} @else if (!mod() || !current()) {
+  <p class="rxlab-loading toon" aria-busy="true">Đang tải bài luyện…</p>
+} @else {
+@let m = mod()!;
+@let ex = current()!;
 <section class="rxlab" aria-labelledby="rxlab-title">
   <header class="rxlab-head">
     <div class="rxlab-head-text">
-      <h2 id="rxlab-title" class="rxlab-title"><app-icon name="flask" [size]="24" /> Luyện code: RxJS + Signal Lab</h2>
-      <p class="rxlab-sub">
-        {{ graded.length }} bài viết code thật, chạy ngay trong trang và được chấm tự động. Bao quát các tình huống hay gặp:
-        state trong service, ô tìm kiếm, gọi HTTP (lỗi, retry, song song, cache, polling), chống bấm liên tục, tải thêm, dọn subscription.
-      </p>
+      <h2 id="rxlab-title" class="rxlab-title"><app-icon name="flask" [size]="24" /> Luyện code: {{ m.title }}</h2>
+      <p class="rxlab-sub">{{ graded().length }} {{ m.subtitle }}</p>
     </div>
-    <div class="rxlab-progress" role="img" [attr.aria-label]="'Đã xong ' + doneCount() + ' trên ' + graded.length + ' bài'">
-      <span>{{ doneCount() }}/{{ graded.length }} bài</span>
-      <span class="rxlab-bar"><i [style.width.%]="(100 * doneCount()) / graded.length"></i></span>
+    <div class="rxlab-progress" role="img" [attr.aria-label]="'Đã xong ' + doneCount() + ' trên ' + graded().length + ' bài'">
+      <span>{{ doneCount() }}/{{ graded().length }} bài</span>
+      <span class="rxlab-bar"><i [style.width.%]="(100 * doneCount()) / graded().length"></i></span>
     </div>
   </header>
 
@@ -18,9 +21,9 @@
     <button type="button" class="btn btn-sm btn-icon" (click)="go(-1)" [disabled]="index() === 0" aria-label="Bài trước">
       <app-icon name="arrowLeft" [size]="18" />
     </button>
-    <label class="sr-only" for="rxlab-select">Chọn bài tập</label>
-    <select id="rxlab-select" class="rxlab-select" (change)="select($any($event.target).value)">
-      @for (g of groups; track g.name) {
+    <label class="sr-only" [for]="storageKey() + '-select'">Chọn bài tập</label>
+    <select [id]="storageKey() + '-select'" class="rxlab-select" (change)="select($any($event.target).value)">
+      @for (g of groups(); track g.name) {
         <optgroup [label]="g.name">
           @for (e of g.items; track e.id) {
             <option [value]="e.id" [selected]="e.id === ex.id">{{ optionLabel(e) }}</option>
@@ -28,7 +31,7 @@
         </optgroup>
       }
     </select>
-    <button type="button" class="btn btn-sm btn-icon" (click)="go(1)" [disabled]="index() === exercises.length - 1" aria-label="Bài tiếp">
+    <button type="button" class="btn btn-sm btn-icon" (click)="go(1)" [disabled]="index() === exercises().length - 1" aria-label="Bài tiếp">
       <app-icon name="arrowRight" [size]="18" />
     </button>
   </div>
@@ -59,7 +62,7 @@
           @if (v.explain) {
             <p class="rxlab-explain"><app-icon name="bulb" [size]="16" /> {{ v.explain }}</p>
           }
-          @if (v.kind === 'ok' && exercises[index() + 1]; as next) {
+          @if (v.kind === 'ok' && exercises()[index() + 1]; as next) {
             <button type="button" class="btn btn-sm btn-primary rxlab-next" (click)="select(next.id)">
               Bài tiếp: {{ next.title }} <app-icon name="arrowRight" [size]="16" />
             </button>
@@ -168,54 +171,34 @@
   }
 
   <details class="rxlab-api toon">
-    <summary><app-icon name="code" [size]="18" /> API có sẵn trong lab & cheat sheet "tình huống nào dùng gì"</summary>
+    <summary><app-icon name="code" [size]="18" /> API có sẵn trong lab @if (m.cheatsheet?.length) { & cheat sheet "tình huống nào dùng gì" }</summary>
     <div class="rxlab-api-body">
       <h4>Không cần import</h4>
       <table>
-        <tr><td><b>RxJS 7</b></td><td>Mọi export của <code>rxjs</code>: <code>of, from, interval, timer, Subject, BehaviorSubject, combineLatest, forkJoin, map, filter, switchMap, debounceTime, retry, shareReplay, scan…</code></td></tr>
-        <tr><td><b>Angular</b></td><td><code>signal</code>, <code>computed</code>, <code>effect</code>, <code>untracked</code>, <code>linkedSignal</code>, <code>isSignal</code>, <code>toSignal</code>, <code>toObservable</code>, <code>takeUntilDestroyed</code>, <code>rxResource</code>, <code>destroyRef</code>, <code>injector</code>: API thật của Angular 22. Lab tự truyền <code>injector</code> nên gọi sau <code>await</code> vẫn chạy; trong component thật phải gọi trong injection context.</td></tr>
+        <tr><td><b>Component</b></td><td><code>Component</code>, <code>Directive</code>, <code>Pipe</code>, <code>Injectable</code>, <code>Service</code>, <code>input</code>, <code>output</code>, <code>model</code>, <code>inject</code>, <code>viewChild</code>, <code>contentChild</code>, <code>InjectionToken</code>, <code>ElementRef</code>, các pipe/directive của <code>&#64;angular/common</code>… Viết <code>&#64;Component({{ '{' }} … {{ '}' }}) class App {{ '{' }} … {{ '}' }}</code> như bình thường rồi gọi <code>mount(App)</code> để render vào khung trình duyệt (biên dịch JIT).</td></tr>
+        <tr><td><b>Signals</b></td><td><code>signal</code>, <code>computed</code>, <code>effect</code>, <code>untracked</code>, <code>linkedSignal</code>, <code>toSignal</code>, <code>toObservable</code>, <code>takeUntilDestroyed</code>, <code>rxResource</code>, <code>destroyRef</code>, <code>injector</code>: API thật của Angular 22. Lab tự truyền <code>injector</code> nên gọi sau <code>await</code> vẫn chạy; trong component thật phải gọi trong injection context.</td></tr>
+        <tr><td><b>RxJS 7</b></td><td>Mọi export của <code>rxjs</code>: <code>of, from, interval, timer, Subject, BehaviorSubject, map, filter, switchMap, debounceTime…</code></td></tr>
       </table>
       <h4>Helper riêng của lab</h4>
       <table>
-        <tr><td><code>spy('tên')</code></td><td>Observer <code>{{ '{' }} next, error, complete {{ '}' }}</code> ghi ra Console + Timeline: <code>obs$.subscribe(spy('a'))</code>, <code>tap(spy('a'))</code></td></tr>
+        <tr><td><code>mount(App, {{ '{' }} inputs {{ '}' }})</code></td><td>Render component vào khung trình duyệt; Dừng = destroy component</td></tr>
+        <tr><td><code>spy('tên')</code></td><td>Observer <code>{{ '{' }} next, error, complete {{ '}' }}</code> ghi ra Console + Timeline: <code>obs$.subscribe(spy('a'))</code></td></tr>
         <tr><td><code>watch('tên', fn)</code></td><td>Effect ghi giá trị mỗi khi signal/hàm đổi: <code>watch('total', total)</code></td></tr>
-        <tr><td><code>log(...)</code>, <code>console.log</code></td><td>In ra Console</td></tr>
+        <tr><td><code>log(...)</code>, <code>console.log</code></td><td>In ra Console (cũng dùng được trong method của component)</td></tr>
         <tr><td><code>await sleep(ms)</code></td><td>Chờ (code chạy trong hàm async)</td></tr>
-        <tr><td><code>ui.input(placeholder)</code></td><td>Ô nhập, trả về <code>WritableSignal&lt;string&gt;</code></td></tr>
-        <tr><td><code>ui.checkbox(label)</code></td><td>Trả về <code>WritableSignal&lt;boolean&gt;</code></td></tr>
-        <tr><td><code>ui.button(label, onClick?)</code></td><td>Nút bấm, trả về <code>Observable</code> các click</td></tr>
-        <tr><td><code>ui.text(label?, sig | fn)</code>, <code>ui.list(sig | fn)</code></td><td>Hiển thị giá trị / mảng, tự cập nhật</td></tr>
+        <tr><td><code>ui.input / checkbox / button / text / list</code></td><td>Giao diện nhanh không cần component: <code>ui.input()</code> trả về <code>WritableSignal</code>, <code>ui.button()</code> trả về <code>Observable</code> các click</td></tr>
+        <tr><td><code>fakeApi.*</code></td><td>HTTP giả trả về Observable: <code>search(q)</code>, <code>user(id)</code> (id 13 luôn lỗi), <code>posts(userId)</code>, <code>save(data)</code>, <code>flaky()</code>, <code>config()</code>, <code>job(id)</code>, <code>page(n)</code>, <code>get(path, {{ '{' }} delay, data, fail {{ '}' }})</code></td></tr>
       </table>
-      <h4>fakeApi: HTTP giả, trả về Observable, tự huỷ khi unsubscribe</h4>
-      <table>
-        <tr><td><code>search(q)</code></td><td>500ms → mảng tên trái cây chứa <code>q</code></td></tr>
-        <tr><td><code>user(id)</code></td><td>400ms → <code>{{ '{' }} id, name, email {{ '}' }}</code>. <b>id 13 luôn lỗi 500</b></td></tr>
-        <tr><td><code>posts(userId)</code>, <code>config()</code></td><td>500ms → 3 bài viết; 400ms → <code>{{ '{' }} theme, lang {{ '}' }}</code></td></tr>
-        <tr><td><code>save(data)</code></td><td>600ms, POST</td></tr>
-        <tr><td><code>flaky()</code></td><td>300ms, lỗi 2 lần đầu, lần 3 thành công</td></tr>
-        <tr><td><code>job(id)</code></td><td>150ms → tiến độ +25% mỗi lần gọi, tới 100% thì <code>status: 'done'</code></td></tr>
-        <tr><td><code>page(n)</code></td><td>400ms → 5 item của trang <code>n</code></td></tr>
-        <tr><td><code>get(path, {{ '{' }} delay, data, fail {{ '}' }})</code></td><td>Request tuỳ ý</td></tr>
-      </table>
-      <h4>Tình huống nào dùng gì?</h4>
-      <table>
-        <tr><td>State của component/service</td><td><code>signal</code> + <code>computed</code> (thay <code>BehaviorSubject</code>)</td></tr>
-        <tr><td>Giá trị suy ra từ nhiều state</td><td><code>computed</code> (không glitch như <code>combineLatest</code>)</td></tr>
-        <tr><td>State phụ thuộc nhưng sửa được</td><td><code>linkedSignal</code></td></tr>
-        <tr><td>Đồng bộ ra ngoài (localStorage, log, thư viện DOM)</td><td><code>effect</code>; không dùng effect để copy signal sang signal</td></tr>
-        <tr><td>Tải dữ liệu theo tham số</td><td><code>rxResource</code> / <code>httpResource</code>, hoặc <code>toObservable → switchMap → toSignal</code></td></tr>
-        <tr><td>Ô tìm kiếm</td><td><code>debounceTime</code> + <code>distinctUntilChanged</code> + <code>switchMap</code></td></tr>
-        <tr><td>Nút Lưu, Submit, Đăng nhập</td><td><code>exhaustMap</code></td></tr>
-        <tr><td>Hàng đợi theo thứ tự / nhiều việc song song</td><td><code>concatMap</code> / <code>mergeMap</code>, <code>forkJoin</code></td></tr>
-        <tr><td>Lỗi mạng tạm thời</td><td><code>retry({{ '{' }} count, delay {{ '}' }})</code></td></tr>
-        <tr><td>Một request lỗi không làm chết stream</td><td><code>catchError</code> <b>bên trong</b> <code>switchMap</code></td></tr>
-        <tr><td>Cache kết quả dùng chung</td><td><code>shareReplay(1)</code></td></tr>
-        <tr><td>Polling đến khi xong</td><td><code>timer(0, ms)</code> + <code>switchMap</code> + <code>takeWhile(…, true)</code></td></tr>
-        <tr><td>Tích luỹ (tải thêm, giỏ hàng)</td><td><code>scan</code> hoặc <code>signal.update</code></td></tr>
-        <tr><td>Subscribe thủ công trong component</td><td><code>takeUntilDestroyed()</code>, hoặc dùng <code>toSignal</code> cho khỏi subscribe</td></tr>
-        <tr><td>Tắt loading dù thành công/lỗi/huỷ</td><td><code>finalize</code></td></tr>
-      </table>
-      <p class="rxlab-muted">RxJS chạy trong một sandbox (iframe ẩn) nên nút Dừng huỷ được mọi timer; signal và effect chạy trên Angular của chính trang này. Bài làm được lưu trong trình duyệt của bạn.</p>
+      @if (m.cheatsheet?.length) {
+        <h4>Tình huống nào dùng gì?</h4>
+        <table>
+          @for (r of m.cheatsheet; track $index) {
+            <tr><td [innerHTML]="r[0]"></td><td [innerHTML]="r[1]"></td></tr>
+          }
+        </table>
+      }
+      <p class="rxlab-muted">Component của bạn được biên dịch JIT và chạy trên Angular của chính trang này. RxJS chạy trong một sandbox (iframe ẩn) nên nút Dừng huỷ được mọi timer. Bài làm được lưu trong trình duyệt của bạn.</p>
     </div>
   </details>
 </section>
+}

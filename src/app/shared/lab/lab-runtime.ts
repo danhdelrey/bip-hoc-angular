@@ -1,25 +1,88 @@
 import {
+  AsyncPipe,
+  CurrencyPipe,
+  DatePipe,
+  DecimalPipe,
+  JsonPipe,
+  KeyValuePipe,
+  LowerCasePipe,
+  NgClass,
+  NgForOf,
+  NgIf,
+  NgPlural,
+  NgPluralCase,
+  NgStyle,
+  NgSwitch,
+  NgSwitchCase,
+  NgSwitchDefault,
+  NgTemplateOutlet,
+  PercentPipe,
+  SlicePipe,
+  TitleCasePipe,
+  UpperCasePipe,
+} from '@angular/common';
+import {
+  ApplicationRef,
+  ChangeDetectionStrategy,
+  Component,
+  type ComponentRef,
   type CreateSignalOptions,
   DestroyRef,
+  Directive,
+  ContentChild,
+  ContentChildren,
+  ElementRef,
   type EnvironmentInjector,
+  ErrorHandler,
+  Injectable,
+  InjectionToken,
+  Input,
+  NgModule,
+  Output,
+  Pipe,
+  Renderer2,
+  Service,
+  TemplateRef,
+  type Type,
+  ViewChild,
+  ViewChildren,
+  ViewContainerRef,
+  ViewEncapsulation,
+  afterNextRender,
+  afterRenderEffect,
+  booleanAttribute,
   computed,
+  contentChild,
+  contentChildren,
+  createComponent,
   createEnvironmentInjector,
   effect,
+  forwardRef,
+  inject,
+  input,
   isSignal,
   linkedSignal,
+  model,
+  numberAttribute,
+  output,
   signal,
   untracked,
+  viewChild,
+  viewChildren,
 } from '@angular/core';
 import { rxResource, takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 
 /**
- * Runtime của RxJS + Signal Lab.
+ * Runtime của Code Lab (dùng chung cho mọi bài học).
  *
  * - Signal, computed, effect, linkedSignal, toSignal, toObservable, rxResource… là API THẬT của Angular.
  *   Mỗi lần chạy có một EnvironmentInjector riêng: destroy injector = "component bị destroy"
  *   (effect, toSignal, takeUntilDestroyed được dọn đúng như trong app thật).
  * - RxJS chạy trong một iframe ẩn (bản UMD trong /labs). Mọi timer của RxJS và của code người học
  *   đều thuộc cửa sổ iframe, nên "Dừng" = gỡ iframe là huỷ sạch, không ảnh hưởng tới app.
+ * - Component/Directive/Pipe/Service của người học được biên dịch JIT (@angular/compiler, tải lười)
+ *   và render THẬT vào khung preview bằng mount(). Decorator class được đổi thành lời gọi hàm
+ *   (transformDecorators) vì trình duyệt chưa chạy cú pháp decorator.
  */
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -102,6 +165,23 @@ try {
   /* môi trường không cho new Function */
 }
 
+/** Bản production chỉ có mã lỗi NGxxxx — kèm giải thích ngắn cho các lỗi hay gặp. */
+const NG_HINTS: Record<string, string> = {
+  NG0100: 'giá trị trong template đổi ngay trong lúc kiểm tra thay đổi (ExpressionChanged)',
+  NG0200: 'vòng lặp phụ thuộc DI (circular dependency)',
+  NG0201: 'không tìm thấy provider cho dependency cần inject',
+  NG0203: 'inject()/toSignal()/effect() được gọi ngoài injection context (chỉ gọi ở field hoặc constructor)',
+  NG0600: 'không được set signal bên trong computed() hoặc template',
+  NG0602: 'không được tạo effect() bên trong computed() hoặc effect khác',
+  NG0950: 'input bắt buộc (input.required) chưa được truyền giá trị; kiểm tra component cha đã bind [tên]="…" chưa',
+  NG0951: 'viewChild.required/contentChild.required không tìm thấy phần tử',
+  NG0953: 'output đã bị huỷ (component đã destroy)',
+};
+export function explainNg(msg: string): string {
+  const code = /NG0\d{3}/.exec(msg)?.[0];
+  return code && NG_HINTS[code] && !msg.includes(NG_HINTS[code]) ? msg + ' — ' + NG_HINTS[code] : msg;
+}
+
 export function errLine(e: unknown): number | null {
   const m = String((e as Error)?.stack ?? '').match(/(?:<anonymous>|> (?:Async)?Function):(\d+):(\d+)/);
   if (!m) return null;
@@ -135,7 +215,7 @@ class LabSyntaxError extends Error {
 }
 
 async function compile(src: string, names: string[], vals: unknown[], Fn: FunctionConstructor): Promise<() => Promise<unknown>> {
-  let code = stripModules(src);
+  let code = transformDecorators(stripModules(src));
   const make = () => wrap(names, code, Fn)(...vals);
   const viaTs = async () => {
     try {
@@ -153,6 +233,189 @@ async function compile(src: string, names: string[], vals: unknown[], Fn: Functi
     if ((e as Error)?.name !== 'SyntaxError') throw e; // SyntaxError của realm iframe
     return viaTs(); // có thể là TS mà regex không nhận ra; sucrase báo lỗi kèm số dòng
   }
+}
+
+/* ---------- decorator class → lời gọi hàm (giữ nguyên số dòng) ---------- */
+const PAIRS: Record<string, string> = { '(': ')', '[': ']', '{': '}' };
+function skipString(s: string, i: number): number {
+  const q = s[i];
+  for (i++; i < s.length; i++) {
+    if (s[i] === '\\') i++;
+    else if (s[i] === q || s[i] === '\n') return i + 1;
+  }
+  return s.length;
+}
+function skipTemplate(s: string, i: number): number {
+  for (i++; i < s.length; i++) {
+    if (s[i] === '\\') i++;
+    else if (s[i] === '`') return i + 1;
+    else if (s[i] === '$' && s[i + 1] === '{') {
+      const e = findClose(s, i + 1);
+      if (e < 0) return s.length;
+      i = e;
+    }
+  }
+  return s.length;
+}
+/** Vị trí dấu đóng khớp với dấu mở tại `open` (bỏ qua chuỗi, template literal, comment); -1 nếu không có. */
+export function findClose(s: string, open: number): number {
+  const stack = [PAIRS[s[open]]];
+  let i = open + 1;
+  while (i < s.length) {
+    const c = s[i];
+    if (c === '/' && s[i + 1] === '/') { const n = s.indexOf('\n', i); if (n < 0) return -1; i = n; continue; }
+    if (c === '/' && s[i + 1] === '*') { const n = s.indexOf('*/', i + 2); if (n < 0) return -1; i = n + 2; continue; }
+    if (c === '"' || c === "'") { i = skipString(s, i); continue; }
+    if (c === '`') { i = skipTemplate(s, i); continue; }
+    if (PAIRS[c]) stack.push(PAIRS[c]);
+    else if (c === ')' || c === ']' || c === '}') {
+      if (stack.pop() !== c) return -1;
+      if (!stack.length) return i;
+    }
+    i++;
+  }
+  return -1;
+}
+const DECORATORS = 'Component|Directive|Pipe|Injectable|Service';
+const skipWs = (s: string, i: number) => {
+  for (;;) {
+    const m = /^(\s+|\/\/[^\n]*|\/\*[\s\S]*?\*\/)/.exec(s.slice(i));
+    if (!m) return i;
+    i += m[0].length;
+  }
+};
+/** Tách danh sách đối số ở cấp ngoài cùng: "a, {b: 1}, [c]" → ["a", "{b: 1}", "[c]"] */
+function splitArgs(src: string): string[] {
+  const out: string[] = [];
+  let depth = 0, start = 0;
+  for (let i = 0; i < src.length; i++) {
+    const c = src[i];
+    if (c === '"' || c === "'") { i = skipString(src, i) - 1; continue; }
+    if (c === '`') { i = skipTemplate(src, i) - 1; continue; }
+    if (PAIRS[c]) depth++;
+    else if (c === ')' || c === ']' || c === '}') depth--;
+    else if (c === ',' && depth === 0) { out.push(src.slice(start, i).trim()); start = i + 1; }
+  }
+  if (src.slice(start).trim()) out.push(src.slice(start).trim());
+  return out;
+}
+
+const MEMBER_RE =
+  /(?:(?:readonly|protected|private|public|override)\s+)*([A-Za-z_$][\w$]*)\s*[!?]?\s*(?::[^=;\n]+)?=\s*(input|model|output|outputFromObservable|viewChild|viewChildren|contentChild|contentChildren)(\.required)?\s*(?:<[^()]*?>)?\s*\(/y;
+const QUERY: Record<string, string> = { viewChild: 'ViewChild', viewChildren: 'ViewChildren', contentChild: 'ContentChild', contentChildren: 'ContentChildren' };
+
+/**
+ * Angular CLI (chế độ JIT) có một bước transform biến input()/output()/model()/viewChild()… thành metadata
+ * để JIT compiler biết đó là input/output/query. Lab không có bước đó nên tự sinh lời gọi tương đương:
+ *   label = input.required()  →  __ng.Input({ isSignal: true, alias: 'label', required: true })(Foo.prototype, 'label')
+ */
+function signalMemberMeta(body: string, cls: string): string {
+  const out: string[] = [];
+  let i = 1, atStart = true;
+  while (i < body.length - 1) {
+    const c = body[i];
+    if (c === '"' || c === "'") { i = skipString(body, i); atStart = false; continue; }
+    if (c === '`') { i = skipTemplate(body, i); atStart = false; continue; }
+    if (c === '/' && body[i + 1] === '/') { const n = body.indexOf('\n', i); i = n < 0 ? body.length : n; continue; }
+    if (c === '/' && body[i + 1] === '*') { const n = body.indexOf('*/', i + 2); i = n < 0 ? body.length : n + 2; continue; }
+    if (PAIRS[c]) { const e = findClose(body, i); i = e < 0 ? body.length : e + 1; atStart = c === '{'; continue; }
+    if (c === ';' || c === '\n') { atStart = true; i++; continue; }
+    if (/\s/.test(c)) { i++; continue; }
+    if (atStart) {
+      MEMBER_RE.lastIndex = i;
+      const m = MEMBER_RE.exec(body);
+      if (m) {
+        const [, field, fn, req] = m;
+        const open = MEMBER_RE.lastIndex - 1;
+        const close = findClose(body, open);
+        const args = close < 0 ? [] : splitArgs(body.slice(open + 1, close));
+        const target = cls + '.prototype, ' + JSON.stringify(field);
+        const optsArg = fn === 'input' || fn === 'model' ? (req ? args[0] : args[1]) : fn.startsWith('output') ? args[fn === 'output' ? 0 : 1] : args[1];
+        const alias = /alias\s*:\s*(['"])([^'"]+)\1/.exec(optsArg ?? '')?.[2] ?? field;
+        if (fn === 'input' || fn === 'model') {
+          out.push('__ng.Input({ isSignal: true, alias: ' + JSON.stringify(alias) + ', required: ' + !!req + ', transform: undefined })(' + target + ');');
+          if (fn === 'model') out.push('__ng.Output(' + JSON.stringify(alias + 'Change') + ')(' + target + ');');
+        } else if (fn.startsWith('output')) {
+          out.push('__ng.Output(' + JSON.stringify(alias) + ')(' + target + ');');
+        } else if (args[0]) {
+          out.push('__ng.' + QUERY[fn] + '(' + args[0] + ', { ...(' + (args[1] || '{}') + '), isSignal: true })(' + target + ');');
+        }
+        i = close < 0 ? body.length : close + 1;
+        atStart = false;
+        continue;
+      }
+    }
+    atStart = false;
+    i++;
+  }
+  return out.join('');
+}
+
+/**
+ * `@Component({...}) class Foo {...}` → `const __d0_Foo = Component({...}); class Foo {...};__d0_Foo(Foo);`
+ * Chỉ hỗ trợ decorator đặt trên class (Angular hiện đại dùng input()/output()/host thay decorator thành viên).
+ */
+export function transformDecorators(code: string): string {
+  const re = new RegExp('@(' + DECORATORS + ')\\s*\\(', 'g');
+  const edits: { at: number; end: number; text: string }[] = [];
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(code))) {
+    const decs: { start: number; end: number; name: string; args: string }[] = [];
+    let i = m.index;
+    let mm: RegExpExecArray | null = m;
+    while (mm) {
+      const open = mm.index + mm[0].length - 1;
+      const close = findClose(code, open);
+      if (close < 0) break;
+      decs.push({ start: mm.index, end: close + 1, name: mm[1], args: code.slice(open + 1, close) });
+      i = skipWs(code, close + 1);
+      const next = new RegExp('^@(' + DECORATORS + ')\\s*\\(').exec(code.slice(i));
+      mm = next ? Object.assign(next, { index: i }) : null;
+    }
+    if (!decs.length) continue;
+    const cls = /^(?:(?:export|default|abstract)\s+)*class\s+([A-Za-z_$][\w$]*)/.exec(code.slice(i));
+    if (!cls) { re.lastIndex = decs[decs.length - 1].end; continue; }
+    const name = cls[1];
+    let b = i + cls[0].length;
+    while (b < code.length && code[b] !== '{') b++; // bỏ qua extends/implements tới thân class
+    const bodyEnd = findClose(code, b);
+    if (bodyEnd < 0) break;
+    decs.forEach((d, k) => edits.push({ at: d.start, end: d.end, text: 'const __d' + k + '_' + name + ' = ' + d.name + '(' + d.args + ');' }));
+    const apply = decs.map((_, k) => '__d' + k + '_' + name + '(' + name + ');').reverse().join('');
+    const meta = signalMemberMeta(code.slice(b, bodyEnd + 1), name);
+    edits.push({ at: bodyEnd + 1, end: bodyEnd + 1, text: ';' + meta + apply });
+    re.lastIndex = bodyEnd + 1;
+  }
+  let out = code;
+  for (const e of edits.sort((x, y) => y.at - x.at)) out = out.slice(0, e.at) + e.text + out.slice(e.end);
+  return out;
+}
+
+/**
+ * Bản build production (ngJitMode = false) bỏ thông tin scope của các NgModule AOT như FormsModule, CommonModule,
+ * nên component JIT import chúng sẽ không nhận được directive nào. labModule() dựng một NgModule JIT
+ * export đúng các directive/pipe thật để người học vẫn viết imports: [FormsModule] như bình thường.
+ */
+export function labModule(name: string, exports: unknown[]): Type<unknown> {
+  const cls = { [name]: class {} }[name];
+  NgModule({ exports: exports as Type<unknown>[] })(cls);
+  return cls;
+}
+let commonModule: Type<unknown> | null = null;
+function labCommonModule(): Type<unknown> {
+  commonModule ??= labModule('CommonModule', [
+    NgClass, NgStyle, NgTemplateOutlet, NgIf, NgForOf, NgSwitch, NgSwitchCase, NgSwitchDefault, NgPlural, NgPluralCase,
+    AsyncPipe, DatePipe, DecimalPipe, CurrencyPipe, PercentPipe, UpperCasePipe, LowerCasePipe, TitleCasePipe, JsonPipe, SlicePipe, KeyValuePipe,
+  ]);
+  return commonModule;
+}
+
+export const NEEDS_JIT = new RegExp('@(' + DECORATORS + ')\\s*\\(|\\bmount\\s*\\(');
+let jit: Promise<unknown> | null = null;
+/** Nạp JIT compiler của Angular (đăng ký ng.ɵcompilerFacade) — chỉ khi code có component. */
+export function loadJit(): Promise<unknown> {
+  jit ??= import('@angular/compiler');
+  return jit;
 }
 
 /* ------------------------------------------------------------------ */
@@ -200,6 +463,7 @@ export class LabRun {
 
   frame: HTMLIFrameElement | null = null;
   win: Any = null;
+  preview: HTMLElement | null = null;
   injector: EnvironmentInjector | null = null;
 
   private lineSeq = 0;
@@ -245,8 +509,13 @@ export class LabRun {
     const ln = errLine(e);
     if (ln) this.errorLine = ln;
     const err = e as Error;
-    const msg = (err?.name ?? 'Error') + ': ' + (err?.message ?? String(e));
+    const msg = explainNg((err?.name ?? 'Error') + ': ' + (err?.message ?? String(e)));
     this.line('err', 'Lỗi chưa được xử lý' + (where ? ' trong ' + where : '') + ' — ' + msg + (ln ? ' (dòng ' + ln + ')' : ''));
+  }
+
+  /** Khung preview đang có phần tử tương tác được (đang chờ người dùng) */
+  interactive(): boolean {
+    return !!this.preview?.querySelector('button, input, select, textarea');
   }
 
   pending(): number {
@@ -286,6 +555,8 @@ const FRUITS = ['apple', 'apricot', 'avocado', 'banana', 'blackberry', 'blueberr
 export interface StartOptions {
   parent: EnvironmentInjector;
   preview: HTMLElement;
+  /** globals bổ sung của bài học (vd. FormsModule) */
+  extras?: Record<string, unknown>;
 }
 
 function createSandbox(run: LabRun, src: string): Any {
@@ -345,9 +616,29 @@ export async function startRun(code: string, opts: StartOptions): Promise<LabRun
     return run;
   }
 
+  run.preview = opts.preview;
   const RX = createSandbox(run, src);
   const win = run.win;
-  const injector = createEnvironmentInjector([], opts.parent, 'rxjs-lab-run');
+  if (NEEDS_JIT.test(code)) {
+    try {
+      await loadJit();
+    } catch (e) {
+      run.line('err', 'Không tải được trình biên dịch component (' + (e as Error).message + ').');
+    }
+  }
+  const injector = createEnvironmentInjector([], opts.parent, 'code-lab-run');
+  // Lỗi trong listener/change detection của component người học đi vào ErrorHandler gốc của app:
+  // trong lúc lab chạy, chuyển chúng về Console của lab (vẫn gọi handler gốc).
+  const rootHandler = opts.parent.get(ErrorHandler) as ErrorHandler & { handleError: (e: unknown) => void };
+  const original = rootHandler.handleError;
+  const patched = function (this: ErrorHandler, e: unknown) {
+    if (run.active) run.reportError(e);
+    original.call(this, e);
+  };
+  rootHandler.handleError = patched;
+  injector.get(DestroyRef).onDestroy(() => {
+    if (rootHandler.handleError === patched) rootHandler.handleError = original;
+  });
   run.injector = injector;
   const destroyRef = injector.get(DestroyRef);
   const setT = (fn: () => void, ms: number) => win.setTimeout(fn, ms) as number;
@@ -398,6 +689,16 @@ export async function startRun(code: string, opts: StartOptions): Promise<LabRun
     rxResource: (o: Any) => (rxResource as Any)({ ...o, injector }),
     destroyRef,
     injector,
+  };
+  const ngComponents = {
+    Component, Directive, Pipe, Injectable, Service, InjectionToken,
+    input, output, model, inject, viewChild, viewChildren, contentChild, contentChildren,
+    booleanAttribute, numberAttribute, forwardRef, afterNextRender, afterRenderEffect,
+    ElementRef, TemplateRef, ViewContainerRef, Renderer2, ChangeDetectionStrategy, ViewEncapsulation,
+    get CommonModule() { return labCommonModule(); },
+    NgClass, NgStyle, NgTemplateOutlet, NgIf, NgForOf, NgSwitch, NgSwitchCase, NgSwitchDefault, AsyncPipe, DatePipe, DecimalPipe, CurrencyPipe, PercentPipe,
+    UpperCasePipe, LowerCasePipe, TitleCasePipe, JsonPipe, SlicePipe, KeyValuePipe,
+    __ng: { Input, Output, ViewChild, ViewChildren, ContentChild, ContentChildren },
   };
 
   /* ---------- helper ---------- */
@@ -566,16 +867,40 @@ export async function startRun(code: string, opts: StartOptions): Promise<LabRun
     },
   };
 
+  /** Render một component THẬT vào khung preview (JIT). Dừng/destroy sẽ huỷ component. */
+  const appRef = injector.get(ApplicationRef);
+  const mountComponent = (cls: Type<unknown>, o: { inputs?: Record<string, unknown> } = {}): ComponentRef<unknown> | null => {
+    if (typeof cls !== 'function') throw new Error('mount() cần một class component, ví dụ mount(AppComponent)');
+    const host = mk('div', 'ng-host');
+    mount(host);
+    let ref: ComponentRef<unknown>;
+    try {
+      ref = createComponent(cls, { environmentInjector: injector, hostElement: host });
+    } catch (e) {
+      host.remove();
+      throw e;
+    }
+    for (const [k, v] of Object.entries(o.inputs ?? {})) ref.setInput(k, v);
+    appRef.attachView(ref.hostView);
+    ref.changeDetectorRef.detectChanges();
+    destroyRef.onDestroy(() => {
+      appRef.detachView(ref.hostView);
+      ref.destroy();
+    });
+    return ref;
+  };
+
   /* ---------- globals cho code người học ---------- */
   const g: Record<string, unknown> = {};
   for (const k of Object.keys(RX)) if (/^[A-Za-z_$][\w$]*$/.test(k)) g[k] = RX[k];
-  Object.assign(g, ng, {
+  Object.assign(g, ngComponents, ng, {
     rxjs: RX,
-    spy, watch, log, sleep, ui, fakeApi,
+    spy, watch, log, sleep, ui, fakeApi, mount: mountComponent,
     setTimeout: win.setTimeout, clearTimeout: win.clearTimeout,
     setInterval: win.setInterval, clearInterval: win.clearInterval,
     console: { log, info: log, debug: log, table: log, warn: (...a: unknown[]) => log('⚠', ...a), error: (...a: unknown[]) => log('✖', ...a) },
   });
+  Object.assign(g, opts.extras ?? {});
   const names = Object.keys(g);
   const vals = names.map((n) => g[n]);
 
@@ -586,7 +911,11 @@ export async function startRun(code: string, opts: StartOptions): Promise<LabRun
     const line = e instanceof LabSyntaxError ? e.line : null;
     run.errors.push(e);
     if (line) run.errorLine = line;
-    run.line('err', 'Lỗi cú pháp — ' + (e as Error).message + (line ? ' (dòng ' + line + ')' : ''));
+    const member = /^\s*@(Input|Output|ViewChild|ViewChildren|ContentChild|ContentChildren|HostListener|HostBinding)\b/m.exec(code);
+    const tip = member
+      ? ' — Lab chưa hỗ trợ decorator đặt trên field/method (@' + member[1] + '). Dùng API hiện đại: input(), output(), model(), viewChild(), contentChild() và host: { … } trong @Component.'
+      : '';
+    run.line('err', 'Lỗi cú pháp — ' + (e as Error).message + (line ? ' (dòng ' + line + ')' : '') + tip);
     run.stop();
     return run;
   }
@@ -611,6 +940,12 @@ export interface CheckApi {
   errors: unknown[];
   errMsg(): string;
   destroyedAt: number | null;
+  /** chữ hiển thị (đã chuẩn hoá khoảng trắng) trong preview, hoặc của phần tử khớp selector đầu tiên */
+  text(selector?: string): string;
+  /** các phần tử trong preview khớp selector */
+  query(selector: string): Element[];
+  /** các dòng log(...) / console.log(...) đã in */
+  logs: string[];
 }
 
 export function checkApi(run: LabRun): CheckApi {
@@ -624,37 +959,83 @@ export function checkApi(run: LabRun): CheckApi {
     errors: run.errors,
     errMsg: () => run.errors.map((e) => (e as Error)?.message ?? String(e))[0] ?? '',
     destroyedAt: run.destroyedAt,
+    text: (sel) => {
+      const el = sel ? run.preview?.querySelector(sel) : run.preview;
+      return (el?.textContent ?? '').replace(/\s+/g, ' ').trim();
+    },
+    query: (sel) => [...(run.preview?.querySelectorAll(sel) ?? [])],
+    logs: run.logs,
   };
 }
 
 export interface SimCtx {
   at(ms: number, fn: () => void): void;
-  type(index: number, text: string): void;
+  /** gõ vào ô nhập thứ `target` (đếm trong preview) hoặc ô khớp selector */
+  type(target: number | string, text: string): void;
+  /** bấm nút trong preview có chữ chứa `label` */
   click(label: string): void;
+  /** bấm phần tử khớp selector (thứ `index`) */
+  clickSel(selector: string, index?: number): void;
+  /** chọn giá trị cho <select> khớp selector */
+  choose(selector: string, value: string): void;
+  /** tick/bỏ tick checkbox khớp selector */
+  tick(selector: string, checked: boolean): void;
+  /** nhấn phím (keydown + keyup) trên ô nhập thứ `target` hoặc phần tử khớp selector */
+  press(target: number | string, key: string): void;
   destroy(): void;
 }
 
 export function simCtx(run: LabRun): SimCtx {
-  const pulse = (el: HTMLElement) => {
+  const pulse = (el: Element) => {
     el.classList.add('pressed');
     setTimeout(() => el.classList.remove('pressed'), 180);
   };
+  const q = (sel: string) => [...(run.preview?.querySelectorAll(sel) ?? [])] as HTMLElement[];
   return {
     at: (ms, fn) => { run.win?.setTimeout(fn, ms); },
-    type(i, text) {
-      const inp = run.ui.inputs[i];
-      if (!inp) { run.line('sim', '🤖 Không tìm thấy ô input #' + i); return; }
+    type(target, text) {
+      const inp = (typeof target === 'number' ? q('input:not([type=checkbox]):not([type=radio]), textarea')[target] : q(target)[0]) as HTMLInputElement | undefined;
+      if (!inp) { run.line('sim', '🤖 Không tìm thấy ô nhập ' + JSON.stringify(target)); return; }
       run.line('sim', '🤖 gõ "' + text + '"');
       inp.value = text;
-      inp.dispatchEvent(new Event('input'));
+      inp.dispatchEvent(new Event('input', { bubbles: true }));
       pulse(inp);
     },
     click(label) {
-      const b = run.ui.buttons.find((x) => x.label.includes(label));
+      const b = q('button').find((x) => (x.textContent ?? '').includes(label));
       if (!b) { run.line('sim', '🤖 Không tìm thấy nút "' + label + '"'); return; }
-      run.line('sim', '🤖 bấm "' + b.label + '"');
-      b.el.click();
-      pulse(b.el);
+      run.line('sim', '🤖 bấm "' + (b.textContent ?? '').trim() + '"');
+      b.click();
+      pulse(b);
+    },
+    clickSel(sel, index = 0) {
+      const el = q(sel)[index];
+      if (!el) { run.line('sim', '🤖 Không tìm thấy phần tử ' + sel); return; }
+      run.line('sim', '🤖 bấm ' + sel + (index ? ' #' + index : ''));
+      el.click();
+      pulse(el);
+    },
+    choose(sel, value) {
+      const el = q(sel)[0] as HTMLSelectElement | undefined;
+      if (!el) { run.line('sim', '🤖 Không tìm thấy ' + sel); return; }
+      run.line('sim', '🤖 chọn "' + value + '"');
+      el.value = value;
+      el.dispatchEvent(new Event('change', { bubbles: true }));
+      pulse(el);
+    },
+    tick(sel, checked) {
+      const el = q(sel)[0] as HTMLInputElement | undefined;
+      if (!el) { run.line('sim', '🤖 Không tìm thấy ' + sel); return; }
+      run.line('sim', '🤖 ' + (checked ? 'tick' : 'bỏ tick') + ' ' + sel);
+      if (el.checked !== checked) el.click();
+      pulse(el);
+    },
+    press(target, key) {
+      const el = (typeof target === 'number' ? q('input:not([type=checkbox]):not([type=radio]), textarea')[target] : q(target)[0]) as HTMLElement | undefined;
+      if (!el) { run.line('sim', '🤖 Không tìm thấy ' + JSON.stringify(target)); return; }
+      run.line('sim', '🤖 nhấn phím ' + key);
+      for (const type of ['keydown', 'keyup']) el.dispatchEvent(new KeyboardEvent(type, { key, bubbles: true }));
+      pulse(el);
     },
     destroy() {
       run.line('sim', '💥 Component bị destroy');
