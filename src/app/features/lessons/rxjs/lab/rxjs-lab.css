@@ -1,0 +1,130 @@
+/* RxJS + Signal Lab — ViewEncapsulation.None, mọi selector bắt đầu bằng .rxlab
+   (nội dung đề bài [innerHTML] và giao diện preview được tạo động, không mang attribute của Angular) */
+
+app-rxjs-lab { display: block; margin: 0 0 44px; }
+.rxlab-head { display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 12px; }
+.rxlab-head-text { flex: 1; min-width: 260px; }
+.rxlab-title { display: flex; align-items: center; gap: 10px; font-size: var(--fs-xl); margin: 0 0 4px; }
+.rxlab-sub { margin: 0; color: var(--text-muted); max-width: 75ch; }
+.rxlab-progress { display: flex; align-items: center; gap: 10px; font-size: var(--fs-sm); font-weight: 600; color: var(--text-muted); white-space: nowrap; }
+.rxlab-bar { display: block; width: 120px; height: 8px; border-radius: var(--radius-pill); background: var(--surface-sunken); overflow: hidden; }
+.rxlab-bar i { display: block; height: 100%; background: var(--c-primary); transition: width var(--dur) var(--ease-out); }
+
+.rxlab-picker { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; }
+.rxlab-select {
+  flex: 1; min-width: 0; min-height: 40px; padding: 6px 12px;
+  font: 600 var(--fs-sm) var(--font-body); color: var(--text);
+  background: var(--surface); border: var(--border); border-radius: var(--radius-sm); box-shadow: var(--shadow-sm);
+}
+
+.rxlab-task { padding: 16px 20px; margin-bottom: 14px; }
+.rxlab-task-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+.rxlab-task-head h3 { margin: 0; font-size: var(--fs-lg); }
+.rxlab .lv-0 { --chip-bg: var(--c-di); }
+.rxlab .lv-1 { --chip-bg: var(--c-data); }
+.rxlab .lv-2 { --chip-bg: var(--c-signal); }
+.rxlab .lv-3 { --chip-bg: var(--c-error); }
+.rxlab-desc { max-width: 80ch; }
+.rxlab-desc p { margin: 8px 0; }
+.rxlab-desc ul { margin: 6px 0; padding-left: 22px; }
+.rxlab-desc table, .rxlab-api table { border-collapse: collapse; margin: 8px 0; font-size: var(--fs-sm); }
+.rxlab-desc td, .rxlab-desc th, .rxlab-api td { border: var(--border-thin); padding: 5px 10px; text-align: left; vertical-align: top; }
+.rxlab-desc th { background: var(--surface-2); font-weight: 600; }
+.rxlab code { font-family: var(--font-mono); font-size: 0.88em; padding: 1px 5px; border-radius: 5px; background: var(--surface-sunken); }
+.rxlab .tip { margin: 8px 0; padding: 8px 12px; font-size: var(--fs-sm); background: color-mix(in srgb, var(--c-brand) 10%, var(--surface)); border: var(--border-thin); border-left: 4px solid var(--c-brand); border-radius: var(--radius-sm); }
+.rxlab-hint { display: flex; gap: 8px; align-items: flex-start; margin: 10px 0 0; padding: 8px 12px; background: color-mix(in srgb, var(--c-signal) 18%, var(--surface)); border-radius: var(--radius-sm); }
+.rxlab-hint app-icon { flex: none; margin-top: 2px; }
+.rxlab-verdict { display: flex; gap: 12px; align-items: flex-start; margin-top: 12px; padding: 10px 14px; border-radius: var(--radius-sm); border: var(--border-thin); }
+.rxlab-verdict app-mascot { flex: none; }
+.rxlab-verdict.is-ok { background: color-mix(in srgb, var(--c-data) 18%, var(--surface)); border-color: color-mix(in srgb, var(--c-data) 60%, transparent); }
+.rxlab-verdict.is-no { background: color-mix(in srgb, var(--c-error) 12%, var(--surface)); border-color: color-mix(in srgb, var(--c-error) 55%, transparent); }
+.rxlab-verdict.is-wait { background: var(--surface-2); color: var(--text-muted); }
+.rxlab-explain { display: flex; gap: 6px; align-items: flex-start; margin: 6px 0 0; font-size: var(--fs-sm); }
+.rxlab-explain app-icon { flex: none; margin-top: 2px; }
+.rxlab-next { margin-top: 10px; }
+
+/* ---------- bàn làm việc ---------- */
+.rxlab-bench { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr); gap: 14px; align-items: stretch; }
+.rxlab-code { display: flex; flex-direction: column; overflow: hidden; min-height: 540px; }
+.rxlab-code app-lab-editor { flex: 1; }
+.rxlab-toolbar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 8px 10px; border-bottom: var(--border-thin); background: var(--surface-2); }
+.rxlab-toolbar kbd { font-family: var(--font-mono); font-size: 11px; opacity: 0.8; padding: 0 4px; border: 1px solid currentColor; border-radius: 4px; }
+.rxlab-spacer { flex: 1; }
+.rxlab .rxlab-ghost { --btn-bg: transparent; --btn-border: transparent; box-shadow: none; color: var(--text-muted); }
+.rxlab .rxlab-ghost:hover { color: var(--text); background: var(--surface-sunken); }
+.rxlab-status { display: flex; gap: 12px; padding: 5px 12px; font-size: var(--fs-xs); color: var(--text-muted); border-top: var(--border-thin); background: var(--surface-2); }
+.rxlab-status.is-run { color: var(--c-event-strong); }
+.rxlab-status.is-wait { color: var(--c-di-strong); }
+.rxlab-status.is-done { color: var(--c-data-strong); }
+.rxlab-status.is-err { color: var(--c-error-strong); }
+.rxlab-keys { margin-left: auto; opacity: 0.85; }
+
+.rxlab-results { display: flex; flex-direction: column; gap: 14px; min-width: 0; min-height: 0; }
+.rxlab-results app-browser-frame { flex: none; }
+.rxlab-results app-browser-frame .body { padding: 0; }
+.rxlab-preview { padding: 14px 16px; min-height: 96px; max-height: 260px; overflow: auto; transition: opacity var(--dur-fast); }
+.rxlab-preview.is-stopped { opacity: 0.55; pointer-events: none; }
+.rxlab-empty { margin: 0; color: var(--text-muted); font-size: var(--fs-sm); }
+.rxlab-preview .ui-row { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; }
+.rxlab-preview .ui-label { min-width: 84px; font-size: var(--fs-sm); color: var(--text-muted); }
+.rxlab-preview .ui-value { font-family: var(--font-mono); font-weight: 600; word-break: break-word; }
+.rxlab-preview .ui-input { flex: 1; min-height: 38px; padding: 6px 11px; font: inherit; color: var(--text); background: var(--surface); border: var(--border); border-radius: var(--radius-sm); }
+.rxlab-preview .ui-btns { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 10px; }
+.rxlab-preview .ui-btn { min-height: 36px; padding: 6px 14px; font: 600 var(--fs-sm) var(--font-body); color: var(--text); background: var(--surface-2); border: var(--border); border-radius: var(--radius-sm); cursor: pointer; }
+.rxlab-preview .ui-btn:hover { background: var(--surface-sunken); }
+.rxlab-preview .pressed { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.rxlab-preview .ui-list { margin: 0 0 10px; padding: 0; list-style: none; border: var(--border-thin); border-radius: var(--radius-sm); max-height: 180px; overflow: auto; }
+.rxlab-preview .ui-list li { padding: 5px 11px; border-bottom: var(--border-thin); font-size: var(--fs-sm); }
+.rxlab-preview .ui-list li:last-child { border-bottom: 0; }
+.rxlab-preview .ui-list li.muted { color: var(--text-muted); font-style: italic; }
+.rxlab-preview .ui-check { display: flex; align-items: center; gap: 8px; margin: 0 0 10px; }
+
+.rxlab-out { flex: 1; display: flex; flex-direction: column; min-height: 280px; overflow: hidden; }
+.rxlab-tabs { display: flex; align-items: center; gap: 2px; padding: 6px 8px; border-bottom: var(--border-thin); background: var(--surface-2); }
+.rxlab-tab { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; font: 600 var(--fs-sm) var(--font-body); color: var(--text-muted); background: transparent; border: 0; border-radius: var(--radius-sm); cursor: pointer; }
+.rxlab-tab:hover { color: var(--text); }
+.rxlab-tab.is-active { color: var(--text); background: var(--surface); box-shadow: var(--shadow-sm); }
+.rxlab-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c-error); }
+.rxlab-panel { flex: 1; overflow: auto; min-height: 0; max-height: 360px; }
+.rxlab-muted { color: var(--text-muted); font-size: var(--fs-sm); padding: 12px 14px; margin: 0; }
+
+.rxlab-console { font: 12.5px/1.6 var(--font-mono); padding: 4px 0; }
+.rxlab-console .ln { display: flex; gap: 10px; align-items: baseline; padding: 1px 12px; }
+.rxlab-console .tm { flex: none; min-width: 58px; text-align: right; color: var(--text-muted); font-size: 11px; }
+.rxlab-console .lb { flex: none; font-weight: 700; }
+.rxlab-console .ev { flex: none; font-size: 11px; padding: 0 6px; border-radius: 4px; background: var(--surface-sunken); }
+.rxlab-console .ev-next { color: var(--c-di-strong); }
+.rxlab-console .ev-error { color: var(--c-error-strong); }
+.rxlab-console .ev-complete { color: var(--text-muted); }
+.rxlab-console .val { white-space: pre-wrap; word-break: break-word; }
+.rxlab-console .k-sys .val { color: var(--text-muted); font-style: italic; }
+.rxlab-console .k-err { background: color-mix(in srgb, var(--c-error) 12%, transparent); }
+.rxlab-console .k-err .val { color: var(--c-error-strong); }
+.rxlab-console .k-net .val { color: var(--c-event-strong); }
+.rxlab-console .k-net-ok .val { color: var(--c-data-strong); }
+.rxlab-console .k-net-cancel .val { color: var(--text-muted); text-decoration: line-through; }
+.rxlab-console .k-net-fail .val { color: var(--c-error-strong); }
+.rxlab-console .k-sim .val { color: var(--c-di-strong); }
+
+.rxlab-sig { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+.rxlab-sig th, .rxlab-sig td { padding: 7px 12px; border-bottom: var(--border-thin); text-align: left; vertical-align: top; }
+.rxlab-sig th { font-size: var(--fs-xs); color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+.rxlab-sig .kind { color: var(--text-muted); font-size: var(--fs-xs); }
+.rxlab-sig .v { font-family: var(--font-mono); word-break: break-word; }
+
+.rxlab-solution { margin-top: 14px; padding: 14px 16px; }
+.rxlab-solution-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.rxlab-solution-head h3 { display: flex; align-items: center; gap: 8px; margin: 0; font-size: var(--fs-md); }
+
+.rxlab-api { margin-top: 14px; padding: 0; overflow: hidden; }
+.rxlab-api summary { display: flex; align-items: center; gap: 8px; padding: 12px 16px; font-weight: 600; cursor: pointer; }
+.rxlab-api-body { padding: 0 16px 14px; overflow-x: auto; }
+.rxlab-api h4 { margin: 14px 0 4px; font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: 0.06em; color: var(--c-primary-text); }
+.rxlab-api table { width: 100%; }
+.rxlab-api td:first-child { width: 34%; }
+
+@media (max-width: 980px) {
+  .rxlab-bench { grid-template-columns: 1fr; }
+  .rxlab-code { min-height: 460px; }
+  .rxlab-keys { display: none; }
+}
