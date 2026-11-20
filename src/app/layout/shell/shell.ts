@@ -40,6 +40,7 @@ export class Shell {
     { initialValue: this.router.url },
   );
   protected readonly currentSlug = computed(() => /\/bai\/([\w-]+)/.exec(this.url())?.[1] ?? null);
+  protected readonly currentPractice = computed(() => /\/luyen-tap\/([\w-]+)/.exec(this.url())?.[1] ?? null);
 
   constructor() {
     // Chỉ cuộn lên đầu khi đổi trang/bài, không phải khi đổi route con bên trong một bài

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { lessonBySlug } from '../../../content/lessons.registry';
+import { PracticeCta } from '../../../shared/lab/practice-cta';
 import { LessonContext } from '../../../shared/ui/anchor/lesson-context';
 import { LessonLayout } from '../../../shared/ui/lesson-layout/lesson-layout';
 import { CartSummary } from './demo/cart-summary';
@@ -10,13 +11,14 @@ import { SignalsVisualizer } from './signals.visualizer';
 @Component({
   selector: 'app-signals-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LessonLayout, SignalsVisualizer, CartSummary, SignalsAdvanced],
+  imports: [LessonLayout, SignalsVisualizer, CartSummary, SignalsAdvanced, PracticeCta],
   providers: [LessonContext],
   template: `
     <app-lesson-layout [meta]="meta" [content]="content" liveUrl="localhost:4200/gio-hang">
       <app-signals-visualizer slot="visualizer" />
       <div slot="live" class="live-plain"><app-cart-summary /></div>
       <app-signals-advanced slot="advanced" />
+      <app-practice-cta slot="practice" slug="signals" />
     </app-lesson-layout>
   `,
   styles: `

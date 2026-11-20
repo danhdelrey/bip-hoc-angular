@@ -5,14 +5,14 @@ import { CodePanel } from '../../../shared/ui/code-panel/code-panel';
 import { Icon } from '../../../shared/ui/icon/icon';
 import { LessonLayout } from '../../../shared/ui/lesson-layout/lesson-layout';
 import { FruitSearch } from './demo/fruit-search';
-import { LessonLab } from '../../../shared/lab/lesson-lab';
+import { PracticeCta } from '../../../shared/lab/practice-cta';
 import { RXJS, RXJS_INTEROP, RXJS_SIGNAL_TABLE } from './rxjs.content';
 import { RxjsVisualizer } from './rxjs.visualizer';
 
 @Component({
   selector: 'app-rxjs-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LessonLayout, RxjsVisualizer, FruitSearch, CodePanel, Icon, LessonLab],
+  imports: [LessonLayout, RxjsVisualizer, FruitSearch, CodePanel, Icon, PracticeCta],
   providers: [LessonContext],
   template: `
     <app-lesson-layout [meta]="meta" [content]="content" liveUrl="localhost:4200/tim-kiem">
@@ -29,7 +29,7 @@ import { RxjsVisualizer } from './rxjs.visualizer';
         <h3>Cầu nối: toSignal / toObservable</h3>
         <app-code-panel [files]="[{ name: 'interop.ts', lang: 'typescript', code: interop }]" [compact]="true" />
       </section>
-      <app-lesson-lab slot="practice" labId="rxjs" storageKey="bip-rxjs-lab" [load]="lab" />
+      <app-practice-cta slot="practice" slug="rxjs" />
     </app-lesson-layout>
   `,
   styles: `
@@ -54,5 +54,4 @@ export class RxjsPage {
   protected readonly content = RXJS;
   protected readonly table = RXJS_SIGNAL_TABLE;
   protected readonly interop = RXJS_INTEROP;
-  protected readonly lab = () => import('./rxjs.lab').then((m) => m.LAB);
 }

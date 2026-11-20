@@ -36,6 +36,7 @@ import {
   ErrorHandler,
   Injectable,
   InjectionToken,
+  Injector,
   Input,
   NgModule,
   Output,
@@ -65,6 +66,7 @@ import {
   model,
   numberAttribute,
   output,
+  resource,
   signal,
   untracked,
   viewChild,
@@ -170,12 +172,15 @@ const NG_HINTS: Record<string, string> = {
   NG0100: 'giá trị trong template đổi ngay trong lúc kiểm tra thay đổi (ExpressionChanged)',
   NG0200: 'vòng lặp phụ thuộc DI (circular dependency)',
   NG0201: 'không tìm thấy provider cho dependency cần inject',
+  NG0204: 'không tạo được dependency: class chưa có @Service()/@Injectable() và chưa được khai báo trong providers',
+  NG0302: 'không tìm thấy pipe: pipe chưa được khai báo trong imports của component',
   NG0203: 'inject()/toSignal()/effect() được gọi ngoài injection context (chỉ gọi ở field hoặc constructor)',
   NG0600: 'không được set signal bên trong computed() hoặc template',
   NG0602: 'không được tạo effect() bên trong computed() hoặc effect khác',
   NG0950: 'input bắt buộc (input.required) chưa được truyền giá trị; kiểm tra component cha đã bind [tên]="…" chưa',
   NG0951: 'viewChild.required/contentChild.required không tìm thấy phần tử',
   NG0953: 'output đã bị huỷ (component đã destroy)',
+  NG2100: 'pipe nhận sai kiểu dữ liệu (InvalidPipeArgument); kiểm tra thứ tự các pipe',
 };
 export function explainNg(msg: string): string {
   const code = /NG0\d{3}/.exec(msg)?.[0];
@@ -643,6 +648,26 @@ export async function startRun(code: string, opts: StartOptions): Promise<LabRun
   const destroyRef = injector.get(DestroyRef);
   const setT = (fn: () => void, ms: number) => win.setTimeout(fn, ms) as number;
 
+  /**
+   * Injector cho effect/toSignal/…: trong injection context (constructor/field của component, service) thì dùng
+   * injector của chính nó — để effect bị huỷ cùng component như Angular thật; ngoài đó (code top-level) dùng injector
+   * của lần chạy.
+   */
+  const ctxInjector = (): Injector => {
+    try {
+      return inject(Injector);
+    } catch {
+      return injector;
+    }
+  };
+  const ctxDestroyRef = (): DestroyRef => {
+    try {
+      return inject(DestroyRef);
+    } catch {
+      return destroyRef;
+    }
+  };
+
   /* ---------- signals (Angular thật) + đăng ký vào tab Signals ---------- */
   const reg = (name: unknown, kind: string, read: () => unknown) => {
     if (typeof name === 'string' && name) {
@@ -671,29 +696,36 @@ export async function startRun(code: string, opts: StartOptions): Promise<LabRun
         (onCleanup) => {
           try { fn(onCleanup); } catch (e) { run.reportError(e, 'effect'); }
         },
-        { ...o, injector },
+        { ...o, injector: o?.injector ?? ctxInjector() },
       ),
     untracked,
     isSignal,
     toSignal: (src$: Any, o?: Any) => {
       if (isSignal(src$)) throw new Error('toSignal() cần một Observable, không phải Signal');
-      const s = (toSignal as Any)(src$, { ...o, injector });
+      const s = (toSignal as Any)(src$, { ...o, injector: o?.injector ?? ctxInjector() });
       reg(o?.debugName, 'toSignal', s);
       return s;
     },
     toObservable: (sig: Any, o?: Any) => {
       if (!isSignal(sig)) throw new Error('toObservable() cần một Signal');
-      return toObservable(sig, { ...o, injector });
+      return toObservable(sig, { ...o, injector: o?.injector ?? ctxInjector() });
     },
-    takeUntilDestroyed: (ref?: DestroyRef) => takeUntilDestroyed(ref ?? destroyRef),
-    rxResource: (o: Any) => (rxResource as Any)({ ...o, injector }),
+    takeUntilDestroyed: (ref?: DestroyRef) => takeUntilDestroyed(ref ?? ctxDestroyRef()),
+    rxResource: (o: Any) => (rxResource as Any)({ ...o, injector: o?.injector ?? ctxInjector() }),
+    resource: (o: Any) => (resource as Any)({ ...o, injector: o?.injector ?? ctxInjector() }),
     destroyRef,
     injector,
+    DestroyRef,
+    Injector,
   };
   const ngComponents = {
     Component, Directive, Pipe, Injectable, Service, InjectionToken,
     input, output, model, inject, viewChild, viewChildren, contentChild, contentChildren,
-    booleanAttribute, numberAttribute, forwardRef, afterNextRender, afterRenderEffect,
+    booleanAttribute, numberAttribute, forwardRef,
+    // Angular nhận dạng callback bằng `instanceof Function` (realm của trang); hàm do người học viết thuộc realm
+    // iframe nên phải bọc lại bằng một hàm của trang, nếu không hook bị coi là object rỗng và không bao giờ chạy.
+    afterNextRender: (cb: Any, o?: Any) => afterNextRender(typeof cb === 'function' ? (...a: unknown[]) => cb(...a) : cb, o),
+    afterRenderEffect: (cb: Any, o?: Any) => afterRenderEffect(typeof cb === 'function' ? (...a: unknown[]) => cb(...a) : cb, o),
     ElementRef, TemplateRef, ViewContainerRef, Renderer2, ChangeDetectionStrategy, ViewEncapsulation,
     get CommonModule() { return labCommonModule(); },
     NgClass, NgStyle, NgTemplateOutlet, NgIf, NgForOf, NgSwitch, NgSwitchCase, NgSwitchDefault, AsyncPipe, DatePipe, DecimalPipe, CurrencyPipe, PercentPipe,
@@ -882,7 +914,12 @@ export async function startRun(code: string, opts: StartOptions): Promise<LabRun
     }
     for (const [k, v] of Object.entries(o.inputs ?? {})) ref.setInput(k, v);
     appRef.attachView(ref.hostView);
-    ref.changeDetectorRef.detectChanges();
+    // Render lần đầu qua ApplicationRef.tick() (như bootstrap thật) để các hook afterNextRender/afterRenderEffect chạy.
+    try {
+      appRef.tick();
+    } catch {
+      ref.changeDetectorRef.markForCheck(); // đang ở trong một tick khác: để scheduler lo
+    }
     destroyRef.onDestroy(() => {
       appRef.detachView(ref.hostView);
       ref.destroy();
@@ -946,6 +983,8 @@ export interface CheckApi {
   query(selector: string): Element[];
   /** các dòng log(...) / console.log(...) đã in */
   logs: string[];
+  /** phần tử gốc của khung preview (đọc dữ liệu do simulate().dom() đánh dấu) */
+  root(): HTMLElement | null;
 }
 
 export function checkApi(run: LabRun): CheckApi {
@@ -965,6 +1004,7 @@ export function checkApi(run: LabRun): CheckApi {
     },
     query: (sel) => [...(run.preview?.querySelectorAll(sel) ?? [])],
     logs: run.logs,
+    root: () => run.preview,
   };
 }
 
@@ -982,6 +1022,10 @@ export interface SimCtx {
   tick(selector: string, checked: boolean): void;
   /** nhấn phím (keydown + keyup) trên ô nhập thứ `target` hoặc phần tử khớp selector */
   press(target: number | string, key: string): void;
+  /** rê chuột vào (mouseenter) hoặc ra (mouseleave) phần tử khớp selector */
+  hover(selector: string, leave?: boolean): void;
+  /** thao tác tuỳ ý trên khung preview (đánh dấu phần tử, đọc DOM…) */
+  dom(fn: (root: HTMLElement) => void): void;
   destroy(): void;
 }
 
@@ -1036,6 +1080,15 @@ export function simCtx(run: LabRun): SimCtx {
       run.line('sim', '🤖 nhấn phím ' + key);
       for (const type of ['keydown', 'keyup']) el.dispatchEvent(new KeyboardEvent(type, { key, bubbles: true }));
       pulse(el);
+    },
+    hover(sel, leave = false) {
+      const el = q(sel)[0];
+      if (!el) { run.line('sim', '🤖 Không tìm thấy ' + sel); return; }
+      run.line('sim', '🤖 ' + (leave ? 'rời chuột khỏi ' : 'rê chuột vào ') + sel);
+      el.dispatchEvent(new MouseEvent(leave ? 'mouseleave' : 'mouseenter'));
+    },
+    dom(fn) {
+      if (run.preview) fn(run.preview);
     },
     destroy() {
       run.line('sim', '💥 Component bị destroy');

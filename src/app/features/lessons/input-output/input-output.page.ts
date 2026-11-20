@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { lessonBySlug } from '../../../content/lessons.registry';
-import { LessonLab } from '../../../shared/lab/lesson-lab';
+import { PracticeCta } from '../../../shared/lab/practice-cta';
 import { LessonContext } from '../../../shared/ui/anchor/lesson-context';
 import { LessonLayout } from '../../../shared/ui/lesson-layout/lesson-layout';
 import { OrderPage } from './demo/order-page';
@@ -10,13 +10,13 @@ import { IoVisualizer } from './input-output.visualizer';
 @Component({
   selector: 'app-input-output-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LessonLayout, IoVisualizer, OrderPage, LessonLab],
+  imports: [LessonLayout, IoVisualizer, OrderPage, PracticeCta],
   providers: [LessonContext],
   template: `
     <app-lesson-layout [meta]="meta" [content]="content" liveUrl="localhost:4200/don-hang">
       <app-io-visualizer slot="visualizer" />
       <div slot="live" class="live-plain"><app-order-page /></div>
-      <app-lesson-lab slot="practice" labId="input-output" [load]="lab" />
+      <app-practice-cta slot="practice" slug="input-output" />
     </app-lesson-layout>
   `,
   styles: `
@@ -29,5 +29,4 @@ import { IoVisualizer } from './input-output.visualizer';
 export class InputOutputPage {
   protected readonly meta = lessonBySlug('input-output')!;
   protected readonly content = INPUT_OUTPUT;
-  protected readonly lab = () => import('./input-output.lab').then((m) => m.LAB);
 }

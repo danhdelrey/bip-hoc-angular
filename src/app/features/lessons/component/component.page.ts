@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { lessonBySlug } from '../../../content/lessons.registry';
-import { LessonLab } from '../../../shared/lab/lesson-lab';
+import { PracticeCta } from '../../../shared/lab/practice-cta';
 import { LessonContext } from '../../../shared/ui/anchor/lesson-context';
 import { LessonLayout } from '../../../shared/ui/lesson-layout/lesson-layout';
 import { COMPONENT } from './component.content';
@@ -10,13 +10,13 @@ import { ProductCard } from './demo/product-card';
 @Component({
   selector: 'app-component-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LessonLayout, ComponentVisualizer, ProductCard, LessonLab],
+  imports: [LessonLayout, ComponentVisualizer, ProductCard, PracticeCta],
   providers: [LessonContext],
   template: `
     <app-lesson-layout [meta]="meta" [content]="content" liveUrl="localhost:4200/san-pham">
       <app-component-visualizer slot="visualizer" />
       <div slot="live" class="live-plain"><app-product-card /><app-product-card /></div>
-      <app-lesson-lab slot="practice" labId="component" [load]="lab" />
+      <app-practice-cta slot="practice" slug="component" />
     </app-lesson-layout>
   `,
   styles: `
@@ -29,5 +29,4 @@ import { ProductCard } from './demo/product-card';
 export class ComponentPage {
   protected readonly meta = lessonBySlug('component')!;
   protected readonly content = COMPONENT;
-  protected readonly lab = () => import('./component.lab').then((m) => m.LAB);
 }

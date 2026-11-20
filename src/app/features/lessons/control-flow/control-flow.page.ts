@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { lessonBySlug } from '../../../content/lessons.registry';
+import { PracticeCta } from '../../../shared/lab/practice-cta';
 import { LessonContext } from '../../../shared/ui/anchor/lesson-context';
 import { CodePanel } from '../../../shared/ui/code-panel/code-panel';
 import { Icon } from '../../../shared/ui/icon/icon';
@@ -13,7 +14,7 @@ import { FruitList } from './demo/fruit-list';
 @Component({
   selector: 'app-control-flow-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LessonLayout, ControlFlowVisualizer, FruitList, DirectiveDemo, CodePanel, Icon, BrowserFrame],
+  imports: [LessonLayout, ControlFlowVisualizer, FruitList, DirectiveDemo, CodePanel, Icon, BrowserFrame, PracticeCta],
   providers: [LessonContext],
   template: `
     <app-lesson-layout [meta]="meta" [content]="content">
@@ -29,6 +30,7 @@ import { FruitList } from './demo/fruit-list';
           </app-browser-frame>
         </div>
       </section>
+      <app-practice-cta slot="practice" slug="control-flow" />
     </app-lesson-layout>
   `,
   styles: `

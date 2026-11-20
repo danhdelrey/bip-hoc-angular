@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { lessonBySlug } from './content/lessons.registry';
 
 const t = (s: string) => `${s} · Bíp Học Angular`;
 
@@ -43,6 +44,13 @@ export const routes: Routes = [
   { path: 'bai/rxjs-subjects', title: t('Subject & multicast'), loadComponent: () => import('./features/lessons/rxjs-subjects/rxjs-subjects.page').then((m) => m.RxjsSubjectsPage) },
   { path: 'bai/rxjs-flattening', title: t('RxJS flattening'), loadComponent: () => import('./features/lessons/rxjs-flattening/rxjs-flattening.page').then((m) => m.RxjsFlatteningPage) },
   { path: 'bai/signal-store', title: t('SignalStore'), loadComponent: () => import('./features/lessons/signal-store/signal-store.page').then((m) => m.SignalStorePage) },
+
+  // Module luyện tập riêng của từng bài, rẽ nhánh từ bài học trên lộ trình (xem content/practice.registry.ts)
+  {
+    path: 'luyen-tap/:slug',
+    title: (route) => t('Luyện tập: ' + (lessonBySlug(route.paramMap.get('slug') ?? '')?.title ?? '')),
+    loadComponent: () => import('./features/practice/practice.page').then((m) => m.PracticePage),
+  },
 
   { path: 'bai/:slug', title: t('Sắp có'), loadComponent: () => import('./features/coming-soon/coming-soon').then((m) => m.ComingSoon) },
   { path: '**', title: t('Lạc đường'), loadComponent: () => import('./features/not-found/not-found').then((m) => m.NotFound) },

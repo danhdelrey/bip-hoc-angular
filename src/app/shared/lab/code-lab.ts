@@ -14,6 +14,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { Feedback } from '../../core/feedback/feedback';
+import { PracticeProgress } from '../../core/progress/practice-progress';
 import { safeStorage } from '../../core/storage/safe-storage';
 import { BrowserFrame } from '../ui/browser-frame/browser-frame';
 import { CodePanel } from '../ui/code-panel/code-panel';
@@ -53,9 +54,12 @@ export class CodeLab {
   readonly load = input.required<() => Promise<LabModule>>();
   /** Khoá lưu tiến độ + code trong localStorage */
   readonly storageKey = input.required<string>();
+  /** slug của module luyện tập (để cập nhật tiến độ trên lộ trình) */
+  readonly slug = input('');
 
   private readonly parent = inject(EnvironmentInjector);
   private readonly feedback = inject(Feedback);
+  private readonly practice = inject(PracticeProgress);
   private readonly preview = viewChild<ElementRef<HTMLElement>>('preview');
   private readonly consoleBox = viewChild<ElementRef<HTMLElement>>('consoleBox');
 
@@ -170,6 +174,7 @@ export class CodeLab {
       const first = mod.exercises.find((e) => e.id === last) ?? mod.exercises.find((e) => !e.noCheck) ?? mod.exercises[0];
       this.mod.set(mod);
       this.current.set(first);
+      if (this.slug()) this.practice.record(this.slug(), this.doneCount());
       this.code.set(this.savedCode(first));
     } catch (e) {
       this.loadError.set((e as Error).message);
@@ -270,6 +275,7 @@ export class CodeLab {
         const first = !this.done().has(ex.id);
         this.done.update((s) => new Set(s).add(ex.id));
         safeStorage.write(this.storageKey() + '.done', [...this.done()]);
+        if (this.slug()) this.practice.record(this.slug(), this.doneCount());
         this.verdict.set({ kind: 'ok', msg: res.msg, explain: ex.explain });
         if (first) {
           const all = this.doneCount() === this.graded().length;

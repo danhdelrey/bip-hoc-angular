@@ -1,8 +1,14 @@
+import { LAB as LIFECYCLE_LAB } from '../../features/lessons/lifecycle/lifecycle.lab';
+import { LAB as CONTROL_FLOW_LAB } from '../../features/lessons/control-flow/control-flow.lab';
+import { LAB as PIPES_LAB } from '../../features/lessons/pipes/pipes.lab';
+import { LAB as DEPENDENCY_INJECTION_LAB } from '../../features/lessons/dependency-injection/dependency-injection.lab';
+import { LAB as SIGNALS_LAB } from '../../features/lessons/signals/signals.lab';
 import { LAB as COMPONENT_LAB } from '../../features/lessons/component/component.lab';
 import { LAB as DATA_BINDING_LAB } from '../../features/lessons/data-binding/data-binding.lab';
 import { LAB as INPUT_OUTPUT_LAB } from '../../features/lessons/input-output/input-output.lab';
 import { LAB as RXJS_LAB } from '../../features/lessons/rxjs/rxjs.lab';
 import { highlight } from './lab-editor';
+import { PRACTICES } from '../../content/practice.registry';
 import type { LabModule } from './lab-model';
 import { TS_RE, fmt, stripModules, transformDecorators } from './lab-runtime';
 
@@ -11,6 +17,11 @@ const LABS: Record<string, LabModule> = {
   'data-binding': DATA_BINDING_LAB,
   'input-output': INPUT_OUTPUT_LAB,
   rxjs: RXJS_LAB,
+  'lifecycle': LIFECYCLE_LAB,
+  'control-flow': CONTROL_FLOW_LAB,
+  'pipes': PIPES_LAB,
+  'dependency-injection': DEPENDENCY_INJECTION_LAB,
+  'signals': SIGNALS_LAB,
 };
 
 for (const [slug, lab] of Object.entries(LABS)) {
@@ -29,8 +40,20 @@ for (const [slug, lab] of Object.entries(LABS)) {
         expect(ex.solution, ex.id).not.toBe(ex.starter);
       }
     });
+
+    it('khớp với practice.registry (đúng số bài có chấm)', () => {
+      const meta = PRACTICES.find((p) => p.slug === slug);
+      expect(meta, slug).toBeTruthy();
+      expect(meta!.count).toBe(lab.exercises.filter((e) => !e.noCheck).length);
+    });
   });
 }
+
+describe('practice.registry', () => {
+  it('mọi module luyện tập đều có bài luyện tương ứng trong test', () => {
+    for (const p of PRACTICES) expect(Object.keys(LABS), p.slug).toContain(p.slug);
+  });
+});
 
 describe('Code Lab — tiện ích runtime', () => {
   it('stripModules bỏ import/export nhưng giữ số dòng', () => {
