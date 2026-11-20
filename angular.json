@@ -27,6 +27,11 @@
                 "glob": "rxjs.umd.min.js",
                 "input": "node_modules/rxjs/dist/bundles",
                 "output": "labs"
+              },
+              {
+                "glob": "{theme,utilities}.css",
+                "input": "node_modules/tailwindcss",
+                "output": "labs/tailwind"
               }
             ],
             "styles": [

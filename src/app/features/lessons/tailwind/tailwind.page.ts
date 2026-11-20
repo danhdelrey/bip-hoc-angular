@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import { lessonBySlug } from '../../../content/lessons.registry';
+import { PracticeCta } from '../../../shared/lab/practice-cta';
 import { LessonContext } from '../../../shared/ui/anchor/lesson-context';
 import { LessonLayout } from '../../../shared/ui/lesson-layout/lesson-layout';
 import { PricingCard } from './demo/pricing-card';
@@ -22,14 +23,15 @@ export class TailwindScope {}
 @Component({
   selector: 'app-tailwind-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LessonLayout, TailwindVisualizer, PricingCard, TailwindScope],
+  imports: [LessonLayout, TailwindVisualizer, PricingCard, TailwindScope, PracticeCta],
   providers: [LessonContext],
   template: `
     <app-tailwind-scope>
       <app-lesson-layout [meta]="meta" [content]="content" liveUrl="localhost:4200/bang-gia">
         <app-tailwind-visualizer slot="visualizer" />
         <div slot="live" class="live-tw"><app-pricing-card /></div>
-      </app-lesson-layout>
+        <app-practice-cta slot="practice" slug="tailwind" />
+    </app-lesson-layout>
     </app-tailwind-scope>
   `,
   styles: `

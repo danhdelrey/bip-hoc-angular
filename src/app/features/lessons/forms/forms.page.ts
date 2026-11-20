@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { lessonBySlug } from '../../../content/lessons.registry';
+import { PracticeCta } from '../../../shared/lab/practice-cta';
 import { LessonContext } from '../../../shared/ui/anchor/lesson-context';
 import { Icon } from '../../../shared/ui/icon/icon';
 import { LessonLayout } from '../../../shared/ui/lesson-layout/lesson-layout';
@@ -10,7 +11,7 @@ import { FormsVisualizer } from './forms.visualizer';
 @Component({
   selector: 'app-forms-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LessonLayout, FormsVisualizer, SignupForm, Icon],
+  imports: [LessonLayout, FormsVisualizer, SignupForm, Icon, PracticeCta],
   providers: [LessonContext],
   template: `
     <app-lesson-layout [meta]="meta" [content]="content" liveUrl="localhost:4200/dang-ky">
@@ -29,6 +30,7 @@ import { FormsVisualizer } from './forms.visualizer';
           }
         </div>
       </section>
+      <app-practice-cta slot="practice" slug="forms" />
     </app-lesson-layout>
   `,
   styles: `

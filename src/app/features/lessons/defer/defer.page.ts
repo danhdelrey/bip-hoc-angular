@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { lessonBySlug } from '../../../content/lessons.registry';
+import { PracticeCta } from '../../../shared/lab/practice-cta';
 import { LessonContext } from '../../../shared/ui/anchor/lesson-context';
 import { LessonLayout } from '../../../shared/ui/lesson-layout/lesson-layout';
 import { DEFER } from './defer.content';
@@ -9,12 +10,13 @@ import { DeferDemo } from './demo/defer-demo';
 @Component({
   selector: 'app-defer-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LessonLayout, DeferVisualizer, DeferDemo],
+  imports: [LessonLayout, DeferVisualizer, DeferDemo, PracticeCta],
   providers: [LessonContext],
   template: `
     <app-lesson-layout [meta]="meta" [content]="content" liveUrl="localhost:4200/qua-tang">
       <app-defer-visualizer slot="visualizer" />
       <div slot="live" class="live-plain"><app-defer-demo /></div>
+      <app-practice-cta slot="practice" slug="defer" />
     </app-lesson-layout>
   `,
   styles: `

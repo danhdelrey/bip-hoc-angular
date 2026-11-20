@@ -22,6 +22,12 @@ export const PRACTICES: readonly PracticeMeta[] = [
   { slug: 'pipes', count: 6, storageKey: 'bip-lab.pipes', load: () => import('../features/lessons/pipes/pipes.lab').then((m) => m.LAB) },
   { slug: 'dependency-injection', count: 6, storageKey: 'bip-lab.dependency-injection', load: () => import('../features/lessons/dependency-injection/dependency-injection.lab').then((m) => m.LAB) },
   { slug: 'signals', count: 6, storageKey: 'bip-lab.signals', load: () => import('../features/lessons/signals/signals.lab').then((m) => m.LAB) },
+  { slug: 'change-detection', count: 5, storageKey: 'bip-lab.change-detection', load: () => import('../features/lessons/change-detection/change-detection.lab').then((m) => m.LAB) },
+  { slug: 'routing', count: 6, storageKey: 'bip-lab.routing', load: () => import('../features/lessons/routing/routing.lab').then((m) => m.LAB) },
+  { slug: 'forms', count: 6, storageKey: 'bip-lab.forms', load: () => import('../features/lessons/forms/forms.lab').then((m) => m.LAB) },
+  { slug: 'http', count: 6, storageKey: 'bip-lab.http', load: () => import('../features/lessons/http/http.lab').then((m) => m.LAB) },
+  { slug: 'defer', count: 5, storageKey: 'bip-lab.defer', load: () => import('../features/lessons/defer/defer.lab').then((m) => m.LAB) },
+  { slug: 'tailwind', count: 5, storageKey: 'bip-lab.tailwind', load: () => import('../features/lessons/tailwind/tailwind.lab').then((m) => m.LAB) },
   // giữ khoá cũ để không mất tiến độ của lab RxJS đã phát hành
   { slug: 'rxjs', count: 20, storageKey: 'bip-rxjs-lab', load: () => import('../features/lessons/rxjs/rxjs.lab').then((m) => m.LAB) },
 ];

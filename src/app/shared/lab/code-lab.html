@@ -97,7 +97,7 @@
     </div>
 
     <div class="rxlab-results">
-      <app-browser-frame url="localhost:4200/lab">
+      <app-browser-frame [url]="address()">
         <div #preview class="rxlab-preview" aria-live="polite">
           <p class="rxlab-empty">Chưa có giao diện. Dùng <code>ui.input()</code>, <code>ui.button()</code>, <code>ui.text()</code>, <code>ui.list()</code>… để tạo.</p>
         </div>
